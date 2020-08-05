@@ -313,16 +313,16 @@ COPY public.checks ("checkId", "isPaid", "tableId", "taxRate", tip, "createdAt")
 --
 
 COPY public.menus ("itemId", item, cost, "salePrice", "imageUrl") FROM stdin;
-1	Gen Premium Streak	$5.07	$16.64	/public/images/gen-premiun-steak.png
-2	Spice Pork Bulgogi	$8.58	$14.83	/public/images/spicy-pork-chop.png
-3	Premium Chadol	$1.99	$11.36	/public/images/premium-chadol.png
-4	Hawaiian Steak	$5.52	$15.27	/public/images/hawaiian-steak.png
-5	Yangyum Galbi	$2.62	$15.01	/public/images/yangyum-galbi.png
-6	Beef Bulgogi	$5.69	$10.79	/public/images/beef-bulgogi.png
-7	Samgyubsal	$4.90	$12.56	/public/images/pork-belly.png
-8	Spicy Samgyubsal	$5.96	$11.09	/public/images/spicy-pork.png
-9	Red Wine Samgyubsal	$4.33	$10.02	/public/images/wine-pork.png
-10	Cajun Samgyubsal	$0.45	$12.77	/public/images/cajun-pork.png
+1	Gen Premium Streak	$7.07	$16.64	/images/gen-premiun-steak.png
+2	Premium Chadol	$7.99	$13.36	/images/premium-chadol.png
+3	Hawaiian Steak	$5.52	$15.27	/images/hawaiian-steak.png
+4	Beef Bulgogi	$5.69	$11.79	/images/beef-bulgogi.png
+5	Spice Pork Bulgogi	$4.58	$9.83	/images/spicy-pork-chop.png
+6	Yangyum Galbi	$3.62	$10.01	/images/yangyum-galbi.png
+7	Samgyubsal	$3.90	$9.56	/images/pork-belly.png
+8	Spicy Samgyubsal	$4.26	$10.09	/images/spicy-pork.png
+9	Red Wine Samgyubsal	$4.53	$10.45	/images/wine-pork.png
+10	Cajun Samgyubsal	$5.15	$12.77	/images/cajun-pork.png
 \.
 
 

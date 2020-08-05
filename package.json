@@ -1,7 +1,7 @@
 {
-  "name": "full-stack-project",
+  "name": "point-of-sale",
   "version": "1.0.0",
-  "description": "A Full Stack Node.js &amp; React app.",
+  "description": "A POS (Point of Sale) application for restaurant workers who want to receive orders from customers and see sales reports",
   "main": "server/index.js",
   "scripts": {
     "dev": "npm-run-all --silent --parallel dev:*",
