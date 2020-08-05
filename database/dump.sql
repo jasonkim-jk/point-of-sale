@@ -313,6 +313,16 @@ COPY public.checks ("checkId", "isPaid", "tableId", "taxRate", tip, "createdAt")
 --
 
 COPY public.menus ("itemId", item, cost, "salePrice", "imageUrl") FROM stdin;
+1	Gen Premium Streak	$5.07	$16.64	/public/images/gen-premiun-steak.png
+2	Spice Pork Bulgogi	$8.58	$14.83	/public/images/spicy-pork-chop.png
+3	Premium Chadol	$1.99	$11.36	/public/images/premium-chadol.png
+4	Hawaiian Steak	$5.52	$15.27	/public/images/hawaiian-steak.png
+5	Yangyum Galbi	$2.62	$15.01	/public/images/yangyum-galbi.png
+6	Beef Bulgogi	$5.69	$10.79	/public/images/beef-bulgogi.png
+7	Samgyubsal	$4.90	$12.56	/public/images/pork-belly.png
+8	Spicy Samgyubsal	$5.96	$11.09	/public/images/spicy-pork.png
+9	Red Wine Samgyubsal	$4.33	$10.02	/public/images/wine-pork.png
+10	Cajun Samgyubsal	$0.45	$12.77	/public/images/cajun-pork.png
 \.
 
 
@@ -337,6 +347,16 @@ COPY public.orders ("orderId", "isSent", "tableId", "orderedAt") FROM stdin;
 --
 
 COPY public.tables ("tableId", "tableStatus", "timeSeated") FROM stdin;
+1	0	\N
+2	0	\N
+3	0	\N
+4	0	\N
+5	0	\N
+6	0	\N
+7	0	\N
+8	0	\N
+9	0	\N
+10	0	\N
 \.
 
 
@@ -345,6 +365,10 @@ COPY public.tables ("tableId", "tableStatus", "timeSeated") FROM stdin;
 --
 
 COPY public."waitLists" ("waitId", name, "partySize", "time", comment, "isSeated") FROM stdin;
+1	Uzair	1	17:07:25.878813-07	Big Anime Table	f
+2	Jason	4	17:07:25.878813-07	Family of 4	f
+3	Kevin	5	17:07:25.878813-07	4th of july no mask	f
+4	Julius	3	17:07:25.878813-07	Three musketeers	f
 \.
 
 
@@ -380,7 +404,7 @@ SELECT pg_catalog.setval('public."orders_orderId_seq"', 1, false);
 -- Name: waitLists_waitId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."waitLists_waitId_seq"', 1, false);
+SELECT pg_catalog.setval('public."waitLists_waitId_seq"', 4, true);
 
 
 --
