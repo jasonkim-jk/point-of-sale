@@ -1,5 +1,6 @@
 import React from 'react';
-import ViewRestaurant from './ViewRestaurant';
+// import ViewRestaurant from './ViewRestaurant';
+import ViewNewOrder from './view-new-order';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -11,16 +12,13 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/health-check')
-      .then(res => res.json())
-      .then(data => this.setState({ message: data.message || data.error }))
-      .catch(err => this.setState({ message: err.message }))
-      .finally(() => this.setState({ isLoading: false }));
+
   }
 
   render() {
     return (
-      <ViewRestaurant />
+      // <ViewRestaurant />
+      <ViewNewOrder />
     );
   }
 }
