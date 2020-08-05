@@ -15,11 +15,11 @@ export default class Table extends React.Component {
       },
       1: {
         status: 'Billed',
-        color: 'red'
+        color: '#EF476F'
       },
       2: {
         status: 'Seated',
-        color: 'green'
+        color: '#1DBE94'
       }
     };
     const thisStatus = statuses[tableStatus];
@@ -27,7 +27,7 @@ export default class Table extends React.Component {
     return (
 
       <Grid item xs={3}>
-        <Button variant="contained" style={{ backgroundColor: color }}>T{tableId}<br />{status} <br /> {timeSeated}</Button>
+        <Button variant="contained" className="table-button" style={{ backgroundColor: color }}>T{tableId}<br />{status} <br /> {timeSeated}</Button>
       </Grid>
 
     );
