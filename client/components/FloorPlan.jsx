@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Table from './Table';
+// import Table from './Table';
+import { TableButton } from './TableButton';
 
 export default class FloorPlan extends React.Component {
   constructor(props) {
@@ -21,20 +22,40 @@ export default class FloorPlan extends React.Component {
       });
   }
 
+  // This is just a placeholder for now
+  parseTimeSeated(timeSeated) {
+    if (timeSeated) {
+      return timeSeated;
+    }
+    return '';
+  }
+
   render() {
     const { tables } = this.state;
+    const tableList = tables.map(table => {
+      const { tableId, tableStatus, timeSeated } = table;
+      let color;
+      switch (tableStatus) {
+        case (0):
+          color = 'default';
+          break;
+        case (1):
+          color = 'primary';
+          break;
+        case (2):
+          color = 'secondary';
+          break;
+        default:
+      }
+      const children = <div>{`T${tableId}`}<div>{this.parseTimeSeated(timeSeated)}</div></div>;
+      return (
+        <TableButton key={tableId} tableData={table} color={color} text={children} status={table}/>
+      );
+    });
+
     return (
-
       <Grid container spacing={3} className="floorplan-container">
-        {
-          tables.map(table => {
-            const { tableId } = table;
-            return (
-              <Table key={tableId} tableData={table}/>
-
-            );
-          })
-        }
+        {tableList}
       </Grid>
 
     );
