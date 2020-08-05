@@ -39,7 +39,7 @@ app.get('/api/menus', (req, res, next) => {
       res.status(200).json(result.rows);
     })
     .catch(err => next(err));
-};
+});
 
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
