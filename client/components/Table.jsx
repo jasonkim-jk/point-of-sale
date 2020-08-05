@@ -11,7 +11,7 @@ export default class Table extends React.Component {
     const statuses = {
       0: {
         status: 'Empty',
-        color: '#ccc'
+        color: '#C4C4C4'
       },
       1: {
         status: 'Billed',
