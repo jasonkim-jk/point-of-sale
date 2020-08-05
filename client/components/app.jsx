@@ -1,6 +1,6 @@
 import React from 'react';
 import ViewRestaurant from './ViewRestaurant';
-import Tests from './MaterialUITests';
+import Container from '@material-ui/core/Container';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -13,10 +13,9 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <>
-        <Tests/>
+      <Container>
         <ViewRestaurant />
-      </>
+      </Container>
     );
   }
 }
