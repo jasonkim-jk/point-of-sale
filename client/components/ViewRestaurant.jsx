@@ -1,4 +1,6 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 export default class ViewRestaurant extends React.Component {
   constructor(props) {
@@ -22,19 +24,21 @@ export default class ViewRestaurant extends React.Component {
   render() {
     const { tables } = this.state;
     return (
-      <div>
+
+      <Grid container spacing={3}>
         {
           tables.map(table => {
             const { tableId } = table;
             return (
-              <div key={tableId}>
-                {tableId}
-              </div>
+              <Grid item xs={3} key={tableId}>
+                <Button variant="contained">T{tableId}</Button>
+              </Grid>
 
             );
           })
         }
-      </div>
+      </Grid>
+
     );
   }
 }
