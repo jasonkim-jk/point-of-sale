@@ -1,6 +1,7 @@
 import React from 'react';
 import ViewRestaurant from './ViewRestaurant';
 import Container from '@material-ui/core/Container';
+import NavBar from './NavBar';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Container>
+        <NavBar/>
         <ViewRestaurant />
       </Container>
     );
