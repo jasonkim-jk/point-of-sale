@@ -19,7 +19,7 @@ export default class ViewNewOrder extends React.Component {
         </Grid>
         <Grid item xs={5}>
           <Box bgcolor="text.hint" p={2} m={1}>
-            right box
+            to be updated
           </Box>
         </Grid>
       </Grid>
