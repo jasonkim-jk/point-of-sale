@@ -1,6 +1,6 @@
 import React from 'react';
-// import ViewRestaurant from './ViewRestaurant';
-import ViewNewOrder from './view-new-order';
+import ViewRestaurant from './ViewRestaurant';
+// import ViewNewOrder from './view-new-order';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -17,8 +17,8 @@ export default class App extends React.Component {
 
   render() {
     return (
-      // <ViewRestaurant />
-      <ViewNewOrder />
+      <ViewRestaurant />
+      // <ViewNewOrder />
     );
   }
 }
