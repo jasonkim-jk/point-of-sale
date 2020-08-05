@@ -13,12 +13,6 @@ app.use(sessionMiddleware);
 
 app.use(express.json());
 
-app.get('/api/health-check', (req, res, next) => {
-  db.query('select \'successfully connected\' as "message"')
-    .then(result => res.json(result.rows[0]))
-    .catch(err => next(err));
-});
-
 app.get('/api/restaurant', (req, res, next) => {
   const sql = `
     select *
@@ -33,6 +27,19 @@ app.get('/api/restaurant', (req, res, next) => {
       next(error);
     });
 });
+
+app.get('/api/menus', (req, res, next) => {
+  const sql = `
+    select *
+    from "menus"
+  `;
+
+  db.query(sql)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(err => next(err));
+};
 
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
