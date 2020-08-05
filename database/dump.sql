@@ -366,9 +366,9 @@ COPY public.tables ("tableId", "tableStatus", "timeSeated") FROM stdin;
 
 COPY public."waitLists" ("waitId", name, "partySize", "time", comment, "isSeated") FROM stdin;
 1	Uzair	1	17:07:25.878813-07	Big Anime Table	f
-2	Jason	4	17:07:25.878813-07	Family of 4	f
-3	Kevin	5	17:07:25.878813-07	4th of july no mask	f
-4	Julius	3	17:07:25.878813-07	Three musketeers	f
+2	Jason	4	17:10:25.878813-07	Family of 4	f
+3	Kevin	5	17:15:25.878813-07	4th of july no mask	f
+4	Julius	3	17:16:25.878813-07	Three musketeers	f
 \.
 
 
@@ -433,4 +433,3 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-
