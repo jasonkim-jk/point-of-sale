@@ -7,7 +7,7 @@ import {
   Switch,
   Route
 } from 'react-router-dom';
-import ViewNewOrder from './view-new-order';
+// import ViewNewOrder from './view-new-order';
 
 export default class App extends React.Component {
   constructor(props) {
