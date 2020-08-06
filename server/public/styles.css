@@ -15,3 +15,13 @@ a{
 .floorplan-container {
   background-color: #0B5B75;
 }
+
+.view-restaurant-container {
+  display: flex;
+}
+
+.checks-container {
+  width: 40%;
+  font-weight: bolder;
+
+}
