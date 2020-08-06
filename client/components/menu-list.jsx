@@ -18,7 +18,7 @@ export default class MenuList extends React.Component {
   }
 
   render() {
-    const memuCard = this.state.menus.map(menu => (
+    const menuCard = this.state.menus.map(menu => (
       <Grid item xs={4} key={menu.itemId}>
         <MenuCard menuItem={menu} />
       </Grid>
@@ -26,7 +26,7 @@ export default class MenuList extends React.Component {
 
     return (
       <Grid container spacing={3}>
-        {memuCard}
+        {menuCard}
       </Grid>
     );
   }

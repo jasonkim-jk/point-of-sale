@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import ReceiptNumber from './receipt-number';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -11,23 +12,6 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(0, 1)
   }
 }));
-
-function ReceiptNumber(props) {
-  const { check, receipt } = props;
-  const result = (
-    <Grid item>
-      <Typography gutterBottom variant="h6" color="textSecondary">
-        Receipt #{receipt}
-      </Typography>
-    </Grid>
-  );
-
-  if (check) {
-    return result;
-  } else {
-    return <></>;
-  }
-}
 
 export default function OrderBill(props) {
   const { table, ...others } = props;
