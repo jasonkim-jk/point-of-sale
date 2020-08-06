@@ -14,10 +14,12 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Container>
-        <NavBar/>
-        <ViewRestaurant />
-      </Container>
+      <>
+        <Container disableGutters={true}>
+          <NavBar/>
+          <ViewRestaurant />
+        </Container>
+      </>
     );
   }
 }

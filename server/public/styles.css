@@ -1,0 +1,9 @@
+*, *:after, *:before {
+  box-sizing: border-box;
+  font: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+}
