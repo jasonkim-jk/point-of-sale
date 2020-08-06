@@ -117,6 +117,16 @@ app.post('/api/orders/', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/waitlist', (req, res, next) => {
+  const sql = `select * from "waitLists"
+  order by  "isSeated" asc, "time" asc;`;
+  db.query(sql)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(err => next(err));
+});
+
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
 });
