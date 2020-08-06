@@ -25,7 +25,7 @@ export default function MenuCard(props) {
             {`${props.menuItem.item}`}
           </Typography>
           <Typography variant="h6" color="textSecondary" component="p" noWrap>
-            {`${props.menuItem.cost}`}
+            {`${props.menuItem.salePrice}`}
           </Typography>
         </CardContent>
       </CardActionArea>
