@@ -154,6 +154,7 @@ CREATE TABLE public."orderItems" (
     "orderItemId" integer NOT NULL,
     "orderId" integer NOT NULL,
     "itemId" integer NOT NULL,
+    "quantity" integer NOT NULL DEFAULT '1',
     "isCompleted" boolean DEFAULT false NOT NULL,
     discount integer,
     "createdAt" timestamp without time zone NOT NULL
@@ -330,7 +331,7 @@ COPY public.menus ("itemId", item, cost, "salePrice", "imageUrl") FROM stdin;
 -- Data for Name: orderItems; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."orderItems" ("orderItemId", "orderId", "itemId", "isCompleted", discount, "createdAt") FROM stdin;
+COPY public."orderItems" ("orderItemId", "orderId", "itemId", "quantity", "isCompleted", discount, "createdAt") FROM stdin;
 \.
 
 
