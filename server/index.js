@@ -40,6 +40,20 @@ app.get('/api/menus', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/checks', (req, res, next) => {
+  const sql = `
+    select * from "checks"
+      where "isPaid" = false
+   `;
+  db.query(sql)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(error => {
+      next(error);
+    });
+});
+
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
 });
