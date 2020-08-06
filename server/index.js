@@ -73,7 +73,7 @@ app.get('/api/checks', (req, res, next) => {
   const sql = `
     select * from "checks"
       where "isPaid" = false
-   `;
+    `;
   db.query(sql)
     .then(result => {
       res.status(200).json(result.rows);
@@ -81,6 +81,7 @@ app.get('/api/checks', (req, res, next) => {
     .catch(error => {
       next(error);
     });
+});
 
 app.post('/api/orders/', (req, res, next) => {
   if (!checkValidity(req.body.tableId) || req.body.items.length === 0) {
@@ -90,7 +91,7 @@ app.post('/api/orders/', (req, res, next) => {
   const paramDb = [parseInt(req.body.tableId), 'NOW()'];
   const sql = `
       insert into "orders" ("tableId", "orderedAt")
-           values ($1, $2)
+          values ($1, $2)
         returning *
     `;
 
