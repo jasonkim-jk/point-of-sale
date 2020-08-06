@@ -1,12 +1,13 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import MenuList from './menu-list';
+import OrderBill from './order-bill';
 
 export default class ViewNewOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tableId: 5,
       menus: []
     };
   }
@@ -18,9 +19,7 @@ export default class ViewNewOrder extends React.Component {
           <MenuList />
         </Grid>
         <Grid item xs={5}>
-          <Box bgcolor="text.hint" p={2} m={1}>
-            to be updated
-          </Box>
+          <OrderBill table={this.state.tableId} />
         </Grid>
       </Grid>
     );
