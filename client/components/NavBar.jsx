@@ -1,13 +1,17 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 
 const useStyles = theme => ({
   nav: {
+    '&:hover': {
+      color: '#ffd166'
+    },
     marginLeft: '10px',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    height: '100%'
   },
   navbar: {
     background: '#073b4c'
@@ -21,12 +25,12 @@ class NavBar extends React.Component {
     return (
       <AppBar position="static" className={classes.navbar}>
         <Toolbar>
-          <Typography className={classes.nav} variant="h6">Restaurant View</Typography>
-          <Typography className={classes.nav} variant="h6">Table View</Typography>
-          <Typography className={classes.nav} variant="h6">Order Status</Typography>
-          <Typography className={classes.nav} variant="h6">Waiting List</Typography>
-          <Typography className={classes.nav} variant="h6">Menu Customizer</Typography>
-          <Typography className={classes.nav} variant="h6">Sales Report</Typography>
+          <Button size="large" color="inherit" className={classes.nav}>Restaurant View</Button>
+          <Button size="large" color="inherit" className={classes.nav} >Table View</Button>
+          <Button size="large" color="inherit" className={classes.nav} >Order Status</Button>
+          <Button size="large" color="inherit" className={classes.nav} >Waiting List</Button>
+          <Button size="large" color="inherit" className={classes.nav} >Menu Customizer</Button>
+          <Button size="large" color="inherit" className={classes.nav} >Sales Report</Button>
         </Toolbar>
       </AppBar>
     );
