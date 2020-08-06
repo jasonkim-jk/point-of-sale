@@ -7,6 +7,7 @@ import {
   Switch,
   Route
 } from 'react-router-dom';
+import ViewNewOrder from './view-new-order';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -15,6 +16,10 @@ export default class App extends React.Component {
       message: null,
       isLoading: true
     };
+  }
+
+  componentDidMount() {
+
   }
 
   render() {
