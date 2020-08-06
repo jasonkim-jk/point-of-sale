@@ -2,6 +2,11 @@ import React from 'react';
 import ViewRestaurant from './ViewRestaurant';
 import Container from '@material-ui/core/Container';
 import NavBar from './NavBar';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -14,12 +19,16 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <>
+      <Router>
         <Container disableGutters={true}>
           <NavBar/>
-          <ViewRestaurant />
+          <Switch>
+            <Route exact path="/">
+              <ViewRestaurant />
+            </Route>
+          </Switch>
         </Container>
-      </>
+      </Router>
     );
   }
 }
