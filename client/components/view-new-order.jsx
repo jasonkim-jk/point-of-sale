@@ -1,26 +1,40 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import MenuList from './menu-list';
+import OrderBill from './order-bill';
 
 export default class ViewNewOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      menus: []
+      tableId: 5,
+      orders: {}
     };
+    this.addItemToOrder = this.addItemToOrder.bind(this);
+  }
+
+  addItemToOrder(item) {
+    if (this.state.orders[item.itemId]) {
+      const newObj = { ...this.state.orders };
+      newObj[item.itemId].quantity = this.state.orders[item.itemId].quantity + 1;
+      this.setState({ orders: newObj });
+    } else {
+      const addItem = {};
+      addItem[item.itemId] = item;
+      addItem[item.itemId].quantity = 1;
+      const obj = { ...this.state.orders, ...addItem };
+      this.setState({ orders: obj });
+    }
   }
 
   render() {
     return (
       <Grid container spacing={2}>
         <Grid item xs={7}>
-          <MenuList />
+          <MenuList addToOrder={this.addItemToOrder} />
         </Grid>
         <Grid item xs={5}>
-          <Box bgcolor="text.hint" p={2} m={1}>
-            to be updated
-          </Box>
+          <OrderBill table={this.state.tableId} orderItem={this.state.orders} />
         </Grid>
       </Grid>
     );

@@ -120,8 +120,8 @@ ALTER SEQUENCE public."checks_checkId_seq" OWNED BY public.checks."checkId";
 CREATE TABLE public.menus (
     "itemId" integer NOT NULL,
     item character varying(255) NOT NULL,
-    cost money NOT NULL,
-    "salePrice" money NOT NULL,
+    cost float NOT NULL,
+    "salePrice" float NOT NULL,
     "imageUrl" character varying(255)
 );
 
@@ -233,7 +233,7 @@ CREATE TABLE public."waitLists" (
     name character varying(255) NOT NULL,
     "partySize" integer NOT NULL,
     "time" time with time zone NOT NULL,
-    comment character varying(255) NOT NULL,
+    comment character varying(255),
     "isSeated" boolean DEFAULT false NOT NULL
 );
 
@@ -314,16 +314,16 @@ COPY public.checks ("checkId", "isPaid", "tableId", "taxRate", tip, "createdAt")
 --
 
 COPY public.menus ("itemId", item, cost, "salePrice", "imageUrl") FROM stdin;
-1	Gen Premium Streak	$7.07	$16.64	/images/gen-premiun-steak.png
-2	Premium Chadol	$7.99	$13.36	/images/premium-chadol.png
-3	Hawaiian Steak	$5.52	$15.27	/images/hawaiian-steak.png
-4	Beef Bulgogi	$5.69	$11.79	/images/beef-bulgogi.png
-5	Spice Pork Bulgogi	$4.58	$9.83	/images/spicy-pork-chop.png
-6	Yangyum Galbi	$3.62	$10.01	/images/yangyum-galbi.png
-7	Samgyubsal	$3.90	$9.56	/images/pork-belly.png
-8	Spicy Samgyubsal	$4.26	$10.09	/images/spicy-pork.png
-9	Red Wine Samgyubsal	$4.53	$10.45	/images/wine-pork.png
-10	Cajun Samgyubsal	$5.15	$12.77	/images/cajun-pork.png
+1	Gen Premium Streak	7.07	16.64	/images/gen-premiun-steak.png
+2	Premium Chadol	7.99	13.36	/images/premium-chadol.png
+3	Hawaiian Steak	5.52	15.27	/images/hawaiian-steak.png
+4	Beef Bulgogi	5.69	11.79	/images/beef-bulgogi.png
+5	Spice Pork Bulgogi	4.58	9.83	/images/spicy-pork-chop.png
+6	Yangyum Galbi	3.62	10.01	/images/yangyum-galbi.png
+7	Samgyubsal	3.90	9.56	/images/pork-belly.png
+8	Spicy Samgyubsal	4.26	10.09	/images/spicy-pork.png
+9	Red Wine Samgyubsal	4.53	10.45	/images/wine-pork.png
+10	Cajun Samgyubsal	5.15	12.77	/images/cajun-pork.png
 \.
 
 
@@ -366,10 +366,10 @@ COPY public.tables ("tableId", "tableStatus", "timeSeated") FROM stdin;
 --
 
 COPY public."waitLists" ("waitId", name, "partySize", "time", comment, "isSeated") FROM stdin;
-1	Uzair	1	17:07:25.878813-07	Big Anime Table	f
-2	Jason	4	17:10:25.878813-07	Family of 4	f
-3	Kevin	5	17:15:25.878813-07	4th of july no mask	f
-4	Julius	3	17:16:25.878813-07	Three musketeers	f
+1	Uzair	1	08:07:25.878813-07	Big Anime Table	f
+2	Jason	4	08:10:25.878813-07	Family of 4	f
+3	Kevin	5	08:15:25.878813-07	4th of july no mask	t
+4	Julius	3	08:16:25.878813-07	Three musketeers	f
 \.
 
 
