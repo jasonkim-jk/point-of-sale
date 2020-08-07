@@ -3,6 +3,7 @@ const path = require('path');
 
 const clientPath = path.join(__dirname, 'client/');
 const publicPath = path.join(__dirname, 'server/public/');
+const imagesPath = path.join(__dirname, 'server/public/images');
 
 module.exports = {
   resolve: {
@@ -19,9 +20,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            plugins: [
-              '@babel/plugin-transform-react-jsx'
-            ]
+            plugins: ['@babel/plugin-transform-react-jsx']
           }
         }
       }
@@ -39,7 +38,7 @@ module.exports = {
     stats: 'minimal',
     watchContentBase: true,
     watchOptions: {
-      ignored: [path.join(publicPath), 'images']
+      ignored: [path.join(publicPath), path.join(imagesPath)]
     }
   }
 };
