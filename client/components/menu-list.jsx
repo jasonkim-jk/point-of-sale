@@ -8,6 +8,11 @@ export default class MenuList extends React.Component {
     this.state = {
       menus: []
     };
+    this.addItem = this.addItem.bind(this);
+  }
+
+  addItem(item) {
+    this.props.addToOrder(item);
   }
 
   componentDidMount() {
@@ -20,7 +25,7 @@ export default class MenuList extends React.Component {
   render() {
     const menuCard = this.state.menus.map(menu => (
       <Grid item xs={4} key={menu.itemId}>
-        <MenuCard menuItem={menu} />
+        <MenuCard menuItem={menu} addItem={this.addItem}/>
       </Grid>
     ));
 

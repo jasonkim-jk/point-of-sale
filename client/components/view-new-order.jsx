@@ -8,18 +8,33 @@ export default class ViewNewOrder extends React.Component {
     super(props);
     this.state = {
       tableId: 5,
-      menus: []
+      orders: {}
     };
+    this.addItemToOrder = this.addItemToOrder.bind(this);
+  }
+
+  addItemToOrder(item) {
+    if (this.state.orders[item.itemId]) {
+      const newObj = { ...this.state.orders };
+      newObj[item.itemId].quantity = this.state.orders[item.itemId].quantity + 1;
+      this.setState({ orders: newObj });
+    } else {
+      const addItem = {};
+      addItem[item.itemId] = item;
+      addItem[item.itemId].quantity = 1;
+      const obj = { ...this.state.orders, ...addItem };
+      this.setState({ orders: obj });
+    }
   }
 
   render() {
     return (
       <Grid container spacing={2}>
         <Grid item xs={7}>
-          <MenuList />
+          <MenuList addToOrder={this.addItemToOrder} />
         </Grid>
         <Grid item xs={5}>
-          <OrderBill table={this.state.tableId} />
+          <OrderBill table={this.state.tableId} orderItem={this.state.orders} />
         </Grid>
       </Grid>
     );
