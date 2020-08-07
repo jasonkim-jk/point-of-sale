@@ -29,9 +29,7 @@ export default class App extends React.Component {
         <Container disableGutters={true}>
           <NavBar/>
           <Switch>
-            <Route exact path="/">
-              <ViewRestaurant />
-            </Route>
+            <Route strict path="/" component={ViewRestaurant} />
             <Route path="/wait-list">
               <WaitList/>
             </Route>
