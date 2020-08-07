@@ -69,6 +69,28 @@ app.get('/api/menus', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.post('/api/menus', (req, res, next) => {
+  if (!req.body.item) {
+    next(new ClientError('Sorry, missing information. Check input data again.', 400));
+  }
+
+  const url = req.body.imageUrl ? req.body.imageUrl : null;
+  const paramDb = [req.body.item, req.body.cost, req.body.salePrice, url];
+  const sql = `
+      insert into "menus" ("item", "cost", "salePrice", "imageUrl")
+           values ($1, $2, $3, $4)
+        returning *
+    `;
+
+  db.query(sql, paramDb)
+    .then(result => {
+      res.status(201).json(result.rows[0]);
+    })
+    .catch(error => {
+      next(error);
+    });
+});
+
 app.get('/api/checks', (req, res, next) => {
   const sql = `
     select * from "checks"
