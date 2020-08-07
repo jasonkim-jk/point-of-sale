@@ -1,4 +1,5 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 export default class ViewCheckItem extends React.Component {
   constructor(props) {
@@ -18,9 +19,9 @@ export default class ViewCheckItem extends React.Component {
   render() {
     const { params } = this.props.match;
     return (
-      <div>
+      <Typography component="div">
        Check {params.checkId}
-      </div>
+      </Typography>
     );
   }
 }
