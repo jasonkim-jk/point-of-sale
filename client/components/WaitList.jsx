@@ -1,5 +1,8 @@
 import React from 'react';
+import Box from '@material-ui/core/Box';
+
 import WaitListTable from './WaitListTable';
+import WaitListForm from './WaitListForm';
 
 export default class WaitList extends React.Component {
   constructor(props) {
@@ -23,7 +26,10 @@ export default class WaitList extends React.Component {
   render() {
     const waitList = this.state.waitList;
     return (
-      <WaitListTable waitList={waitList}/>
+      <Box display="flex">
+        <WaitListTable waitList={waitList}/>
+        <WaitListForm/>
+      </Box>
     );
   }
 }
