@@ -1,8 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import {
-  Link
-} from 'react-router-dom';
 
 import Typography from '@material-ui/core/Typography';
 
@@ -38,7 +34,6 @@ export default class ViewChecks extends React.Component {
   }
 
   render() {
-    const { url } = this.props;
 
     const checks = this.state.openChecks.map(check => (
       <Grid item xs={12} className="item-container" key={check.checkId}>
@@ -52,11 +47,7 @@ export default class ViewChecks extends React.Component {
           <Grid item xs={5} className="right-check">
             <Typography>
             Table {check.tableId} <br></br>
-              <Button className="stupid-button" size="small" variant="contained" color="primary">
-                <Link to={`${url}/checkitem/${check.checkId}`}>
-              View Check
-                </Link>
-              </Button>
+
             </Typography>
           </Grid>
         </Grid>
