@@ -1,6 +1,6 @@
 require('dotenv/config');
 const express = require('express');
-
+const multer = require('multer');
 const db = require('./database');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
@@ -12,6 +12,16 @@ app.use(staticMiddleware);
 app.use(sessionMiddleware);
 
 app.use(express.json());
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'server/public/images/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+const upload = multer({ storage: storage });
 
 function checkValidity(num) {
   const intNum = parseInt(num);
@@ -69,12 +79,12 @@ app.get('/api/menus', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/api/menus', (req, res, next) => {
+app.post('/api/menus', upload.single('image'), (req, res) => {
   if (!req.body.item) {
-    next(new ClientError('Sorry, missing information. Check input data again.', 400));
+    return res.status(400).json({ error: 'Sorry, missing information. Check input data again.' });
   }
 
-  const url = req.body.imageUrl ? req.body.imageUrl : null;
+  const url = req.file ? '/images/' + req.file.filename : null;
   const paramDb = [req.body.item, req.body.cost, req.body.salePrice, url];
   const sql = `
       insert into "menus" ("item", "cost", "salePrice", "imageUrl")
@@ -86,9 +96,7 @@ app.post('/api/menus', (req, res, next) => {
     .then(result => {
       res.status(201).json(result.rows[0]);
     })
-    .catch(error => {
-      next(error);
-    });
+    .catch(() => res.status(500).json({ error: 'An unexpected error occured.' }));
 });
 
 app.get('/api/checks', (req, res, next) => {
