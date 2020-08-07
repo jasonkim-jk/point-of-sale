@@ -21,11 +21,34 @@ a{
 }
 
 .checks-container {
-  width: 40%;
-  font-weight: bolder;
+  width: 50%!important;
 
 }
 
-.new1 {
-  border-top: 1px solid black;
+.item-container {
+  border-bottom: 1px solid black;
+
+}
+
+.item-container:last-child {
+  border-bottom: none;
+}
+
+
+.MuiButton-containedSizeSmall {
+  padding: 4px 4px !important;
+  font-size: 10px !important;
+  background-color: #118AB2 !important;
+  border-radius: 0px !important;
+  font-weight: bold !important;
+}
+
+.left-check {
+  margin-left: 10px !important;
+  margin-top: 10px !important;
+}
+.right-check {
+  text-align: right;
+  margin-right: 10px !important;
+  margin-top: 10px !important;
 }
