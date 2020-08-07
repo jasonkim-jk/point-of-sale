@@ -6,6 +6,10 @@ import WaitListTableItem from './WaitListTableItem';
 export default class WaitListTable extends React.Component {
 
   render() {
+    const waitList = this.props.waitList;
+    const waitListItems = waitList.map(waiting => {
+      return <WaitListTableItem key={waiting.waitId} root={waiting}/>;
+    });
     return (
       <TableContainer component={Paper}>
         <Table>
@@ -14,12 +18,11 @@ export default class WaitListTable extends React.Component {
               <TableCell>Party Size</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Wait Time</TableCell>
-              <TableCell>Wait Start</TableCell>
               <TableCell>Comment</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            <WaitListTableItem/>
+            {waitListItems}
           </TableBody>
         </Table>
       </TableContainer>
