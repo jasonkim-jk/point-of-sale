@@ -13,7 +13,7 @@ export default class WaitList extends React.Component {
     fetch('/api/waitlist')
       .then(response => response.json())
       .then(data => {
-        this.setState({ waitList: data }, () => console.log('state', this.state));
+        this.setState({ waitList: data });
       })
       .catch(error => {
         console.error(error);

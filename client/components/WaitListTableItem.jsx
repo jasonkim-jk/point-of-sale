@@ -1,5 +1,9 @@
 import React from 'react';
-import { TableRow, TableCell } from '@material-ui/core';
+import { TableRow, TableCell, Typography } from '@material-ui/core';
+
+const weight = {
+  fontWeight: 600
+};
 
 export default class WaitListTableItem extends React.Component {
   constructor(props) {
@@ -38,16 +42,41 @@ export default class WaitListTableItem extends React.Component {
     this.interval = setInterval(this.handleInterval, 60000);
   }
 
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  computeStyle() {
+    if (this.props.root.isSeated) {
+      const style = {
+        background: '#3C3C3C',
+        color: 'white'
+      };
+      return style;
+    } else {
+      return {};
+
+    }
+  }
+
   render() {
     const props = this.props.root;
-    const waitTime = this.state.waitTime;
+    let waitTime;
+    if (props.isSeated) {
+      waitTime = 'Seated';
+    } else {
+      waitTime = this.state.waitTime;
+    }
+    const style = this.computeStyle();
 
     return (
-      <TableRow>
-        <TableCell>{props.partySize}</TableCell>
-        <TableCell>{props.name}</TableCell>
-        <TableCell>{waitTime}</TableCell>
-        <TableCell>{props.comment}</TableCell>
+      <TableRow hover={true} >
+        <TableCell style={style}>
+          <Typography style={weight}>{props.partySize}</Typography>
+        </TableCell>
+        <TableCell style={style}>{props.name}</TableCell>
+        <TableCell style={style}>{waitTime}</TableCell>
+        <TableCell style={style}>{props.comment}</TableCell>
       </TableRow>
     );
   }
