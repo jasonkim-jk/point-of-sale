@@ -25,18 +25,16 @@ export default class WaitListForm extends React.Component {
       partySize: this.state.partySize,
       comment: this.state.comment
     };
-
+    this.props.addCustomer(newCustomer);
     this.setState({
       name: '',
       partySize: '',
       comment: ''
     });
-    console.log('Submit Works');
   }
 
   handleReset(e) {
     e.preventDefault();
-    console.log('reset works');
     this.setState({
       name: '',
       partySize: '',
