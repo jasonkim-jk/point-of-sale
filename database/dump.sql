@@ -233,7 +233,7 @@ CREATE TABLE public."waitLists" (
     name character varying(255) NOT NULL,
     "partySize" integer NOT NULL,
     "time" time with time zone NOT NULL,
-    comment character varying(255) NOT NULL,
+    comment character varying(255),
     "isSeated" boolean DEFAULT false NOT NULL
 );
 
