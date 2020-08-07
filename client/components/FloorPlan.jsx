@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-// import Table from './Table';
+import Box from '@material-ui/core/Box';
 import { TableButton } from './TableButton';
 
 export default class FloorPlan extends React.Component {
@@ -54,10 +54,11 @@ export default class FloorPlan extends React.Component {
     });
 
     return (
-      <Grid container spacing={3} className="floorplan-container">
-        {tableList}
-      </Grid>
-
+      <Box style={{ backgroundColor: '#0B5B75', marginTop: '0px' }}>
+        <Grid container spacing={3} className="floorplan-container">
+          {tableList}
+        </Grid>
+      </Box>
     );
   }
 }

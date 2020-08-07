@@ -1,8 +1,7 @@
 import React from 'react';
-
 import Typography from '@material-ui/core/Typography';
-
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
 export default class ViewChecks extends React.Component {
   constructor(props) {
@@ -39,8 +38,10 @@ export default class ViewChecks extends React.Component {
       <Grid item xs={12} className="item-container" key={check.checkId}>
         <Grid container spacing={1}>
           <Grid item xs={6} className="left-check">
-            <Typography>
-            Order {check.checkId} <br></br>
+            <Typography component="div">
+              <Box fontWeight="fontWeightBold">
+                Order {check.checkId} <br></br>
+              </Box>
               {this.parseTime(check.createdAt)} <br></br>
             </Typography>
           </Grid>
@@ -55,10 +56,11 @@ export default class ViewChecks extends React.Component {
     ));
 
     return (
-
-      <Grid container spacing ={1} fontWeight="fontWeightBold" className="checks-container" >
-        {checks}
-      </Grid>
+      <Box width="50%" fontWeight="fontWeightBold">
+        <Grid container spacing={1}>
+          {checks}
+        </Grid>
+      </Box>
 
     );
   }

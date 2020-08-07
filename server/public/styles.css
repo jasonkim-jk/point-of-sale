@@ -12,16 +12,9 @@ a{
   text-decoration: none;
 }
 
-.floorplan-container {
-  background-color: #0B5B75;
-  margin-top: 0px !important;
-}
 
-.view-restaurant-container {
-  display: flex;
-}
 
-.checks-container {
+/* .checks-container {
   width: 50%!important;
 
 }
@@ -52,4 +45,4 @@ a{
   text-align: right;
   margin-right: 10px !important;
   margin-top: 10px !important;
-}
+} */
