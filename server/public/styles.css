@@ -14,6 +14,7 @@ a{
 
 .floorplan-container {
   background-color: #0B5B75;
+  margin-top: 0px !important;
 }
 
 .view-restaurant-container {
