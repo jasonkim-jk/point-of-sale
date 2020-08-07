@@ -127,6 +127,28 @@ app.get('/api/waitlist', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.post('/api/waitlist', (req, res, next) => {
+  const partySize = parseInt(req.body.partySize, 10);
+  if (!partySize || !req.body.name) {
+    next(new ClientError('missing partySize or name', 400));
+  }
+  let comment;
+  if (req.body.comment) {
+    comment = req.body.comment;
+  } else {
+    comment = null;
+  }
+  const sql = `insert into "waitLists" ("name", "partySize", "comment", "time")
+    values($1, $2, $3, now())
+    returning *`;
+  const params = [req.body.name, partySize, comment];
+  db.query(sql, params)
+    .then(result => {
+      res.status(200).json(result.rows[0]);
+    })
+    .catch(err => next(err));
+});
+
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
 });
