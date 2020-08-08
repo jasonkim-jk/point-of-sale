@@ -10,7 +10,7 @@ export default class ViewCheckItem extends React.Component {
   }
 
   componentDidMount() {
-    fetch('/api/checks')
+    fetch('/api/checks/:checkId')
       .then(res => res.json())
       .then(data => this.setState({ menus: data }))
       .catch(() => console.error('server response error'));
