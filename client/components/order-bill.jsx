@@ -51,7 +51,7 @@ class OrderBill extends React.Component {
   constructor(props) {
     super(props);
     this.table = this.props.table;
-    this.state = {};
+    this.state = { ordered: false };
     this.handleCancel = this.handleCancel.bind(this);
     this.handleOrder = this.handleOrder.bind(this);
     this.handlePay = this.handlePay.bind(this);
@@ -81,13 +81,14 @@ class OrderBill extends React.Component {
       body: JSON.stringify(orderItems)
     }).then(response => {
       if (response.status === 201) {
-        this.handleCancel();
+        this.setState({ ordered: !this.state.ordered });
       }
     }).catch(error => console.error(error.message));
   }
 
   handlePay() {
-    // console.log('pay');
+    alert('to be updated');
+    this.handleCancel();
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -97,6 +98,8 @@ class OrderBill extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const orderBtn = this.state.ordered;
+    const payBtn = !this.state.ordered;
 
     return (
       <Paper className={classes.paper} variant="outlined">
@@ -138,10 +141,10 @@ class OrderBill extends React.Component {
             <Button variant="contained" className={classes.button} onClick={this.handleCancel}>
               Cancel
             </Button>
-            <Button variant="contained" color="primary" className={classes.button} onClick={this.handleOrder}>
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.handleOrder} disabled={orderBtn}>
               Order
             </Button>
-            <Button variant="contained" color="primary" className={classes.button} onClick={this.handlePay}>
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.handlePay} disabled={payBtn}>
               Pay
             </Button>
           </Box>
