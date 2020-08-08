@@ -62,7 +62,21 @@ class OrderBill extends React.Component {
   }
 
   handleOrder() {
-    // console.log('order');
+    const orderItems = {};
+    // console.log(orderItems);
+
+    fetch('/api/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(orderItems)
+    }).then(response => {
+      // console.log(response.status, response);
+      if (response.status === 201) {
+        this.handleCancel();
+      }
+    }).catch(error => console.error(error.message));
   }
 
   handlePay() {
