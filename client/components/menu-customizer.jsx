@@ -9,9 +9,14 @@ export default class MenuCustomizer extends React.Component {
     this.state = {
       menus: []
     };
+    this.reloadMenus = this.reloadMenus.bind(this);
   }
 
   componentDidMount() {
+    this.getMenus();
+  }
+
+  getMenus() {
     fetch('/api/menus')
       .then(response => response.json())
       .then(data => {
@@ -22,6 +27,10 @@ export default class MenuCustomizer extends React.Component {
       });
   }
 
+  reloadMenus() {
+    this.getMenus();
+  }
+
   render() {
     return (
       <Grid container spacing={2}>
@@ -29,7 +38,7 @@ export default class MenuCustomizer extends React.Component {
           <MenuCustomizerTable menuList={this.state.menus} />
         </Grid>
         <Grid item xs={4}>
-          <MenuCustomizerForm />
+          <MenuCustomizerForm reloadMenus={this.reloadMenus} />
         </Grid>
       </Grid>
     );

@@ -67,7 +67,9 @@ class MenuCustomizerForm extends React.Component {
         'Content-Type': 'multipart/form-data'
       }
     }).then(response => {
-      // console.log('SUCCESS!!, ', response.data);
+      if (response.status === 201) {
+        this.props.reloadMenus();
+      }
     }).catch(error => {
       console.error(error);
     });
