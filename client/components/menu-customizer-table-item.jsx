@@ -3,15 +3,21 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = theme => ({
   image: {
     width: theme.spacing(12),
-    height: theme.spacing(7)
+    height: theme.spacing(8)
   },
   cell: {
-    padding: theme.spacing(1)
+    padding: theme.spacing(0)
+  },
+  icon: {
+    margin: theme.spacing(1)
   }
 });
 
@@ -31,7 +37,16 @@ class MenuCustomizerTableItem extends React.Component {
         </TableCell>
         <TableCell align="center">${cost}</TableCell>
         <TableCell align="center">${salePrice}</TableCell>
-        <TableCell align="center">ㅁ ㅇ</TableCell>
+        <TableCell align="center">
+          <Box display="flex" justifyContent="center" bgcolor="background.paper">
+            <IconButton>
+              <EditOutlinedIcon className={classes.icon} />
+            </IconButton>
+            <IconButton>
+              <DeleteOutlinedIcon className={classes.icon} />
+            </IconButton>
+          </Box>
+        </TableCell>
       </TableRow>
     );
   }
