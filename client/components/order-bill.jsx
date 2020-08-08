@@ -62,8 +62,16 @@ class OrderBill extends React.Component {
   }
 
   handleOrder() {
-    const orderItems = {};
-    // console.log(orderItems);
+    const orders = this.props.orderItem;
+    const orderItems = { tableId: 0, items: [] };
+
+    orderItems.tableId = this.table;
+    for (const property in orders) {
+      const item = [orders[property].itemId, orders[property].quantity];
+      orderItems.items.push(item);
+    }
+
+    if (!orderItems.items.length) return;
 
     fetch('/api/orders', {
       method: 'POST',
@@ -72,7 +80,6 @@ class OrderBill extends React.Component {
       },
       body: JSON.stringify(orderItems)
     }).then(response => {
-      // console.log(response.status, response);
       if (response.status === 201) {
         this.handleCancel();
       }
