@@ -21,8 +21,13 @@ export default class WaitList extends React.Component {
       },
       body: JSON.stringify(newCustomer)
     })
-      .then(() => {
-        this.updateList();
+      .then(response => {
+        return response.status;
+      })
+      .then(status => {
+        if (status === 200) {
+          this.updateList();
+        }
       });
   }
 

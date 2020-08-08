@@ -20,6 +20,10 @@ export default class WaitListForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    const partySize = parseInt(this.state.partySize, 10);
+    if (!this.state.name || !partySize) {
+      return;
+    }
     const newCustomer = {
       name: this.state.name,
       partySize: this.state.partySize,
@@ -49,6 +53,14 @@ export default class WaitListForm extends React.Component {
   }
 
   render() {
+    const partySize = parseInt(this.state.partySize, 10);
+    let partyValidationError;
+    if (!this.state.partySize || partySize) {
+      partyValidationError = false;
+    } else {
+      partyValidationError = true;
+    }
+
     return (
       <Box width="35%" mt={2} ml={4} display="flex" justifyContent="center" flexDirection="column">
         <Typography variant="h4">
@@ -58,7 +70,7 @@ export default class WaitListForm extends React.Component {
           <FormControl>
             <TextField onChange={this.handleChange} value={this.state.name}
               margin="normal" id="name" label="Name" fullWidth={true} variant="outlined"/>
-            <TextField onChange={this.handleChange} value={this.state.partySize}
+            <TextField error={partyValidationError} onChange={this.handleChange} value={this.state.partySize}
               margin="normal" id="partySize" label="Party Size" variant="outlined" />
             <TextField onChange={this.handleChange} value={this.state.comment}
               margin="normal" id="comment" label="Comment" variant="outlined" helperText="optional" />
