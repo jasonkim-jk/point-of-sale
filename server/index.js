@@ -127,6 +127,24 @@ app.get('/api/waitlist', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/checks/:checkId', (req, res, next) => {
+  const { checkId } = req.params;
+  const sql = `
+  select "m".* from "checks" as "c"
+  join "checkOrders" as "co" on "co"."checkId" = "c"."checkId"
+  join "orders" as "o" on "o"."orderId" = "co"."orderId"
+  join "orderItems" as "oi" on "oi"."orderId" = "o"."orderId"
+  join "menus" as "m" on "m"."itemId" = "oi"."itemId"
+  where "c"."checkId" = $1;
+  `;
+  const params = [checkId];
+  db.query(sql, params)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/waitlist', (req, res, next) => {
   const partySize = parseInt(req.body.partySize, 10);
   if (!partySize || !req.body.name) {
