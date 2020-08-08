@@ -88,6 +88,7 @@ class OrderBill extends React.Component {
 
   handlePay() {
     alert('to be updated');
+    this.setState({ ordered: !this.state.ordered });
     this.handleCancel();
   }
 
