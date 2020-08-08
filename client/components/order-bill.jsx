@@ -51,8 +51,45 @@ class OrderBill extends React.Component {
   constructor(props) {
     super(props);
     this.table = this.props.table;
-    this.state = {
-    };
+    this.state = { ordered: false };
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleOrder = this.handleOrder.bind(this);
+    this.handlePay = this.handlePay.bind(this);
+  }
+
+  handleCancel() {
+    this.props.cancelOrder();
+  }
+
+  handleOrder() {
+    const orders = this.props.orderItem;
+    const orderItems = { tableId: 0, items: [] };
+
+    orderItems.tableId = this.table;
+    for (const property in orders) {
+      const item = [orders[property].itemId, orders[property].quantity];
+      orderItems.items.push(item);
+    }
+
+    if (!orderItems.items.length) return;
+
+    fetch('/api/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(orderItems)
+    }).then(response => {
+      if (response.status === 201) {
+        this.setState({ ordered: !this.state.ordered });
+      }
+    }).catch(error => console.error(error.message));
+  }
+
+  handlePay() {
+    alert('to be updated');
+    this.setState({ ordered: !this.state.ordered });
+    this.handleCancel();
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -62,6 +99,8 @@ class OrderBill extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const orderBtn = this.state.ordered;
+    const payBtn = !this.state.ordered;
 
     return (
       <Paper className={classes.paper} variant="outlined">
@@ -100,9 +139,15 @@ class OrderBill extends React.Component {
             </TableBody>
           </Table>
           <Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
-            <Button variant="contained" className={classes.button}>Cancel</Button>
-            <Button variant="contained" color="primary" className={classes.button}>Order</Button>
-            <Button variant="contained" color="primary" className={classes.button}>Pay</Button>
+            <Button variant="contained" className={classes.button} onClick={this.handleCancel}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.handleOrder} disabled={orderBtn}>
+              Order
+            </Button>
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.handlePay} disabled={payBtn}>
+              Pay
+            </Button>
           </Box>
         </TableContainer>
       </Paper>

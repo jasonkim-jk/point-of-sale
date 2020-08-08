@@ -10,7 +10,12 @@ export default class ViewNewOrder extends React.Component {
       tableId: 5,
       orders: {}
     };
+    this.clearOrderItems = this.clearOrderItems.bind(this);
     this.addItemToOrder = this.addItemToOrder.bind(this);
+  }
+
+  clearOrderItems() {
+    this.setState({ orders: {} });
   }
 
   addItemToOrder(item) {
@@ -34,7 +39,7 @@ export default class ViewNewOrder extends React.Component {
           <MenuList addToOrder={this.addItemToOrder} />
         </Grid>
         <Grid item xs={5}>
-          <OrderBill table={this.state.tableId} orderItem={this.state.orders} />
+          <OrderBill table={this.state.tableId} orderItem={this.state.orders} cancelOrder={this.clearOrderItems}/>
         </Grid>
       </Grid>
     );
