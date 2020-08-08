@@ -9,7 +9,6 @@ import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import LocalAtmOutlinedIcon from '@material-ui/icons/LocalAtmOutlined';
 import LocalOfferOutlinedIcon from '@material-ui/icons/LocalOfferOutlined';
-import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = theme => ({
@@ -62,10 +61,9 @@ class MenuCustomizerForm extends React.Component {
     formData.append('salePrice', parseFloat(this.state.salePrice).toFixed(2));
     formData.append('image', event.image.files[0]);
 
-    axios.post('/api/menus', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+    fetch('/api/menus', {
+      method: 'POST',
+      body: formData
     }).then(response => {
       if (response.status === 201) {
         this.props.reloadMenus();
