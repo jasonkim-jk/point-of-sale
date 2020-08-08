@@ -37,14 +37,39 @@ class MenuCustomizerForm extends React.Component {
     super(props);
     this.state = {
       viewType: 'add',
-      formData: {
-        name: '',
-        cost: '',
-        salePrice: '',
-        imageUrl: '',
-        tag: ''
-      }
+      name: '',
+      cost: '',
+      salePrice: '',
+      imageUrl: '',
+      tag: ''
     };
+    this.handleReset = this.handleReset.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.changeViewType = this.changeViewType.bind(this);
+  }
+
+  handleReset() {
+    this.setState({
+      name: '',
+      cost: '',
+      salePrice: '',
+      imageUrl: '',
+      tag: ''
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.handleReset();
+  }
+
+  handleChange(event) {
+    this.setState({ [event.target.id]: event.target.value });
+  }
+
+  changeViewType(type) {
+    this.setState({ viewType: type });
   }
 
   render() {
@@ -58,9 +83,9 @@ class MenuCustomizerForm extends React.Component {
           {titleText}
         </Typography>
         <form onSubmit={this.handleSubmit} onReset={this.handleReset}>
-          <FormControl fullWidth required className={classes.form}>
-            <TextField onChange={this.handleChange} value={this.state.formData.name}
-              margin="normal" id="name" label="Name" variant="outlined"
+          <FormControl fullWidth className={classes.form}>
+            <TextField onChange={this.handleChange} value={this.state.name}
+              margin="normal" id="name" label="Name" variant="outlined" required
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -69,8 +94,8 @@ class MenuCustomizerForm extends React.Component {
                 )
               }}
             />
-            <TextField onChange={this.handleChange} value={this.state.formData.cost}
-              margin="normal" id="cost" label="Cost" variant="outlined"
+            <TextField onChange={this.handleChange} value={this.state.cost} required
+              margin="normal" id="cost" label="Cost" variant="outlined" type="number"
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -78,8 +103,8 @@ class MenuCustomizerForm extends React.Component {
                   </InputAdornment>
                 )
               }}/>
-            <TextField onChange={this.handleChange} value={this.state.formData.salePrice}
-              margin="normal" id="salePrice" label="Sale Price" variant="outlined"
+            <TextField onChange={this.handleChange} value={this.state.salePrice} required
+              margin="normal" id="salePrice" label="Sale Price" variant="outlined" type="number"
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -87,7 +112,7 @@ class MenuCustomizerForm extends React.Component {
                   </InputAdornment>
                 )
               }}/>
-            <TextField onChange={this.handleChange} value={this.state.formData.tag}
+            <TextField onChange={this.handleChange} value={this.state.tag}
               margin="normal" id="tag" label="Tag" variant="outlined" helperText="Optional"
               InputProps={{
                 startAdornment: (
