@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import NavBar from './NavBar';
 import ViewRestaurant from './ViewRestaurant';
-// import ViewNewOrder from './view-new-order';
+import ViewNewOrder from './view-new-order';
 import WaitList from './WaitList';
 import MenuCustomizer from './menu-customizer';
 
@@ -33,6 +33,9 @@ export default class App extends React.Component {
             <Route exact path="/" component={ViewRestaurant} />
             <Route path="/wait-list">
               <WaitList />
+            </Route>
+            <Route path="/orders">
+              <ViewNewOrder />
             </Route>
             <Route path="/menu-customizer">
               <MenuCustomizer />

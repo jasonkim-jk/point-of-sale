@@ -84,8 +84,10 @@ app.post('/api/menus', upload.single('image'), (req, res) => {
     return res.status(400).json({ error: 'Sorry, missing information. Check input data again.' });
   }
 
+  const cost = parseFloat(req.body.cost).toFixed(2);
+  const salePrice = parseFloat(req.body.salePrice).toFixed(2);
   const url = req.file ? '/images/' + req.file.filename : null;
-  const paramDb = [req.body.item, req.body.cost, req.body.salePrice, url];
+  const paramDb = [req.body.item, cost, salePrice, url];
   const sql = `
       insert into "menus" ("item", "cost", "salePrice", "imageUrl")
            values ($1, $2, $3, $4)
