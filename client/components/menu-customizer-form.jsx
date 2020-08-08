@@ -9,6 +9,7 @@ import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import LocalAtmOutlinedIcon from '@material-ui/icons/LocalAtmOutlined';
 import LocalOfferOutlinedIcon from '@material-ui/icons/LocalOfferOutlined';
+import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = theme => ({
@@ -29,6 +30,11 @@ const useStyles = theme => ({
     minWidth: 100,
     padding: theme.spacing(1),
     margin: theme.spacing(1, 2)
+  },
+  imageName: {
+    padding: theme.spacing(1),
+    fontStyle: 'italic',
+    color: 'gray'
   }
 });
 
@@ -37,10 +43,10 @@ class MenuCustomizerForm extends React.Component {
     super(props);
     this.state = {
       viewType: 'add',
-      name: '',
+      item: '',
       cost: '',
       salePrice: '',
-      imageUrl: '',
+      image: '',
       tag: ''
     };
     this.handleReset = this.handleReset.bind(this);
@@ -49,18 +55,37 @@ class MenuCustomizerForm extends React.Component {
     this.changeViewType = this.changeViewType.bind(this);
   }
 
+  sendNewItem(event) {
+    const formData = new FormData();
+    formData.append('item', this.state.item);
+    formData.append('cost', parseFloat(this.state.cost).toFixed(2));
+    formData.append('salePrice', parseFloat(this.state.salePrice).toFixed(2));
+    formData.append('image', event.image.files[0]);
+
+    axios.post('/api/menus', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(response => {
+      // console.log('SUCCESS!!, ', response.data);
+    }).catch(error => {
+      console.error(error);
+    });
+  }
+
   handleReset() {
     this.setState({
-      name: '',
+      item: '',
       cost: '',
       salePrice: '',
-      imageUrl: '',
+      image: '',
       tag: ''
     });
   }
 
   handleSubmit(event) {
     event.preventDefault();
+    this.sendNewItem(event.target);
     this.handleReset();
   }
 
@@ -82,10 +107,10 @@ class MenuCustomizerForm extends React.Component {
         <Typography variant="h4" align="center" className={classes.title}>
           {titleText}
         </Typography>
-        <form onSubmit={this.handleSubmit} onReset={this.handleReset}>
+        <form onSubmit={this.handleSubmit} onReset={this.handleReset} name='menuForm'>
           <FormControl fullWidth className={classes.form}>
-            <TextField onChange={this.handleChange} value={this.state.name}
-              margin="normal" id="name" label="Name" variant="outlined" required
+            <TextField onChange={this.handleChange} value={this.state.item}
+              margin="normal" id="item" label="Name" variant="outlined" required
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -122,10 +147,11 @@ class MenuCustomizerForm extends React.Component {
                 )
               }}/>
             <Box mt={1}>
-              <input accept="image/*" className={classes.upload} id="image" type="file"/>
+              <input accept="image/*" className={classes.upload} id="image" name="image" type="file" onChange={this.handleChange}/>
               <label htmlFor="image">
                 <Button variant="outlined" color="default" component="span" size="large" fullWidth
                   className={classes.uploadBtn}>Menu Image Upload</Button>
+                <Typography variant="caption" display="block" className={classes.imageName}>{this.state.image}</Typography>
               </label>
             </Box>
             <Box display="flex" justifyContent="center" mt={5} p={1} bgcolor="background.paper">
