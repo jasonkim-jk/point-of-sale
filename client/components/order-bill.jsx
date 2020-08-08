@@ -51,8 +51,22 @@ class OrderBill extends React.Component {
   constructor(props) {
     super(props);
     this.table = this.props.table;
-    this.state = {
-    };
+    this.state = {};
+    this.handleCancel = this.handleCancel.bind(this);
+    this.handleOrder = this.handleOrder.bind(this);
+    this.handlePay = this.handlePay.bind(this);
+  }
+
+  handleCancel() {
+    this.props.cancelOrder();
+  }
+
+  handleOrder() {
+    // console.log('order');
+  }
+
+  handlePay() {
+    // console.log('pay');
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -100,9 +114,15 @@ class OrderBill extends React.Component {
             </TableBody>
           </Table>
           <Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
-            <Button variant="contained" className={classes.button}>Cancel</Button>
-            <Button variant="contained" color="primary" className={classes.button}>Order</Button>
-            <Button variant="contained" color="primary" className={classes.button}>Pay</Button>
+            <Button variant="contained" className={classes.button} onClick={this.handleCancel}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.handleOrder}>
+              Order
+            </Button>
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.handlePay}>
+              Pay
+            </Button>
           </Box>
         </TableContainer>
       </Paper>
