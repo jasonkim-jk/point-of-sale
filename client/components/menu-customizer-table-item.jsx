@@ -22,6 +22,22 @@ const useStyles = theme => ({
 });
 
 class MenuCustomizerTableItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  handleDelete(event) {
+    const id = event.currentTarget.id;
+    if (id === undefined || id < 0) return;
+
+    fetch(`/api/menus/${id}`, {
+      method: 'DELETE'
+    }).then(response => {
+      // if (response.status === 204) {
+      // }
+    });
+  }
 
   render() {
     const { classes } = this.props;
@@ -42,7 +58,7 @@ class MenuCustomizerTableItem extends React.Component {
             <IconButton>
               <EditOutlinedIcon className={classes.icon} />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={this.handleDelete} id={itemId}>
               <DeleteOutlinedIcon className={classes.icon} />
             </IconButton>
           </Box>
