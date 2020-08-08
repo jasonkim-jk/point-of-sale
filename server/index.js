@@ -99,6 +99,29 @@ app.post('/api/menus', upload.single('image'), (req, res) => {
     .catch(() => res.status(500).json({ error: 'An unexpected error occured.' }));
 });
 
+app.delete('/api/menus/:itemId', (req, res, next) => {
+  if (!checkValidity(req.params.itemId)) {
+    next(new ClientError('Sorry, your requested id is invalid.', 400));
+  }
+  const itemId = parseInt(req.params.itemId);
+  const paramDb = [itemId];
+  const sql = `
+    delete from "menus"
+          where "itemId" = $1
+      returning *
+   `;
+
+  db.query(sql, paramDb)
+    .then(result => {
+      if (result.rows[0] === undefined) {
+        res.status(404).json({ error: 'Requested gradeId may not exist in the database. Check your data agin.' });
+      } else {
+        res.status(204).end();
+      }
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/checks', (req, res, next) => {
   const sql = `
     select * from "checks"
@@ -115,7 +138,7 @@ app.get('/api/checks', (req, res, next) => {
 
 app.post('/api/orders/', (req, res, next) => {
   if (!checkValidity(req.body.tableId) || req.body.items.length === 0) {
-    return res.status(400).json({ error: 'Sorry, your order information is incomplete.' });
+    next(new ClientError('Sorry, your order information is incomplete.', 400));
   }
 
   const paramDb = [parseInt(req.body.tableId), 'NOW()'];
