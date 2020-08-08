@@ -34,8 +34,9 @@ class MenuCustomizerTableItem extends React.Component {
     fetch(`/api/menus/${id}`, {
       method: 'DELETE'
     }).then(response => {
-      // if (response.status === 204) {
-      // }
+      if (response.status === 204) {
+        this.props.reloadMenus();
+      }
     });
   }
 

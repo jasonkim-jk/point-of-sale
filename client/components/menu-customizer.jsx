@@ -35,7 +35,7 @@ export default class MenuCustomizer extends React.Component {
     return (
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <MenuCustomizerTable menuList={this.state.menus} />
+          <MenuCustomizerTable menuList={this.state.menus} reloadMenus={this.reloadMenus} />
         </Grid>
         <Grid item xs={4}>
           <MenuCustomizerForm reloadMenus={this.reloadMenus} />
