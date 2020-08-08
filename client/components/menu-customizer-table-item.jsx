@@ -1,27 +1,40 @@
 import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-// import Paper from '@material-ui/core/Paper';
-// import Typography from '@material-ui/core/Typography';
-// import { withStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
+import { withStyles } from '@material-ui/core/styles';
 
-export default class MenuCustomizerTableItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
+const useStyles = theme => ({
+  image: {
+    width: theme.spacing(12),
+    height: theme.spacing(7)
+  },
+  cell: {
+    padding: theme.spacing(1)
   }
+});
+
+class MenuCustomizerTableItem extends React.Component {
 
   render() {
+    const { classes } = this.props;
+    const { itemId, item, imageUrl, cost, salePrice } = this.props.item;
     return (
       <TableRow>
-        <TableCell>1</TableCell>
-        <TableCell>Gen</TableCell>
-        <TableCell>000</TableCell>
-        <TableCell>$4.99</TableCell>
-        <TableCell>$9.99</TableCell>
-        <TableCell>$9.99</TableCell>
+        <TableCell align="center">{itemId}</TableCell>
+        <TableCell align="center">{item}</TableCell>
+        <TableCell align="center" className={classes.cell}>
+          <Box display="flex" justifyContent="center" bgcolor="background.paper">
+            <Avatar variant="rounded" alt={item} className={classes.image} src={imageUrl} />
+          </Box>
+        </TableCell>
+        <TableCell align="center">${cost}</TableCell>
+        <TableCell align="center">${salePrice}</TableCell>
+        <TableCell align="center">ㅁ ㅇ</TableCell>
       </TableRow>
     );
   }
 }
+
+export default withStyles(useStyles)(MenuCustomizerTableItem);

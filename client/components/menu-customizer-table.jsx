@@ -7,8 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuCustomizerTableItem from './menu-customizer-table-item';
-// import Typography from '@material-ui/core/Typography';
-// import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
 export default class MenuCustomizerTable extends React.Component {
   render() {
@@ -21,12 +20,24 @@ export default class MenuCustomizerTable extends React.Component {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Number</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Image</TableCell>
-              <TableCell>Cost</TableCell>
-              <TableCell>Sale Price</TableCell>
-              <TableCell>Operation</TableCell>
+              <TableCell align="center">
+                <Typography variant="subtitle1">Number</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography variant="subtitle1">Name</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography variant="subtitle1">Image</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography variant="subtitle1">Cost</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography variant="subtitle1">Sale Price</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography variant="subtitle1">Operation</Typography>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{menuItems}</TableBody>

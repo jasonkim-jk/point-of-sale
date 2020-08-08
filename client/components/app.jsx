@@ -9,6 +9,7 @@ import NavBar from './NavBar';
 import ViewRestaurant from './ViewRestaurant';
 // import ViewNewOrder from './view-new-order';
 import WaitList from './WaitList';
+import MenuCustomizer from './menu-customizer';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -27,11 +28,14 @@ export default class App extends React.Component {
     return (
       <Router>
         <Container disableGutters={true}>
-          <NavBar/>
+          <NavBar />
           <Switch>
-            <Route strict path="/" component={ViewRestaurant} />
+            <Route exact path="/" component={ViewRestaurant} />
             <Route path="/wait-list">
-              <WaitList/>
+              <WaitList />
+            </Route>
+            <Route path="/menu-customizer">
+              <MenuCustomizer />
             </Route>
           </Switch>
         </Container>
