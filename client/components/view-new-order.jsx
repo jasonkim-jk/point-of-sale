@@ -39,6 +39,7 @@ export default class ViewNewOrder extends React.Component {
           <MenuList addToOrder={this.addItemToOrder} />
         </Grid>
         <Grid item xs={5}>
+          {/* <OrderBill table={this.state.tableId} check receipt="123" orderItem={this.state.orders} cancelOrder={this.clearOrderItems}/> */}
           <OrderBill table={this.state.tableId} orderItem={this.state.orders} cancelOrder={this.clearOrderItems}/>
         </Grid>
       </Grid>

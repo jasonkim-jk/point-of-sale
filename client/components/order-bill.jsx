@@ -31,18 +31,19 @@ const useStyles = theme => ({
 
 const rows = [];
 
-function createRow(name, qty, price) {
+function createRow(name, qty, price, id) {
   const priceRow = (qty * price).toFixed(2);
-  return { name, qty, priceRow };
+  return { name, qty, priceRow, id };
 }
 
 function updateRow(orders) {
   rows.splice(0, rows.length);
 
   for (const item in orders) {
+    const itemId = parseFloat(orders[item].itemId);
     const price = parseFloat(orders[item].salePrice);
     const qty = parseInt(orders[item].quantity);
-    const rowValue = createRow(`${orders[item].item}`, qty, price);
+    const rowValue = createRow(`${orders[item].item}`, qty, price, itemId);
     rows.push(rowValue);
   }
 }
@@ -99,8 +100,13 @@ class OrderBill extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const orderBtn = this.state.ordered;
     const payBtn = !this.state.ordered;
+    const orderBtn = this.state.ordered;
+    const orderBtnCompoent = (
+      <Button variant="contained" color="primary" className={classes.button} onClick={this.handleOrder} disabled={orderBtn}>
+              Order
+      </Button>
+    );
 
     return (
       <Paper className={classes.paper} variant="outlined">
@@ -110,7 +116,7 @@ class OrderBill extends React.Component {
               Table {this.table}
             </Typography>
           </Grid>
-          <ReceiptNumber {...this.props.others} />
+          <ReceiptNumber {...this.props} />
         </Grid>
         <Divider />
         <TableContainer>
@@ -130,7 +136,7 @@ class OrderBill extends React.Component {
             </TableHead>
             <TableBody>
               {rows.map(row => (
-                <TableRow key={row.name}>
+                <TableRow key={row.name} id={row.id}>
                   <TableCell>{row.name}</TableCell>
                   <TableCell align="center">{row.qty}</TableCell>
                   <TableCell align="right">${row.priceRow}</TableCell>
@@ -142,9 +148,7 @@ class OrderBill extends React.Component {
             <Button variant="contained" className={classes.button} onClick={this.handleCancel}>
               Cancel
             </Button>
-            <Button variant="contained" color="primary" className={classes.button} onClick={this.handleOrder} disabled={orderBtn}>
-              Order
-            </Button>
+            {this.props.check ? <></> : orderBtnCompoent}
             <Button variant="contained" color="primary" className={classes.button} onClick={this.handlePay} disabled={payBtn}>
               Pay
             </Button>
