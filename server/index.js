@@ -105,7 +105,7 @@ app.post('/api/menus', upload.single('image'), (req, res) => {
     .catch(() => res.status(500).json({ error: 'An unexpected error occured.' }));
 });
 
-app.put('/api/menus/:itemId', (req, res, next) => {
+app.put('/api/menus/:itemId', upload.single('image'), (req, res, next) => {
   const itemId = req.params.itemId;
   const item = req.body.item;
   let cost = req.body.cost;
@@ -117,8 +117,7 @@ app.put('/api/menus/:itemId', (req, res, next) => {
 
   cost = parseFloat(cost).toFixed(2);
   salePrice = parseFloat(salePrice).toFixed(2);
-  const url = req.body.image ? '/images/' + req.body.image : null;
-
+  const url = req.file ? '/images/' + req.file.filename : null;
   const paramDb = [item, cost, salePrice, url, itemId];
   const sql = `
     update "menus"

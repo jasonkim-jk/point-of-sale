@@ -41,6 +41,7 @@ class MenuCustomizerForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      editView: false,
       item: '',
       cost: '',
       salePrice: '',
@@ -53,15 +54,16 @@ class MenuCustomizerForm extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.editView) {
+    if (nextProps.editView && nextProps.editItem.item !== prevState.item) {
       const menu = nextProps.editItem;
-      return { item: menu.item, cost: menu.cost, salePrice: menu.salePrice, image: menu.imageUrl };
+      return { editView: true, item: menu.item, cost: menu.cost, salePrice: menu.salePrice, image: '' };
     }
     return true;
   }
 
   handleReset() {
     this.setState({
+      editView: false,
       item: '',
       cost: '',
       salePrice: '',
@@ -73,11 +75,7 @@ class MenuCustomizerForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    if (this.props.editView) {
-      this.sendEditItem(event.target);
-    } else {
-      this.sendNewItem(event.target);
-    }
+    this.sendItem(event.target, this.props.editView);
     this.handleReset();
   }
 
@@ -85,23 +83,34 @@ class MenuCustomizerForm extends React.Component {
     this.setState({ [event.target.id]: event.target.value });
   }
 
-  sendEditItem(event) {
-    // console.log('edit item: ', event);
-  }
+  sendItem(event, editView) {
+    let url = '';
+    let reqType = '';
 
-  sendNewItem(event) {
+    if (editView) {
+      url = `/api/menus/${this.props.editItem.itemId}`;
+      reqType = 'PUT';
+    } else {
+      url = '/api/menus';
+      reqType = 'POST';
+    }
+
     const formData = new FormData();
     formData.append('item', this.state.item);
     formData.append('cost', parseFloat(this.state.cost).toFixed(2));
     formData.append('salePrice', parseFloat(this.state.salePrice).toFixed(2));
-    formData.append('image', event.image.files[0]);
+    if (this.state.image) {
+      formData.append('image', event.image.files[0]);
+    } else {
+      formData.append('image', null);
+    }
 
-    fetch('/api/menus', {
-      method: 'POST',
+    fetch(url, {
+      method: reqType,
       body: formData
     })
       .then(response => {
-        if (response.status === 201) {
+        if (response.status === 200 || response.status === 201) {
           this.props.reloadMenus();
         }
       })
