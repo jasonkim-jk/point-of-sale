@@ -262,6 +262,32 @@ app.post('/api/waitlist', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.delete('/api/waitlist/:waitId', (req, res, next) => {
+  const waitId = parseInt(req.params.waitId, 10);
+  if (!waitId) {
+    res.status(400).json({
+      error: 'invalid waitId: not an integer'
+    });
+    return;
+  }
+  const sql = `
+  delete from "waitLists"
+  where "waitId" = $1
+  returning*
+  `;
+  const params = [waitId];
+  db.query(sql, params)
+    .then(result => {
+      const deleted = result.rows[0];
+      if (!deleted) {
+        next(new ClientError('that ID does not exist', 404));
+        return;
+      }
+      res.status(204);
+    })
+    .catch(err => next(err));
+});
+
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
 });
