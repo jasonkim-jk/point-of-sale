@@ -39,7 +39,7 @@ const rows = [];
 
 function createRow(name, qty, price, id) {
   const priceRow = (qty * price).toFixed(2);
-  return { name, qty, priceRow, id };
+  return { id, name, qty, priceRow };
 }
 
 function updateRow(orders) {
@@ -62,6 +62,8 @@ class OrderBill extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleOrder = this.handleOrder.bind(this);
     this.handlePay = this.handlePay.bind(this);
+    this.handleIncrease = this.handleIncrease.bind(this);
+    this.handleDecrease = this.handleDecrease.bind(this);
   }
 
   handleCancel() {
@@ -97,6 +99,14 @@ class OrderBill extends React.Component {
     alert('to be updated');
     this.setState({ ordered: !this.state.ordered });
     this.handleCancel();
+  }
+
+  handleIncrease(event) {
+    this.props.updateItem(event.currentTarget.parentElement.id, 1);
+  }
+
+  handleDecrease(event) {
+    this.props.updateItem(event.currentTarget.parentElement.id, -1);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -154,7 +164,7 @@ class OrderBill extends React.Component {
               {rows.map(row => (
                 <TableRow key={row.name}>
                   <TableCell>{row.name}</TableCell>
-                  <TableCell align="center">
+                  <TableCell align="center" id={row.id}>
                     {this.props.check ? <></> : plusBtnComponent}
                     {row.qty}
                     {this.props.check ? <></> : minusBtnComponent}
