@@ -287,6 +287,48 @@ app.patch('/api/waitlist/:waitId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.put('/api/waitlist/:waitId', (req, res, next) => {
+  const waitId = parseInt(req.params.waitId, 10);
+  if (!waitId) {
+    next(new ClientError('waitId is invalid: not an integer', 400));
+    return;
+  }
+  const partySize = parseInt(req.body.partySize, 10);
+  if (!partySize) {
+    next(new ClientError('partySize is invalid', 400));
+    return;
+  }
+  const { name } = req.body;
+  if (!name) {
+    next(new ClientError('no name supplied', 400));
+    return;
+  }
+  let { comment } = req.body;
+  if (!comment) {
+    comment = null;
+  }
+  const sql = `
+  update "waitLists"
+  set "name" = $1,
+  "partySize" = $2,
+  "comment" = $3
+  where "waitId" = $4
+  returning *
+  `;
+  const params = [name, partySize, comment, waitId];
+  db.query(sql, params)
+    .then(result => {
+      const updated = result.rows[0];
+      if (!updated) {
+        next(new ClientError('waitId is invalid: number not in DB', 404));
+        next(new ClientError(`No customer with waitId ${waitId}`, 404));
+        return;
+      }
+      res.status(200).json(updated);
+    })
+    .catch(err => next(err));
+});
+
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
 });
