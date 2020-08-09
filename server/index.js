@@ -112,7 +112,7 @@ app.put('/api/menus/:itemId', (req, res, next) => {
   let salePrice = req.body.salePrice;
 
   if (!checkValidity(itemId) || !item || !cost || !salePrice) {
-    next(new ClientError('Sorry, your requested information is invalid.', 400));
+    return res.status(400).json({ error: 'Sorry, your requested information is invalid.' });
   }
 
   cost = parseFloat(cost).toFixed(2);
@@ -133,17 +133,17 @@ app.put('/api/menus/:itemId', (req, res, next) => {
   db.query(sql, paramDb)
     .then(result => {
       if (result.rows[0] === undefined) {
-        next(new ClientError('Requested itemId may not exist in the database. Check your data agin.', 404));
+        return res.status(400).json({ error: 'Requested itemId may not exist in the database. Check your data agin.' });
       } else {
         res.status(200).json(result.rows[0]);
       }
     })
-    .catch(() => res.status(500).json({ error: 'Database query failed' }));
+    .catch(err => next(err));
 });
 
 app.delete('/api/menus/:itemId', (req, res, next) => {
   if (!checkValidity(req.params.itemId)) {
-    next(new ClientError('Sorry, your requested id is invalid.', 400));
+    return res.status(400).json({ error: 'Sorry, your requested id is invalid.' });
   }
   const itemId = parseInt(req.params.itemId);
   const paramDb = [itemId];
@@ -151,12 +151,12 @@ app.delete('/api/menus/:itemId', (req, res, next) => {
     delete from "menus"
           where "itemId" = $1
       returning *
-   `;
+  `;
 
   db.query(sql, paramDb)
     .then(result => {
       if (result.rows[0] === undefined) {
-        next(new ClientError('Requested itemId may not exist in the database. Check your data agin.', 404));
+        return res.status(400).json({ error: 'Requested itemId may not exist in the database. Check your data agin.' });
       } else {
         res.status(204).end();
       }
@@ -180,7 +180,7 @@ app.get('/api/checks', (req, res, next) => {
 
 app.post('/api/orders/', (req, res, next) => {
   if (!checkValidity(req.body.tableId) || req.body.items.length === 0) {
-    next(new ClientError('Sorry, your order information is incomplete.', 400));
+    return res.status(400).json({ error: 'Sorry, your order information is incomplete.' });
   }
 
   const paramDb = [parseInt(req.body.tableId), 'NOW()'];

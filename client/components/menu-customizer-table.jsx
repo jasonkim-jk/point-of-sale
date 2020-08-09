@@ -12,7 +12,8 @@ import Typography from '@material-ui/core/Typography';
 export default class MenuCustomizerTable extends React.Component {
   render() {
     const menuItems = this.props.menuList.map(menu => {
-      return <MenuCustomizerTableItem key={menu.itemId} item={menu} reloadMenus={this.props.reloadMenus}/>;
+      return <MenuCustomizerTableItem key={menu.itemId} item={menu}
+        reloadMenus={this.props.reloadMenus} editItemId={this.props.editItem}/>;
     });
 
     return (
