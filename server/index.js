@@ -79,7 +79,7 @@ app.get('/api/menus', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/api/menus', upload.single('image'), (req, res, next) => {
+app.post('/api/menus', upload.single('image'), (req, res) => {
   const item = req.body.item;
   let cost = req.body.cost;
   let salePrice = req.body.salePrice;
