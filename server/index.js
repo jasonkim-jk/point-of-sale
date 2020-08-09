@@ -262,6 +262,31 @@ app.post('/api/waitlist', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.patch('/api/waitlist/:waitId', (req, res, next) => {
+  const waitId = parseInt(req.params.waitId, 10);
+  if (!waitId) {
+    next(new ClientError('waitId is invalid: not a number', 400));
+    return;
+  }
+  const sql = `
+  update "waitLists"
+  set "isSeated" = true
+  where "waitId" = $1
+  returning *
+  `;
+  const params = [waitId];
+  db.query(sql, params)
+    .then(result => {
+      const updated = result.rows[0];
+      if (!updated) {
+        next(new ClientError('waitId is invalid: number not in DB', 404));
+        return;
+      }
+      res.status(200).json(updated);
+    })
+    .catch(err => next(err));
+});
+
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
 });
