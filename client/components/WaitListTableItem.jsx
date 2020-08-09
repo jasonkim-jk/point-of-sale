@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableRow, TableCell, Typography } from '@material-ui/core';
+import { TableRow, TableCell, Typography, Checkbox } from '@material-ui/core';
 
 const weight = {
   fontWeight: 600
@@ -10,7 +10,8 @@ export default class WaitListTableItem extends React.Component {
     super(props);
     this.handleInterval = this.handleInterval.bind(this);
     this.state = {
-      waitTime: 0
+      waitTime: 0,
+      isSeated: false
     };
   }
 
@@ -39,6 +40,8 @@ export default class WaitListTableItem extends React.Component {
 
   componentDidMount() {
     this.handleInterval();
+    const isSeated = this.props.root.isSeated;
+    this.setState({ isSeated: isSeated });
     this.interval = setInterval(this.handleInterval, 60000);
   }
 
@@ -47,7 +50,7 @@ export default class WaitListTableItem extends React.Component {
   }
 
   computeStyle() {
-    if (this.props.root.isSeated) {
+    if (this.state.isSeated) {
       const style = {
         background: '#3C3C3C',
         color: 'white'
@@ -61,16 +64,22 @@ export default class WaitListTableItem extends React.Component {
 
   render() {
     const props = this.props.root;
+    let isChecked;
     let waitTime;
-    if (props.isSeated) {
+    if (this.state.isSeated) {
       waitTime = 'Seated';
+      isChecked = true;
     } else {
       waitTime = this.state.waitTime;
+      isChecked = false;
     }
     const style = this.computeStyle();
 
     return (
       <TableRow hover={true} >
+        <TableCell style={style} padding="checkbox" >
+          <Checkbox checked={isChecked}/>
+        </TableCell>
         <TableCell style={style}>
           <Typography style={weight}>{props.partySize}</Typography>
         </TableCell>

@@ -15,6 +15,7 @@ export default class WaitListTable extends React.Component {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell padding="checkbox">Seated</TableCell>
               <TableCell>Party Size</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Wait Time</TableCell>
