@@ -11,6 +11,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 import { withStyles } from '@material-ui/core/styles';
 import ReceiptNumber from './receipt-number';
 
@@ -26,6 +29,9 @@ const useStyles = theme => ({
     minWidth: 100,
     padding: theme.spacing(1),
     margin: theme.spacing(1, 2)
+  },
+  icon: {
+    margin: theme.spacing(1.5)
   }
 });
 
@@ -102,6 +108,16 @@ class OrderBill extends React.Component {
     const { classes } = this.props;
     const payBtn = !this.state.ordered;
     const orderBtn = this.state.ordered;
+    const plusBtnComponent = (
+      <IconButton onClick={this.handleIncrease}>
+        <AddIcon className={classes.icon} fontSize="small" color="primary" />
+      </IconButton>
+    );
+    const minusBtnComponent = (
+      <IconButton onClick={this.handleDecrease}>
+        <RemoveIcon className={classes.icon} fontSize="small" color="secondary" />
+      </IconButton>
+    );
     const orderBtnCompoent = (
       <Button variant="contained" color="primary" className={classes.button} onClick={this.handleOrder} disabled={orderBtn}>
               Order
@@ -136,9 +152,13 @@ class OrderBill extends React.Component {
             </TableHead>
             <TableBody>
               {rows.map(row => (
-                <TableRow key={row.name} id={row.id}>
+                <TableRow key={row.name}>
                   <TableCell>{row.name}</TableCell>
-                  <TableCell align="center">{row.qty}</TableCell>
+                  <TableCell align="center">
+                    {this.props.check ? <></> : plusBtnComponent}
+                    {row.qty}
+                    {this.props.check ? <></> : minusBtnComponent}
+                  </TableCell>
                   <TableCell align="right">${row.priceRow}</TableCell>
                 </TableRow>
               ))}
@@ -149,7 +169,13 @@ class OrderBill extends React.Component {
               Cancel
             </Button>
             {this.props.check ? <></> : orderBtnCompoent}
-            <Button variant="contained" color="primary" className={classes.button} onClick={this.handlePay} disabled={payBtn}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              onClick={this.handlePay}
+              disabled={payBtn}
+            >
               Pay
             </Button>
           </Box>
