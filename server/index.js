@@ -261,6 +261,36 @@ app.post('/api/waitlist', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.patch('/api/waitlist/:waitId', (req, res, next) => {
+  const waitId = parseInt(req.params.waitId, 10);
+  const isSeated = req.body.isSeated;
+  if (!waitId) {
+    next(new ClientError('waitId is invalid: not a number', 400));
+    return;
+  }
+  if (isSeated === undefined) {
+    next(new ClientError('must supply current isSeated', 400));
+    return;
+  }
+  const sql = `
+  update "waitLists"
+  set "isSeated" = $2
+  where "waitId" = $1
+  returning *
+  `;
+  const params = [waitId, !isSeated];
+  db.query(sql, params)
+    .then(result => {
+      const updated = result.rows[0];
+      if (!updated) {
+        next(new ClientError('waitId is invalid: number not in DB', 404));
+        return;
+      }
+      res.status(200).json(updated);
+    })
+    .catch(err => next(err));
+});
+
 app.put('/api/waitlist/:waitId', (req, res, next) => {
   const waitId = parseInt(req.params.waitId, 10);
   if (!waitId) {
@@ -294,14 +324,13 @@ app.put('/api/waitlist/:waitId', (req, res, next) => {
     .then(result => {
       const updated = result.rows[0];
       if (!updated) {
+        next(new ClientError('waitId is invalid: number not in DB', 404));
         next(new ClientError(`No customer with waitId ${waitId}`, 404));
         return;
       }
       res.status(200).json(updated);
     })
-    .catch(err => {
-      next(err);
-    });
+    .catch(err => next(err));
 });
 
 app.use('/api', (req, res, next) => {
