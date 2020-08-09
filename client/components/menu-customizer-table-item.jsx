@@ -24,7 +24,14 @@ const useStyles = theme => ({
 class MenuCustomizerTableItem extends React.Component {
   constructor(props) {
     super(props);
+    this.handleEdit = this.handleEdit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  handleEdit(event) {
+    const id = event.currentTarget.id;
+    if (id === undefined || id < 0) return;
+    this.props.editItemId(id);
   }
 
   handleDelete(event) {
@@ -52,11 +59,11 @@ class MenuCustomizerTableItem extends React.Component {
             <Avatar variant="rounded" alt={item} className={classes.image} src={imageUrl} />
           </Box>
         </TableCell>
-        <TableCell align="center">${cost}</TableCell>
-        <TableCell align="center">${salePrice}</TableCell>
+        <TableCell align="center">${parseFloat(cost).toFixed(2)}</TableCell>
+        <TableCell align="center">${parseFloat(salePrice).toFixed(2)}</TableCell>
         <TableCell align="center">
           <Box display="flex" justifyContent="center" bgcolor="background.paper">
-            <IconButton>
+            <IconButton onClick={this.handleEdit} id={itemId}>
               <EditOutlinedIcon className={classes.icon} />
             </IconButton>
             <IconButton onClick={this.handleDelete} id={itemId}>
