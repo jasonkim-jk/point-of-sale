@@ -264,17 +264,22 @@ app.post('/api/waitlist', (req, res, next) => {
 
 app.patch('/api/waitlist/:waitId', (req, res, next) => {
   const waitId = parseInt(req.params.waitId, 10);
+  const isSeated = req.body.isSeated;
   if (!waitId) {
     next(new ClientError('waitId is invalid: not a number', 400));
     return;
   }
+  if (isSeated === undefined) {
+    next(new ClientError('must supply current isSeated', 400));
+    return;
+  }
   const sql = `
   update "waitLists"
-  set "isSeated" = true
+  set "isSeated" = $2
   where "waitId" = $1
   returning *
   `;
-  const params = [waitId];
+  const params = [waitId, !isSeated];
   db.query(sql, params)
     .then(result => {
       const updated = result.rows[0];
