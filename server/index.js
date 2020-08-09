@@ -80,14 +80,18 @@ app.get('/api/menus', (req, res, next) => {
 });
 
 app.post('/api/menus', upload.single('image'), (req, res) => {
-  if (!req.body.item) {
+  const item = req.body.item;
+  let cost = req.body.cost;
+  let salePrice = req.body.salePrice;
+
+  if (!item || !cost || !salePrice) {
     return res.status(400).json({ error: 'Sorry, missing information. Check input data again.' });
   }
 
-  const cost = parseFloat(req.body.cost).toFixed(2);
-  const salePrice = parseFloat(req.body.salePrice).toFixed(2);
+  cost = parseFloat(cost).toFixed(2);
+  salePrice = parseFloat(salePrice).toFixed(2);
   const url = req.file ? '/images/' + req.file.filename : null;
-  const paramDb = [req.body.item, cost, salePrice, url];
+  const paramDb = [item, cost, salePrice, url];
   const sql = `
       insert into "menus" ("item", "cost", "salePrice", "imageUrl")
            values ($1, $2, $3, $4)
@@ -99,6 +103,42 @@ app.post('/api/menus', upload.single('image'), (req, res) => {
       res.status(201).json(result.rows[0]);
     })
     .catch(() => res.status(500).json({ error: 'An unexpected error occured.' }));
+});
+
+app.put('/api/menus/:itemId', (req, res, next) => {
+  const itemId = req.params.itemId;
+  const item = req.body.item;
+  let cost = req.body.cost;
+  let salePrice = req.body.salePrice;
+
+  if (!checkValidity(itemId) || !item || !cost || !salePrice) {
+    next(new ClientError('Sorry, your requested information is invalid.', 400));
+  }
+
+  cost = parseFloat(cost).toFixed(2);
+  salePrice = parseFloat(salePrice).toFixed(2);
+  const url = req.body.image ? '/images/' + req.body.image : null;
+
+  const paramDb = [item, cost, salePrice, url, itemId];
+  const sql = `
+    update "menus"
+       set "item" = $1,
+           "cost" = $2,
+           "salePrice" = $3,
+           "imageUrl" = $4
+     where "itemId" = $5
+           returning *
+   `;
+
+  db.query(sql, paramDb)
+    .then(result => {
+      if (result.rows[0] === undefined) {
+        next(new ClientError('Requested itemId may not exist in the database. Check your data agin.', 404));
+      } else {
+        res.status(200).json(result.rows[0]);
+      }
+    })
+    .catch(() => res.status(500).json({ error: 'Database query failed' }));
 });
 
 app.delete('/api/menus/:itemId', (req, res, next) => {
@@ -116,7 +156,7 @@ app.delete('/api/menus/:itemId', (req, res, next) => {
   db.query(sql, paramDb)
     .then(result => {
       if (result.rows[0] === undefined) {
-        res.status(404).json({ error: 'Requested gradeId may not exist in the database. Check your data agin.' });
+        next(new ClientError('Requested itemId may not exist in the database. Check your data agin.', 404));
       } else {
         res.status(204).end();
       }
