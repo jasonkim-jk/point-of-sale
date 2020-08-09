@@ -9,6 +9,7 @@ export default class WaitListTableItem extends React.Component {
   constructor(props) {
     super(props);
     this.handleInterval = this.handleInterval.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.state = {
       waitTime: 0,
       isSeated: false
@@ -58,8 +59,16 @@ export default class WaitListTableItem extends React.Component {
       return style;
     } else {
       return {};
-
     }
+  }
+
+  handleChange(e) {
+    const paramsObj = {
+      waitId: this.props.root.waitId,
+      isSeated: this.state.isSeated
+    };
+    this.props.seatCustomer(paramsObj);
+
   }
 
   render() {
@@ -78,7 +87,7 @@ export default class WaitListTableItem extends React.Component {
     return (
       <TableRow hover={true} >
         <TableCell style={style} padding="checkbox" >
-          <Checkbox checked={isChecked}/>
+          <Checkbox onChange={this.handleChange} checked={isChecked}/>
         </TableCell>
         <TableCell style={style}>
           <Typography style={weight}>{props.partySize}</Typography>

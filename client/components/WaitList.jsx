@@ -8,6 +8,8 @@ export default class WaitList extends React.Component {
   constructor(props) {
     super(props);
     this.addCustomer = this.addCustomer.bind(this);
+    this.updateList = this.updateList.bind(this);
+    this.seatCustomer = this.seatCustomer.bind(this);
     this.state = {
       waitList: []
     };
@@ -31,6 +33,21 @@ export default class WaitList extends React.Component {
       });
   }
 
+  seatCustomer(params) {
+    const { waitId, isSeated } = params;
+    const seatedObj = { isSeated: isSeated };
+    fetch(`/api/waitlist/${waitId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(seatedObj)
+    })
+      .then(response => {
+        this.updateList();
+      });
+  }
+
   updateList() {
     fetch('/api/waitlist')
       .then(response => response.json())
@@ -50,7 +67,7 @@ export default class WaitList extends React.Component {
     const waitList = this.state.waitList;
     return (
       <Box display="flex">
-        <WaitListTable waitList={waitList}/>
+        <WaitListTable seatCustomer={this.seatCustomer} updateList={this.updateList} waitList={waitList}/>
         <WaitListForm addCustomer={this.addCustomer}/>
       </Box>
     );
