@@ -3,6 +3,10 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
+import {
+  Link
+} from 'react-router-dom';
 
 export default class ViewChecks extends React.Component {
   constructor(props) {
@@ -37,7 +41,7 @@ export default class ViewChecks extends React.Component {
   }
 
   render() {
-
+    const { url } = this.props;
     const checks = this.state.openChecks.map(check => (
       <Grid item xs={12} key={check.checkId}>
         <Grid container spacing={1}>
@@ -50,8 +54,13 @@ export default class ViewChecks extends React.Component {
             </Typography>
           </Grid>
           <Grid item xs={5}>
-            <Typography variant="h6" align="right">
-            Table {check.tableId}
+            <Typography align="right" style={{ marginTop: '-5px' }}>
+            Table {check.tableId}<br></br>
+              <Button size="small" variant="contained" style={{ backgroundColor: '#118AB2', color: 'white', fontSize: '10px', marginBottom: '10px', borderRadius: '0px', padding: '2px 8px' }}>
+                <Link to={`${url}/checkitem/${check.checkId}`}>
+            View Check
+                </Link>
+              </Button>
             </Typography>
           </Grid>
         </Grid>
