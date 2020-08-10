@@ -51,7 +51,7 @@ export default class ViewCheckItem extends React.Component {
     }, 0);
 
     const { params } = this.props.match;
-    const invoiceTaxes = taxRate * reduceStuff;
+    const invoiceTaxes = (taxRate / 100) * reduceStuff;
     const invoiceTotal = invoiceTaxes + reduceStuff;
 
     return (
