@@ -317,16 +317,16 @@ COPY public.checks ("checkId", "isPaid", "tableId", "taxRate", tip, "createdAt")
 --
 
 COPY public.menus ("itemId", item, cost, "salePrice", "imageUrl") FROM stdin;
-1	Gen Premium Streak	7.07000000000000028	16.6400000000000006	/images/gen-premiun-steak.png
-2	Premium Chadol	7.99000000000000021	13.3599999999999994	/images/premium-chadol.png
-3	Hawaiian Steak	5.51999999999999957	15.2699999999999996	/images/hawaiian-steak.png
-4	Beef Bulgogi	5.69000000000000039	11.7899999999999991	/images/beef-bulgogi.png
-5	Spice Pork Bulgogi	4.58000000000000007	9.83000000000000007	/images/spicy-pork-chop.png
-6	Yangyum Galbi	3.62000000000000011	10.0099999999999998	/images/yangyum-galbi.png
-7	Samgyubsal	3.89999999999999991	9.5600000000000005	/images/pork-belly.png
-8	Spicy Samgyubsal	4.25999999999999979	10.0899999999999999	/images/spicy-pork.png
-9	Red Wine Samgyubsal	4.53000000000000025	10.4499999999999993	/images/wine-pork.png
-10	Cajun Samgyubsal	5.15000000000000036	12.7699999999999996	/images/cajun-pork.png
+1	Gen Premium Streak	7.07	16.64	/images/gen-premiun-steak.png
+2	Premium Chadol	7.99	13.35	/images/premium-chadol.png
+3	Hawaiian Steak	5.51	15.26	/images/hawaiian-steak.png
+4	Beef Bulgogi	5.69	11.78	/images/beef-bulgogi.png
+5	Spice Pork Bulgogi	4.58	9.83	/images/spicy-pork-chop.png
+6	Yangyum Galbi	3.62	10.12	/images/yangyum-galbi.png
+7	Samgyubsal	3.89	9.56	/images/pork-belly.png
+8	Spicy Samgyubsal	4.25	10.08	/images/spicy-pork.png
+9	Red Wine Samgyubsal	4.53	10.44	/images/wine-pork.png
+10	Cajun Samgyubsal	5.15	12.76	/images/cajun-pork.png
 \.
 
 
