@@ -11,8 +11,7 @@ export default class WaitListTableItem extends React.Component {
     this.handleInterval = this.handleInterval.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      waitTime: 0,
-      isSeated: false
+      waitTime: 0
     };
   }
 
@@ -41,8 +40,6 @@ export default class WaitListTableItem extends React.Component {
 
   componentDidMount() {
     this.handleInterval();
-    const isSeated = this.props.root.isSeated;
-    this.setState({ isSeated: isSeated });
     this.interval = setInterval(this.handleInterval, 60000);
   }
 
@@ -51,7 +48,7 @@ export default class WaitListTableItem extends React.Component {
   }
 
   computeStyle() {
-    if (this.state.isSeated) {
+    if (this.props.root.isSeated) {
       const style = {
         background: '#3C3C3C',
         color: 'white'
@@ -65,17 +62,16 @@ export default class WaitListTableItem extends React.Component {
   handleChange(e) {
     const paramsObj = {
       waitId: this.props.root.waitId,
-      isSeated: this.state.isSeated
+      isSeated: this.props.root.isSeated
     };
     this.props.seatCustomer(paramsObj);
-
   }
 
   render() {
     const props = this.props.root;
     let isChecked;
     let waitTime;
-    if (this.state.isSeated) {
+    if (props.isSeated) {
       waitTime = 'Seated';
       isChecked = true;
     } else {
@@ -87,7 +83,7 @@ export default class WaitListTableItem extends React.Component {
     return (
       <TableRow hover={true} >
         <TableCell style={style} padding="checkbox" >
-          <Checkbox onChange={this.handleChange} checked={isChecked}/>
+          <Checkbox color='default' onChange={this.handleChange} checked={isChecked}/>
         </TableCell>
         <TableCell style={style}>
           <Typography style={weight}>{props.partySize}</Typography>
