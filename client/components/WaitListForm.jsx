@@ -14,7 +14,8 @@ export default class WaitListForm extends React.Component {
     this.state = {
       name: '',
       partySize: '',
-      comment: ''
+      comment: '',
+      editMode: false
     };
   }
 
@@ -50,6 +51,18 @@ export default class WaitListForm extends React.Component {
     const target = e.target.id;
     const value = e.target.value;
     this.setState({ [target]: value });
+  }
+
+  componentDidMount() {
+    if (this.props.formEditMode) {
+      const { waitId, name, partySize, comment } = this.props.formEditItem;
+      this.setState({
+        name: name,
+        partySize: partySize,
+        comment: comment,
+        editMode: true
+      }, () => console.log(this.state));
+    }
   }
 
   render() {

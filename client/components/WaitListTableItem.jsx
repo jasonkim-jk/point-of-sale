@@ -82,7 +82,18 @@ export default class WaitListTableItem extends React.Component {
   }
 
   handleEdit(e) {
-
+    const waitId = parseInt(e.currentTarget.id, 10);
+    if (!waitId) {
+      return;
+    }
+    const { name, partySize, comment } = this.props.root;
+    const paramsObj = {
+      waitId: waitId,
+      name: name,
+      partySize: partySize,
+      comment: comment
+    };
+    this.props.editCustomer(paramsObj);
   }
 
   render() {

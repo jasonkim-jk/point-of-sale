@@ -8,7 +8,7 @@ export default class WaitListTable extends React.Component {
   render() {
     const waitList = this.props.waitList;
     const waitListItems = waitList.map(waiting => {
-      return <WaitListTableItem deleteCustomer={this.props.deleteCustomer} seatCustomer={this.props.seatCustomer}
+      return <WaitListTableItem editCustomer={this.props.editCustomer} deleteCustomer={this.props.deleteCustomer} seatCustomer={this.props.seatCustomer}
         updateList={this.props.updateList} key={waiting.waitId} root={waiting}/>;
     });
     return (

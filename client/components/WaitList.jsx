@@ -12,6 +12,7 @@ export default class WaitList extends React.Component {
     this.seatCustomer = this.seatCustomer.bind(this);
     this.deleteCustomer = this.deleteCustomer.bind(this);
     this.editCustomer = this.editCustomer.bind(this);
+    this.stopEdit = this.stopEdit.bind(this);
     this.state = {
       waitList: [],
       formEditMode: false,
@@ -63,7 +64,20 @@ export default class WaitList extends React.Component {
   }
 
   editCustomer(params) {
+    if (this.state.formEditMode) {
+      return;
+    }
+    this.setState({
+      formEditMode: true,
+      formEditItem: params
+    }, () => console.log(this.state));
+  }
 
+  stopEdit() {
+    this.setState({
+      formEditMode: false,
+      formEditItem: {}
+    });
   }
 
   updateList() {
@@ -85,8 +99,9 @@ export default class WaitList extends React.Component {
     const waitList = this.state.waitList;
     return (
       <Box display="flex">
-        <WaitListTable deleteCustomer={this.deleteCustomer} seatCustomer={this.seatCustomer} updateList={this.updateList} waitList={waitList}/>
-        <WaitListForm addCustomer={this.addCustomer}/>
+        <WaitListTable editCustomer={this.editCustomer} deleteCustomer={this.deleteCustomer} seatCustomer={this.seatCustomer} updateList={this.updateList} waitList={waitList}/>
+        <WaitListForm stopEdit={this.stopEdit} formEditMode={this.state.formEditMode} formEditItem={this.state.formEditItem}
+          addCustomer={this.addCustomer}/>
       </Box>
     );
   }
