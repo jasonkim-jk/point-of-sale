@@ -163,6 +163,30 @@ app.delete('/api/menus/:itemId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/sales', (req, res, next) => {
+  const sql = `
+  select "menus"."item" as "Item Name",
+         "menus"."imageUrl" as "Image",
+         sum("orderItems"."quantity") as "Total Sold",
+         "menus"."salePrice" as "Sale Price",
+         "menus"."cost" as "Cost",
+         ("menus"."salePrice" - "menus"."cost") * sum("orderItems"."quantity") as "Profit"
+    from "menus"
+    join "orderItems" using ("itemId")
+    group by ("menus"."item", "menus"."imageUrl", "menus"."salePrice", "menus"."cost")
+    order by "Profit" desc;
+    `;
+    // join "orders" using ("orderId")
+    // join "tables" using ("tableId")
+    // where "orders"."isSent" = false
+
+  db.query(sql)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/checks', (req, res, next) => {
   const sql = `
     select * from "checks"
@@ -329,6 +353,32 @@ app.put('/api/waitlist/:waitId', (req, res, next) => {
         return;
       }
       res.status(200).json(updated);
+    })
+    .catch(err => next(err));
+});
+
+app.delete('/api/waitlist/:waitId', (req, res, next) => {
+  const waitId = parseInt(req.params.waitId, 10);
+  if (!waitId) {
+    res.status(400).json({
+      error: 'invalid waitId: not an integer'
+    });
+    return;
+  }
+  const sql = `
+  delete from "waitLists"
+  where "waitId" = $1
+  returning *
+  `;
+  const params = [waitId];
+  db.query(sql, params)
+    .then(result => {
+      const deleted = result.rows[0];
+      if (!deleted) {
+        next(new ClientError('that ID does not exist', 404));
+        return;
+      }
+      res.sendStatus(204);
     })
     .catch(err => next(err));
 });
