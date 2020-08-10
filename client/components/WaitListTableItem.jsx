@@ -86,7 +86,10 @@ export default class WaitListTableItem extends React.Component {
     if (!waitId) {
       return;
     }
-    const { name, partySize, comment } = this.props.root;
+    let { name, partySize, comment } = this.props.root;
+    if (comment === null) {
+      comment = '';
+    }
     const paramsObj = {
       waitId: waitId,
       name: name,
