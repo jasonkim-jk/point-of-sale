@@ -307,11 +307,9 @@ COPY public."checkOrders" ("checkId", "orderId") FROM stdin;
 --
 
 COPY public.checks ("checkId", "isPaid", "tableId", "taxRate", tip, "createdAt") FROM stdin;
-1	f	1	7	\N	2020-08-07 13:16:31.198546
-2	f	1	7	\N	2020-08-07 13:16:45.64952
-3	f	1	7	\N	2020-08-07 13:16:49.769248
-4	f	1	7	\N	2020-08-07 13:16:49.954537
-5	f	1	7	\N	2020-08-07 13:16:50.40647
+1	f	1	7	\N	2020-08-10 12:41:24.049287
+2	f	2	7	\N	2020-08-10 12:42:56.558299
+3	f	3	7	\N	2020-08-10 12:43:01.840627
 \.
 
 
@@ -320,16 +318,16 @@ COPY public.checks ("checkId", "isPaid", "tableId", "taxRate", tip, "createdAt")
 --
 
 COPY public.menus ("itemId", item, cost, "salePrice", "imageUrl") FROM stdin;
-1	Gen Premium Streak	$7.07	13.40	/images/gen-premiun-steak.png
-2	Premium Chadol	$7.99	14.99	/images/premium-chadol.png
-3	Hawaiian Steak	$5.52	16.99	/images/hawaiian-steak.png
-4	Beef Bulgogi	$5.69	13.99	/images/beef-bulgogi.png
-5	Spice Pork Bulgogi	$4.58	11.99	/images/spicy-pork-chop.png
-6	Yangyum Galbi	$3.62	11.99	/images/yangyum-galbi.png
-7	Samgyubsal	$3.90	11.99	/images/pork-belly.png
-8	Spicy Samgyubsal	$4.26	11.99	/images/spicy-pork.png
-9	Red Wine Samgyubsal	$4.53	11.99	/images/wine-pork.png
-10	Cajun Samgyubsal	$5.15	14.99	/images/cajun-pork.png
+1	Gen Premium Streak	7.07	16.64	/images/gen-premiun-steak.png
+2	Premium Chadol	7.99	13.35	/images/premium-chadol.png
+3	Hawaiian Steak	5.51	15.26	/images/hawaiian-steak.png
+4	Beef Bulgogi	5.69	11.78	/images/beef-bulgogi.png
+5	Spice Pork Bulgogi	4.58	9.83	/images/spicy-pork-chop.png
+6	Yangyum Galbi	3.62	10.12	/images/yangyum-galbi.png
+7	Samgyubsal	3.89	9.56	/images/pork-belly.png
+8	Spicy Samgyubsal	4.25	10.08	/images/spicy-pork.png
+9	Red Wine Samgyubsal	4.53	10.44	/images/wine-pork.png
+10	Cajun Samgyubsal	5.15	12.76	/images/cajun-pork.png
 \.
 
 
@@ -338,7 +336,39 @@ COPY public.menus ("itemId", item, cost, "salePrice", "imageUrl") FROM stdin;
 --
 
 COPY public."orderItems" ("orderItemId", "orderId", "itemId", quantity, "isCompleted", discount, "createdAt") FROM stdin;
-1	1	1	1	f	\N	2020-08-07 19:01:32.016687
+1	1	2	3	f	0	2020-08-09 16:26:48.732927
+2	1	4	5	f	0	2020-08-09 16:26:48.732927
+3	2	1	2	f	0	2020-08-09 16:47:18.7115
+4	2	2	11	f	0	2020-08-09 16:47:18.7115
+5	2	5	10	f	0	2020-08-09 16:47:18.7115
+6	3	3	4	f	0	2020-08-09 17:47:15.67739
+7	3	4	4	f	0	2020-08-09 17:47:15.67739
+8	3	5	5	f	0	2020-08-09 17:47:15.67739
+9	3	6	5	f	0	2020-08-09 17:47:15.67739
+10	4	1	4	f	0	2020-08-09 21:13:24.681653
+11	4	2	14	f	0	2020-08-09 21:13:24.681653
+12	4	3	5	f	0	2020-08-09 21:13:24.681653
+13	4	4	9	f	0	2020-08-09 21:13:24.681653
+14	4	5	17	f	0	2020-08-09 21:13:24.681653
+15	4	6	1	f	0	2020-08-09 21:13:24.681653
+16	4	7	6	f	0	2020-08-09 21:13:24.681653
+17	4	8	6	f	0	2020-08-09 21:13:24.681653
+18	4	9	19	f	0	2020-08-09 21:13:24.681653
+19	4	10	4	f	0	2020-08-09 21:13:24.681653
+20	5	1	71	f	0	2020-08-09 23:05:15.058808
+21	5	2	74	f	0	2020-08-09 23:05:15.058808
+22	5	3	59	f	0	2020-08-09 23:05:15.058808
+23	5	4	37	f	0	2020-08-09 23:05:15.058808
+24	5	5	62	f	0	2020-08-09 23:05:15.058808
+25	5	6	37	f	0	2020-08-09 23:05:15.058808
+26	5	7	55	f	0	2020-08-09 23:05:15.058808
+27	5	8	26	f	0	2020-08-09 23:05:15.058808
+28	5	9	31	f	0	2020-08-09 23:05:15.058808
+29	5	10	41	f	0	2020-08-09 23:05:15.058808
+30	6	2	2	f	0	2020-08-10 00:49:46.683053
+31	6	3	3	f	0	2020-08-10 00:49:46.683053
+32	6	4	4	f	0	2020-08-10 00:49:46.683053
+33	7	8	90	f	0	2020-08-10 00:50:14.933692
 \.
 
 
@@ -347,7 +377,13 @@ COPY public."orderItems" ("orderItemId", "orderId", "itemId", quantity, "isCompl
 --
 
 COPY public.orders ("orderId", "isSent", "tableId", "orderedAt") FROM stdin;
-1	t	1	2020-08-07 16:38:53.366743
+1	f	5	2020-08-09 16:26:48.686631
+2	f	5	2020-08-09 16:47:18.683879
+3	f	5	2020-08-09 17:47:15.647647
+4	f	5	2020-08-09 21:13:24.64756
+5	f	5	2020-08-09 23:05:15.034439
+6	f	5	2020-08-10 00:49:46.650401
+7	f	5	2020-08-10 00:50:14.91458
 \.
 
 
@@ -374,10 +410,10 @@ COPY public.tables ("tableId", "tableStatus", "timeSeated") FROM stdin;
 --
 
 COPY public."waitLists" ("waitId", name, "partySize", "time", comment, "isSeated") FROM stdin;
-1	Uzair	1	17:07:25.878813-07	Big Anime Table	f
-2	Jason	4	17:10:25.878813-07	Family of 4	f
-3	Kevin	5	17:15:25.878813-07	4th of july no mask	f
-4	Julius	3	17:16:25.878813-07	Three musketeers	f
+1	Uzair	1	08:07:25.878813-07	Big Anime Table	f
+3	Kevin	5	08:15:25.878813-07	4th of july no mask	f
+4	Julius	3	08:16:25.878813-07	Three musketeers	f
+2	Jason	4	08:10:25.878813-07	Family of 4	f
 \.
 
 
@@ -385,28 +421,28 @@ COPY public."waitLists" ("waitId", name, "partySize", "time", comment, "isSeated
 -- Name: checks_checkId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."checks_checkId_seq"', 5, true);
+SELECT pg_catalog.setval('public."checks_checkId_seq"', 3, true);
 
 
 --
 -- Name: menus_itemId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."menus_itemId_seq"', 1, false);
+SELECT pg_catalog.setval('public."menus_itemId_seq"', 11, true);
 
 
 --
 -- Name: orderItems_orderItemId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."orderItems_orderItemId_seq"', 1, false);
+SELECT pg_catalog.setval('public."orderItems_orderItemId_seq"', 33, true);
 
 
 --
 -- Name: orders_orderId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."orders_orderId_seq"', 1, false);
+SELECT pg_catalog.setval('public."orders_orderId_seq"', 7, true);
 
 
 --
