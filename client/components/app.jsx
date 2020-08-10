@@ -10,6 +10,7 @@ import ViewRestaurant from './ViewRestaurant';
 import ViewNewOrder from './view-new-order';
 import WaitList from './WaitList';
 import MenuCustomizer from './menu-customizer';
+import SaleReport from './sales-report';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -39,6 +40,9 @@ export default class App extends React.Component {
             </Route>
             <Route path="/menu-customizer">
               <MenuCustomizer />
+            </Route>
+            <Route path="/sales-report">
+              <SaleReport />
             </Route>
           </Switch>
         </Container>
