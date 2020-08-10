@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableRow, TableCell, Typography } from '@material-ui/core';
+import { TableRow, TableCell, Typography, Checkbox } from '@material-ui/core';
 
 const weight = {
   fontWeight: 600
@@ -9,6 +9,7 @@ export default class WaitListTableItem extends React.Component {
   constructor(props) {
     super(props);
     this.handleInterval = this.handleInterval.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.state = {
       waitTime: 0
     };
@@ -55,22 +56,35 @@ export default class WaitListTableItem extends React.Component {
       return style;
     } else {
       return {};
-
     }
+  }
+
+  handleChange(e) {
+    const paramsObj = {
+      waitId: this.props.root.waitId,
+      isSeated: this.props.root.isSeated
+    };
+    this.props.seatCustomer(paramsObj);
   }
 
   render() {
     const props = this.props.root;
+    let isChecked;
     let waitTime;
     if (props.isSeated) {
       waitTime = 'Seated';
+      isChecked = true;
     } else {
       waitTime = this.state.waitTime;
+      isChecked = false;
     }
     const style = this.computeStyle();
 
     return (
       <TableRow hover={true} >
+        <TableCell style={style} padding="checkbox" >
+          <Checkbox color='default' onChange={this.handleChange} checked={isChecked}/>
+        </TableCell>
         <TableCell style={style}>
           <Typography style={weight}>{props.partySize}</Typography>
         </TableCell>
