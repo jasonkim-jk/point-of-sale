@@ -11,8 +11,11 @@ export default class WaitList extends React.Component {
     this.updateList = this.updateList.bind(this);
     this.seatCustomer = this.seatCustomer.bind(this);
     this.deleteCustomer = this.deleteCustomer.bind(this);
+    this.editCustomer = this.editCustomer.bind(this);
     this.state = {
-      waitList: []
+      waitList: [],
+      formEditMode: false,
+      formEditItem: {}
     };
   }
 
@@ -57,6 +60,10 @@ export default class WaitList extends React.Component {
       .then(response => {
         this.updateList();
       });
+  }
+
+  editCustomer(params) {
+
   }
 
   updateList() {
