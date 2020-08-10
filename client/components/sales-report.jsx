@@ -24,14 +24,26 @@ const useStyles = theme => ({
 class SaleReport extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { saleData: [] };
+    this.state = { saleData: [], totalSold: 0, totalProfit: 0 };
+  }
+
+  getTotal(data) {
+    let totalSold = 0;
+    let totalProfit = 0;
+
+    for (const item in data) {
+      totalSold += parseInt(data[item]['Total Sold']);
+      totalProfit += parseFloat(data[item].Profit);
+    }
+    return { totalSold, totalProfit };
   }
 
   componentDidMount() {
     fetch('/api/sales')
       .then(response => response.json())
       .then(data => {
-        this.setState({ saleData: data });
+        const total = this.getTotal(data);
+        this.setState({ saleData: data, totalSold: total.totalSold, totalProfit: total.totalProfit.toFixed(2) });
       })
       .catch(error => {
         console.error(error);
