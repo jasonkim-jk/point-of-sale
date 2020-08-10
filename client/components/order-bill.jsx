@@ -16,6 +16,7 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import { withStyles } from '@material-ui/core/styles';
 import ReceiptNumber from './receipt-number';
+import OrderBillTotal from './order-bill-total';
 
 const useStyles = theme => ({
   paper: {
@@ -180,11 +181,10 @@ class OrderBill extends React.Component {
                   <TableCell align="right">${row.priceRow}</TableCell>
                 </TableRow>
               ))}
+              <OrderBillTotal price={this.state} />
             </TableBody>
           </Table>
-          <Box display="flex" justifyContent="center" mt={5} p={1} bgcolor="background.paper">
-          </ Box>
-          <Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
+          <Box display="flex" justifyContent="center" m={1} mt={3} p={1} bgcolor="background.paper">
             <Button variant="contained" className={classes.button} onClick={this.handleCancel}>
               Cancel
             </Button>
