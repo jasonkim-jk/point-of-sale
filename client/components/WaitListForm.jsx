@@ -14,7 +14,9 @@ export default class WaitListForm extends React.Component {
     this.state = {
       name: '',
       partySize: '',
-      comment: ''
+      comment: '',
+      waitId: '',
+      editMode: false
     };
   }
 
@@ -24,12 +26,17 @@ export default class WaitListForm extends React.Component {
     if (!this.state.name || !partySize) {
       return;
     }
-    const newCustomer = {
+    const customerObj = {
       name: this.state.name,
       partySize: this.state.partySize,
       comment: this.state.comment
     };
-    this.props.addCustomer(newCustomer);
+    if (this.state.editMode) {
+      this.props.updateCustomer(customerObj, this.state.waitId);
+      this.props.stopEdit();
+    } else {
+      this.props.addCustomer(customerObj);
+    }
     this.setState({
       name: '',
       partySize: '',
@@ -39,6 +46,9 @@ export default class WaitListForm extends React.Component {
 
   handleReset(e) {
     e.preventDefault();
+    if (this.state.editMode) {
+      this.props.stopEdit();
+    }
     this.setState({
       name: '',
       partySize: '',
@@ -52,9 +62,30 @@ export default class WaitListForm extends React.Component {
     this.setState({ [target]: value });
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.mode !== prevProps.mode) {
+      if (this.props.mode) {
+        const { waitId, name, partySize, comment } = this.props.formEditItem;
+        this.setState({
+          name: name,
+          partySize: partySize,
+          comment: comment,
+          waitId: waitId,
+          editMode: this.props.mode
+        });
+      } else {
+        this.setState({
+          editMode: this.props.mode
+        });
+      }
+    }
+  }
+
   render() {
     const partySize = parseInt(this.state.partySize, 10);
     let partyValidationError;
+    const submitText = this.state.editMode ? 'Update' : 'Submit';
+    const titleText = this.state.editMode ? 'Update Guest' : 'Add New Guest';
     if (!this.state.partySize || partySize) {
       partyValidationError = false;
     } else {
@@ -64,7 +95,7 @@ export default class WaitListForm extends React.Component {
     return (
       <Box width="35%" mt={2} ml={4} display="flex" justifyContent="center" flexDirection="column">
         <Typography variant="h4">
-          Add New Guest
+          {titleText}
         </Typography>
         <form onSubmit={this.handleSubmit} onReset={this.handleReset}>
           <FormControl>
@@ -75,7 +106,7 @@ export default class WaitListForm extends React.Component {
             <TextField onChange={this.handleChange} value={this.state.comment}
               margin="normal" id="comment" label="Comment" variant="outlined" helperText="optional" />
             <Box display="flex">
-              <Button type="submit" variant="contained" color="primary">Submit</Button>
+              <Button type="submit" variant="contained" color="primary">{submitText}</Button>
               <Box ml={1}>
                 <Button type="reset" variant="contained" color="secondary">Cancel</Button>
               </Box>

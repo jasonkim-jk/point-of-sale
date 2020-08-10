@@ -248,7 +248,7 @@ app.get('/api/waitlist', (req, res, next) => {
 app.get('/api/checks/:checkId', (req, res, next) => {
   const { checkId } = req.params;
   const sql = `
-  select "m".* from "checks" as "c"
+  select "m".*, "c"."taxRate" from "checks" as "c"
   join "checkOrders" as "co" on "co"."checkId" = "c"."checkId"
   join "orders" as "o" on "o"."orderId" = "co"."orderId"
   join "orderItems" as "oi" on "oi"."orderId" = "o"."orderId"

@@ -120,8 +120,8 @@ ALTER SEQUENCE public."checks_checkId_seq" OWNED BY public.checks."checkId";
 CREATE TABLE public.menus (
     "itemId" integer NOT NULL,
     item character varying(255) NOT NULL,
-    cost float NOT NULL,
-    "salePrice" float NOT NULL,
+    cost money NOT NULL,
+    "salePrice" numeric(2,0) NOT NULL,
     "imageUrl" character varying(255)
 );
 
@@ -233,7 +233,7 @@ CREATE TABLE public."waitLists" (
     name character varying(255) NOT NULL,
     "partySize" integer NOT NULL,
     "time" time with time zone NOT NULL,
-    comment character varying(255),
+    comment character varying(255) NOT NULL,
     "isSeated" boolean DEFAULT false NOT NULL
 );
 
@@ -298,6 +298,7 @@ ALTER TABLE ONLY public."waitLists" ALTER COLUMN "waitId" SET DEFAULT nextval('p
 --
 
 COPY public."checkOrders" ("checkId", "orderId") FROM stdin;
+1	1
 \.
 
 
@@ -477,3 +478,4 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
+
