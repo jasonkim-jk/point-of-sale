@@ -70,6 +70,29 @@ class SaleReport extends React.Component {
       );
     });
 
+    const salseTotal = (
+      <>
+        <TableRow >
+          <TableCell rowSpan={2} />
+          <TableCell rowSpan={2} />
+          <TableCell colSpan={4}>
+            <Typography variant="h5" color="secondary">TOTAL SOLD MENU</Typography>
+          </TableCell>
+          <TableCell align="center">
+            <Typography variant="h5" color="primary">{this.state.totalSold}</Typography>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell colSpan={4}>
+            <Typography variant="h5" color="secondary">TOTAL PROFIT</Typography>
+          </TableCell>
+          <TableCell align="center">
+            <Typography variant="h5" color="primary">${this.state.totalProfit}</Typography>
+          </TableCell>
+        </TableRow>
+      </>
+    );
+
     return (
       <TableContainer component={Paper}>
         <Table>
@@ -100,6 +123,7 @@ class SaleReport extends React.Component {
           </TableHead>
           <TableBody>
             {salesRow}
+            {salseTotal}
           </TableBody>
         </Table>
       </TableContainer>
