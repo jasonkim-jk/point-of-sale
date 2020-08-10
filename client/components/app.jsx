@@ -31,7 +31,6 @@ export default class App extends React.Component {
         <Container disableGutters={true}>
           <NavBar />
           <Switch>
-            <Route exact path="/" component={ViewRestaurant} />
             <Route path="/wait-list">
               <WaitList />
             </Route>
@@ -41,9 +40,7 @@ export default class App extends React.Component {
             <Route path="/menu-customizer">
               <MenuCustomizer />
             </Route>
-            <Route path="/sales-report">
-              <SaleReport />
-            </Route>
+            <Route strict path="/" component={ViewRestaurant} />
           </Switch>
         </Container>
       </Router>

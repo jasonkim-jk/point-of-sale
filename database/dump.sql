@@ -120,8 +120,8 @@ ALTER SEQUENCE public."checks_checkId_seq" OWNED BY public.checks."checkId";
 CREATE TABLE public.menus (
     "itemId" integer NOT NULL,
     item character varying(255) NOT NULL,
-    cost float NOT NULL,
-    "salePrice" float NOT NULL,
+    cost money NOT NULL,
+    "salePrice" numeric(2,0) NOT NULL,
     "imageUrl" character varying(255)
 );
 
@@ -154,7 +154,7 @@ CREATE TABLE public."orderItems" (
     "orderItemId" integer NOT NULL,
     "orderId" integer NOT NULL,
     "itemId" integer NOT NULL,
-    "quantity" integer NOT NULL DEFAULT '1',
+    quantity integer DEFAULT 1 NOT NULL,
     "isCompleted" boolean DEFAULT false NOT NULL,
     discount integer,
     "createdAt" timestamp without time zone NOT NULL
@@ -233,7 +233,7 @@ CREATE TABLE public."waitLists" (
     name character varying(255) NOT NULL,
     "partySize" integer NOT NULL,
     "time" time with time zone NOT NULL,
-    comment character varying(255),
+    comment character varying(255) NOT NULL,
     "isSeated" boolean DEFAULT false NOT NULL
 );
 
@@ -298,6 +298,7 @@ ALTER TABLE ONLY public."waitLists" ALTER COLUMN "waitId" SET DEFAULT nextval('p
 --
 
 COPY public."checkOrders" ("checkId", "orderId") FROM stdin;
+1	1
 \.
 
 
@@ -306,6 +307,11 @@ COPY public."checkOrders" ("checkId", "orderId") FROM stdin;
 --
 
 COPY public.checks ("checkId", "isPaid", "tableId", "taxRate", tip, "createdAt") FROM stdin;
+1	f	1	7	\N	2020-08-07 13:16:31.198546
+2	f	1	7	\N	2020-08-07 13:16:45.64952
+3	f	1	7	\N	2020-08-07 13:16:49.769248
+4	f	1	7	\N	2020-08-07 13:16:49.954537
+5	f	1	7	\N	2020-08-07 13:16:50.40647
 \.
 
 
@@ -314,16 +320,16 @@ COPY public.checks ("checkId", "isPaid", "tableId", "taxRate", tip, "createdAt")
 --
 
 COPY public.menus ("itemId", item, cost, "salePrice", "imageUrl") FROM stdin;
-1	Gen Premium Streak	7.07	16.64	/images/gen-premiun-steak.png
-2	Premium Chadol	7.99	13.36	/images/premium-chadol.png
-3	Hawaiian Steak	5.52	15.27	/images/hawaiian-steak.png
-4	Beef Bulgogi	5.69	11.79	/images/beef-bulgogi.png
-5	Spice Pork Bulgogi	4.58	9.83	/images/spicy-pork-chop.png
-6	Yangyum Galbi	3.62	10.01	/images/yangyum-galbi.png
-7	Samgyubsal	3.90	9.56	/images/pork-belly.png
-8	Spicy Samgyubsal	4.26	10.09	/images/spicy-pork.png
-9	Red Wine Samgyubsal	4.53	10.45	/images/wine-pork.png
-10	Cajun Samgyubsal	5.15	12.77	/images/cajun-pork.png
+1	Gen Premium Streak	$7.07	13.40	/images/gen-premiun-steak.png
+2	Premium Chadol	$7.99	14.99	/images/premium-chadol.png
+3	Hawaiian Steak	$5.52	16.99	/images/hawaiian-steak.png
+4	Beef Bulgogi	$5.69	13.99	/images/beef-bulgogi.png
+5	Spice Pork Bulgogi	$4.58	11.99	/images/spicy-pork-chop.png
+6	Yangyum Galbi	$3.62	11.99	/images/yangyum-galbi.png
+7	Samgyubsal	$3.90	11.99	/images/pork-belly.png
+8	Spicy Samgyubsal	$4.26	11.99	/images/spicy-pork.png
+9	Red Wine Samgyubsal	$4.53	11.99	/images/wine-pork.png
+10	Cajun Samgyubsal	$5.15	14.99	/images/cajun-pork.png
 \.
 
 
@@ -331,7 +337,8 @@ COPY public.menus ("itemId", item, cost, "salePrice", "imageUrl") FROM stdin;
 -- Data for Name: orderItems; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."orderItems" ("orderItemId", "orderId", "itemId", "quantity", "isCompleted", discount, "createdAt") FROM stdin;
+COPY public."orderItems" ("orderItemId", "orderId", "itemId", quantity, "isCompleted", discount, "createdAt") FROM stdin;
+1	1	1	1	f	\N	2020-08-07 19:01:32.016687
 \.
 
 
@@ -340,6 +347,7 @@ COPY public."orderItems" ("orderItemId", "orderId", "itemId", "quantity", "isCom
 --
 
 COPY public.orders ("orderId", "isSent", "tableId", "orderedAt") FROM stdin;
+1	t	1	2020-08-07 16:38:53.366743
 \.
 
 
@@ -366,10 +374,10 @@ COPY public.tables ("tableId", "tableStatus", "timeSeated") FROM stdin;
 --
 
 COPY public."waitLists" ("waitId", name, "partySize", "time", comment, "isSeated") FROM stdin;
-1	Uzair	1	08:07:25.878813-07	Big Anime Table	f
-2	Jason	4	08:10:25.878813-07	Family of 4	f
-3	Kevin	5	08:15:25.878813-07	4th of july no mask	t
-4	Julius	3	08:16:25.878813-07	Three musketeers	f
+1	Uzair	1	17:07:25.878813-07	Big Anime Table	f
+2	Jason	4	17:10:25.878813-07	Family of 4	f
+3	Kevin	5	17:15:25.878813-07	4th of july no mask	f
+4	Julius	3	17:16:25.878813-07	Three musketeers	f
 \.
 
 
@@ -377,7 +385,7 @@ COPY public."waitLists" ("waitId", name, "partySize", "time", comment, "isSeated
 -- Name: checks_checkId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."checks_checkId_seq"', 1, false);
+SELECT pg_catalog.setval('public."checks_checkId_seq"', 5, true);
 
 
 --
@@ -434,3 +442,4 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
+
