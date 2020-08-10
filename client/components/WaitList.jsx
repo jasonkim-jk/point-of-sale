@@ -10,6 +10,7 @@ export default class WaitList extends React.Component {
     this.addCustomer = this.addCustomer.bind(this);
     this.updateList = this.updateList.bind(this);
     this.seatCustomer = this.seatCustomer.bind(this);
+    this.deleteCustomer = this.deleteCustomer.bind(this);
     this.state = {
       waitList: []
     };
@@ -48,6 +49,16 @@ export default class WaitList extends React.Component {
       });
   }
 
+  deleteCustomer(params) {
+    const waitId = params;
+    fetch(`/api/waitlist/${waitId}`, {
+      method: 'DELETE'
+    })
+      .then(response => {
+        this.updateList();
+      });
+  }
+
   updateList() {
     fetch('/api/waitlist')
       .then(response => response.json())
@@ -67,7 +78,7 @@ export default class WaitList extends React.Component {
     const waitList = this.state.waitList;
     return (
       <Box display="flex">
-        <WaitListTable seatCustomer={this.seatCustomer} updateList={this.updateList} waitList={waitList}/>
+        <WaitListTable deleteCustomer={this.deleteCustomer} seatCustomer={this.seatCustomer} updateList={this.updateList} waitList={waitList}/>
         <WaitListForm addCustomer={this.addCustomer}/>
       </Box>
     );
