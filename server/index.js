@@ -66,6 +66,10 @@ app.get('/api/restaurant', (req, res, next) => {
     });
 });
 
+app.put('/api/restaurant/:tableId'. (req, res, next) => {
+  const tableId = parseInt(req.params.tableId)
+})
+
 app.get('/api/menus', (req, res, next) => {
   const sql = `
     select *
