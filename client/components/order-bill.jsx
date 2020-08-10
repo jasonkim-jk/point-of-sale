@@ -31,7 +31,10 @@ const useStyles = theme => ({
     margin: theme.spacing(1, 2)
   },
   icon: {
-    margin: theme.spacing(1.5)
+    margin: theme.spacing(0.5)
+  },
+  qty: {
+    padding: theme.spacing(0)
   }
 });
 
@@ -42,7 +45,8 @@ function createRow(name, qty, price, id) {
   return { id, name, qty, priceRow };
 }
 
-function updateRow(orders) {
+function updateRow(orders, taxRate) {
+  let subTotal = 0;
   rows.splice(0, rows.length);
 
   for (const item in orders) {
@@ -50,8 +54,12 @@ function updateRow(orders) {
     const price = parseFloat(orders[item].salePrice);
     const qty = parseInt(orders[item].quantity);
     const rowValue = createRow(`${orders[item].item}`, qty, price, itemId);
+    subTotal += parseFloat(rowValue.priceRow);
     rows.push(rowValue);
   }
+  const tax = subTotal * parseFloat(taxRate) / 100;
+  const total = subTotal + tax;
+  return { total, subTotal, tax };
 }
 
 class OrderBill extends React.Component {
@@ -110,8 +118,8 @@ class OrderBill extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    updateRow(props.orderItem);
-    return true;
+    const price = updateRow(props.orderItem, props.taxRate);
+    return { total: price.total.toFixed(2), subTotal: price.subTotal.toFixed(2), tax: price.tax.toFixed(2) };
   }
 
   render() {
@@ -164,7 +172,7 @@ class OrderBill extends React.Component {
               {rows.map(row => (
                 <TableRow key={row.name}>
                   <TableCell>{row.name}</TableCell>
-                  <TableCell align="center" id={row.id}>
+                  <TableCell align="center" id={row.id} className={classes.qty}>
                     {this.props.check ? <></> : plusBtnComponent}
                     {row.qty}
                     {this.props.check ? <></> : minusBtnComponent}
@@ -174,6 +182,8 @@ class OrderBill extends React.Component {
               ))}
             </TableBody>
           </Table>
+          <Box display="flex" justifyContent="center" mt={5} p={1} bgcolor="background.paper">
+          </ Box>
           <Box display="flex" justifyContent="center" m={1} p={1} bgcolor="background.paper">
             <Button variant="contained" className={classes.button} onClick={this.handleCancel}>
               Cancel

@@ -67,6 +67,7 @@ export default class ViewNewOrder extends React.Component {
             orderItem={this.state.orders}
             cancelOrder={this.clearOrderItems}
             updateItem={this.updateItemQty}
+            taxRate="7.5"
           />
         </Grid>
       </Grid>
