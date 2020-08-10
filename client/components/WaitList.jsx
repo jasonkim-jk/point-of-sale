@@ -55,7 +55,6 @@ export default class WaitList extends React.Component {
       method: 'DELETE'
     })
       .then(response => {
-        console.log('delete customer response');
         this.updateList();
       });
   }

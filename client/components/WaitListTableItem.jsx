@@ -71,11 +71,8 @@ export default class WaitListTableItem extends React.Component {
   }
 
   handleDelete(e) {
-    console.log('handledelete called', e.currentTarget);
     const waitId = parseInt(e.currentTarget.id, 10);
-    console.log('waitId', waitId);
     if (!waitId) {
-      console.log('handledelete returned');
       return;
     }
     this.props.deleteCustomer(waitId);

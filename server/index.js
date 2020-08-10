@@ -354,7 +354,7 @@ app.delete('/api/waitlist/:waitId', (req, res, next) => {
         next(new ClientError('that ID does not exist', 404));
         return;
       }
-      res.status(204);
+      res.sendStatus(204);
     })
     .catch(err => next(err));
 });
