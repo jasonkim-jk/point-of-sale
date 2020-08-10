@@ -12,6 +12,7 @@ export default class WaitList extends React.Component {
     this.seatCustomer = this.seatCustomer.bind(this);
     this.deleteCustomer = this.deleteCustomer.bind(this);
     this.editCustomer = this.editCustomer.bind(this);
+    this.updateCustomer = this.updateCustomer.bind(this);
     this.stopEdit = this.stopEdit.bind(this);
     this.state = {
       waitList: [],
@@ -53,6 +54,19 @@ export default class WaitList extends React.Component {
       });
   }
 
+  updateCustomer(customerObj, waitId) {
+    fetch(`/api/waitlist/${waitId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(customerObj)
+    })
+      .then(response => {
+        this.updateList();
+      });
+  }
+
   deleteCustomer(params) {
     const waitId = params;
     fetch(`/api/waitlist/${waitId}`, {
@@ -70,7 +84,7 @@ export default class WaitList extends React.Component {
     this.setState({
       formEditMode: true,
       formEditItem: params
-    }, () => console.log(this.state));
+    });
   }
 
   stopEdit() {
@@ -100,7 +114,7 @@ export default class WaitList extends React.Component {
     return (
       <Box display="flex">
         <WaitListTable editCustomer={this.editCustomer} deleteCustomer={this.deleteCustomer} seatCustomer={this.seatCustomer} updateList={this.updateList} waitList={waitList}/>
-        <WaitListForm stopEdit={this.stopEdit} formEditMode={this.state.formEditMode} formEditItem={this.state.formEditItem}
+        <WaitListForm updateCustomer={this.updateCustomer} stopEdit={this.stopEdit} mode={this.state.formEditMode} formEditItem={this.state.formEditItem}
           addCustomer={this.addCustomer}/>
       </Box>
     );
