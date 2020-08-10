@@ -2,6 +2,8 @@ import React from 'react';
 import { TableRow, TableCell, Typography, Checkbox } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import Box from '@material-ui/core/Box';
 
 const weight = {
   fontWeight: 600
@@ -13,6 +15,7 @@ export default class WaitListTableItem extends React.Component {
     this.handleInterval = this.handleInterval.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
     this.state = {
       waitTime: 0
     };
@@ -78,6 +81,21 @@ export default class WaitListTableItem extends React.Component {
     this.props.deleteCustomer(waitId);
   }
 
+  handleEdit(e) {
+    const waitId = parseInt(e.currentTarget.id, 10);
+    if (!waitId) {
+      return;
+    }
+    const { name, partySize, comment } = this.props.root;
+    const paramsObj = {
+      waitId: waitId,
+      name: name,
+      partySize: partySize,
+      comment: comment
+    };
+    this.props.editCustomer(paramsObj);
+  }
+
   render() {
     const props = this.props.root;
     let isChecked;
@@ -103,9 +121,14 @@ export default class WaitListTableItem extends React.Component {
         <TableCell style={style}>{waitTime}</TableCell>
         <TableCell style={style}>{props.comment}</TableCell>
         <TableCell style={style} padding="checkbox">
-          <IconButton onClick={this.handleDelete} id={props.waitId}>
-            <DeleteIcon />
-          </IconButton>
+          <Box display="flex" justifyContent="center">
+            <IconButton onClick={this.handleDelete} id={props.waitId}>
+              <DeleteIcon />
+            </IconButton>
+            <IconButton onClick={this.handleEdit} id={props.waitId}>
+              <EditIcon />
+            </IconButton>
+          </Box>
         </TableCell>
       </TableRow>
     );

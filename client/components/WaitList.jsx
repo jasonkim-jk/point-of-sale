@@ -11,8 +11,13 @@ export default class WaitList extends React.Component {
     this.updateList = this.updateList.bind(this);
     this.seatCustomer = this.seatCustomer.bind(this);
     this.deleteCustomer = this.deleteCustomer.bind(this);
+    this.editCustomer = this.editCustomer.bind(this);
+    this.updateCustomer = this.updateCustomer.bind(this);
+    this.stopEdit = this.stopEdit.bind(this);
     this.state = {
-      waitList: []
+      waitList: [],
+      formEditMode: false,
+      formEditItem: {}
     };
   }
 
@@ -49,6 +54,19 @@ export default class WaitList extends React.Component {
       });
   }
 
+  updateCustomer(customerObj, waitId) {
+    fetch(`/api/waitlist/${waitId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(customerObj)
+    })
+      .then(response => {
+        this.updateList();
+      });
+  }
+
   deleteCustomer(params) {
     const waitId = params;
     fetch(`/api/waitlist/${waitId}`, {
@@ -57,6 +75,23 @@ export default class WaitList extends React.Component {
       .then(response => {
         this.updateList();
       });
+  }
+
+  editCustomer(params) {
+    if (this.state.formEditMode) {
+      return;
+    }
+    this.setState({
+      formEditMode: true,
+      formEditItem: params
+    });
+  }
+
+  stopEdit() {
+    this.setState({
+      formEditMode: false,
+      formEditItem: {}
+    });
   }
 
   updateList() {
@@ -78,8 +113,9 @@ export default class WaitList extends React.Component {
     const waitList = this.state.waitList;
     return (
       <Box display="flex">
-        <WaitListTable deleteCustomer={this.deleteCustomer} seatCustomer={this.seatCustomer} updateList={this.updateList} waitList={waitList}/>
-        <WaitListForm addCustomer={this.addCustomer}/>
+        <WaitListTable editCustomer={this.editCustomer} deleteCustomer={this.deleteCustomer} seatCustomer={this.seatCustomer} updateList={this.updateList} waitList={waitList}/>
+        <WaitListForm updateCustomer={this.updateCustomer} stopEdit={this.stopEdit} mode={this.state.formEditMode} formEditItem={this.state.formEditItem}
+          addCustomer={this.addCustomer}/>
       </Box>
     );
   }
