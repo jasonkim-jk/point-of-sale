@@ -12,6 +12,7 @@ export default class ViewNewOrder extends React.Component {
     };
     this.clearOrderItems = this.clearOrderItems.bind(this);
     this.addItemToOrder = this.addItemToOrder.bind(this);
+    this.updateItemQty = this.updateItemQty.bind(this);
   }
 
   clearOrderItems() {
@@ -32,6 +33,27 @@ export default class ViewNewOrder extends React.Component {
     }
   }
 
+  updateItemQty(itemId, qty) {
+    const orders = this.state.orders;
+
+    for (const item in orders) {
+      if (parseInt(itemId) === orders[item].itemId) {
+        if (qty === 1) {
+          this.addItemToOrder(orders[item]);
+        } else {
+          const newObj = { ...this.state.orders };
+          newObj[item].quantity = this.state.orders[item].quantity - 1;
+
+          if (newObj[item].quantity <= 0) {
+            delete newObj[item];
+          }
+          this.setState({ orders: newObj });
+        }
+        break;
+      }
+    }
+  }
+
   render() {
     return (
       <Grid container spacing={2}>
@@ -39,7 +61,14 @@ export default class ViewNewOrder extends React.Component {
           <MenuList addToOrder={this.addItemToOrder} />
         </Grid>
         <Grid item xs={5}>
-          <OrderBill table={this.state.tableId} orderItem={this.state.orders} cancelOrder={this.clearOrderItems}/>
+          {/* <OrderBill table={this.state.tableId} check receipt="123" orderItem={this.state.orders} cancelOrder={this.clearOrderItems}/> */}
+          <OrderBill
+            table={this.state.tableId}
+            orderItem={this.state.orders}
+            cancelOrder={this.clearOrderItems}
+            updateItem={this.updateItemQty}
+            taxRate="7.5"
+          />
         </Grid>
       </Grid>
     );
