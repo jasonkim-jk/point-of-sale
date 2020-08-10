@@ -65,7 +65,7 @@ class SaleReport extends React.Component {
           <TableCell align="center">{item['Total Sold']}</TableCell>
           <TableCell align="center">${item['Sale Price']}</TableCell>
           <TableCell align="center">${item.Cost}</TableCell>
-          <TableCell align="center">${item.Profit.toFixed(2)}</TableCell>
+          <TableCell align="center">${parseFloat(item.Profit).toFixed(2)}</TableCell>
         </TableRow>
       );
     });
