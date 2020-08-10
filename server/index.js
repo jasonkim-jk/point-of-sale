@@ -163,6 +163,30 @@ app.delete('/api/menus/:itemId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/sales', (req, res, next) => {
+  const sql = `
+  select "menus"."item" as "Item Name",
+         "menus"."imageUrl" as "Image",
+         sum("orderItems"."quantity") as "Total Sold",
+         "menus"."salePrice" as "Sale Price",
+         "menus"."cost" as "Cost",
+         ("menus"."salePrice" - "menus"."cost") * sum("orderItems"."quantity") as "Profit"
+    from "menus"
+    join "orderItems" using ("itemId")
+    group by ("menus"."item", "menus"."imageUrl", "menus"."salePrice", "menus"."cost")
+    order by "Profit" desc;
+    `;
+    // join "orders" using ("orderId")
+    // join "tables" using ("tableId")
+    // where "orders"."isSent" = false
+
+  db.query(sql)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/checks', (req, res, next) => {
   const sql = `
     select * from "checks"
