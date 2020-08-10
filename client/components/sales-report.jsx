@@ -9,8 +9,19 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
+import { withStyles } from '@material-ui/core/styles';
 
-export default class SaleReport extends React.Component {
+const useStyles = theme => ({
+  image: {
+    width: theme.spacing(12),
+    height: theme.spacing(8)
+  },
+  cell: {
+    padding: theme.spacing(1.3)
+  }
+});
+
+class SaleReport extends React.Component {
   constructor(props) {
     super(props);
     this.state = { saleData: [] };
@@ -28,14 +39,15 @@ export default class SaleReport extends React.Component {
   }
 
   render() {
-    const salesRow = this.state.saleData.map(item => {
+    const { classes } = this.props;
+    const salesRow = this.state.saleData.map((item, index) => {
       return (
         <TableRow key={item['Item Name']}>
-          <TableCell align="center">1</TableCell>
+          <TableCell align="center">{index + 1}</TableCell>
           <TableCell align="center">{item['Item Name']}</TableCell>
-          <TableCell align="center">
+          <TableCell align="center" className={classes.cell}>
             <Box display="flex" justifyContent="center" bgcolor="background.paper">
-              <Avatar variant="rounded" alt={item['Item Name']} src={item.Image} />
+              <Avatar variant="rounded" alt={item['Item Name']} className={classes.image} src={item.Image} />
             </Box>
           </TableCell>
           <TableCell align="center">{item['Total Sold']}</TableCell>
@@ -82,3 +94,5 @@ export default class SaleReport extends React.Component {
     );
   }
 }
+
+export default withStyles(useStyles)(SaleReport);
