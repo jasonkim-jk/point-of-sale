@@ -8,7 +8,8 @@ export default class WaitListTable extends React.Component {
   render() {
     const waitList = this.props.waitList;
     const waitListItems = waitList.map(waiting => {
-      return <WaitListTableItem seatCustomer={this.props.seatCustomer} updateList={this.props.updateList} key={waiting.waitId} root={waiting}/>;
+      return <WaitListTableItem deleteCustomer={this.props.deleteCustomer} seatCustomer={this.props.seatCustomer}
+        updateList={this.props.updateList} key={waiting.waitId} root={waiting}/>;
     });
     return (
       <TableContainer component={Paper}>
@@ -20,6 +21,7 @@ export default class WaitListTable extends React.Component {
               <TableCell>Name</TableCell>
               <TableCell>Wait Time</TableCell>
               <TableCell>Comment</TableCell>
+              <TableCell padding="checkbox"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
