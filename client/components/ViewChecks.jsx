@@ -57,7 +57,7 @@ export default class ViewChecks extends React.Component {
             <Typography align="right" style={{ marginTop: '-5px' }}>
             Table {check.tableId}<br></br>
               <Button size="small" variant="contained" style={{ backgroundColor: '#118AB2', color: 'white', fontSize: '10px', marginBottom: '10px', borderRadius: '0px', padding: '2px 8px' }}>
-                <Link to={`${url}/checkitem/${check.checkId}`}>
+                <Link to={`${url}/checkitem/${check.checkId}/${check.tableId}`}>
             View Check
                 </Link>
               </Button>

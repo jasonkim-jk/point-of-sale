@@ -21,7 +21,7 @@ export default class ViewRestaurant extends React.Component {
 
         <ViewChecks url={url} />
         <Switch>
-          <Route path={`${path}/checkitem/:checkId`} component={ViewCheckItem} />
+          <Route path={`${path}/checkitem/:checkId/:tableId`} component={ViewCheckItem} />
           <Route exact path={path} component={FloorPlan} />
         </Switch>
 
