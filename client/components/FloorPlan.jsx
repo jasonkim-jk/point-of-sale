@@ -22,7 +22,6 @@ export default class FloorPlan extends React.Component {
       });
   }
 
-  // This is just a placeholder for now
   parseTimeSeated(timeSeated) {
     if (timeSeated) {
       const splitTime = timeSeated.split('T');
