@@ -227,6 +227,7 @@ app.get('/api/orders', (req, res, next) => {
              "o"."orderId",
              "o"."orderedAt",
       array_agg(jsonb_build_object(
+        'orderItemId', "oi"."orderItemId",
         'item', "m"."item",
         'quantity', "oi"."quantity",
         'isCompleted', "oi"."isCompleted"
