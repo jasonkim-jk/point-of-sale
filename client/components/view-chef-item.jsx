@@ -79,9 +79,7 @@ class ViewChefItem extends React.Component {
     }
 
     if (completedItems === items.length) {
-      this.setState({ allDone: true });
-    } else {
-      this.setState({ allDone: false });
+      this.props.deleteAllDone(this.props.data.orderId);
     }
   }
 
@@ -104,7 +102,7 @@ class ViewChefItem extends React.Component {
       return (
         <React.Fragment key={item.orderItemId}>
           <ListItem className={classes.list}>
-            <Avatar className={this.state.allDone || item.isCompleted ? classes.done : classes.green}>
+            <Avatar className={item.isCompleted ? classes.done : classes.green}>
               {item.quantity}
             </Avatar>
             <ListItemText id={item.item} primary={item.item} />
@@ -127,7 +125,7 @@ class ViewChefItem extends React.Component {
       <List
         subheader={
           <ListSubheader disableSticky>
-            <Box mt={2} p={2} bgcolor={this.state.allDone ? 'text.disabled' : 'success.main'}>
+            <Box mt={2} p={2} bgcolor={'success.main'}>
               <Grid container spacing={2}>
                 <Grid item xs>
                   <Typography variant="h5">Table {tableId}</Typography>
