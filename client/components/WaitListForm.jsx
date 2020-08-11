@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import PersonIcon from '@material-ui/icons/Person';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import MessageIcon from '@material-ui/icons/Message';
 import { withStyles } from '@material-ui/core/styles';
@@ -131,7 +131,7 @@ class WaitListForm extends React.Component {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <PersonOutlineIcon />
+                    <PersonIcon />
                   </InputAdornment>
                 )
               }}
