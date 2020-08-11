@@ -1,8 +1,8 @@
 import React from 'react';
 import { TableRow, TableCell, Typography, Checkbox } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import Box from '@material-ui/core/Box';
 
 const weight = {
@@ -118,23 +118,23 @@ export default class WaitListTableItem extends React.Component {
     const style = this.computeStyle();
 
     return (
-      <TableRow hover={true} >
-        <TableCell style={style} padding="checkbox" >
-          <Checkbox color='default' onChange={this.handleChange} checked={isChecked}/>
-        </TableCell>
+      <TableRow hover={true}>
         <TableCell style={style}>
+          <Checkbox color="default" onChange={this.handleChange} checked={isChecked} />
+        </TableCell>
+        <TableCell style={style} align="center">
           <Typography style={weight}>{props.partySize}</Typography>
         </TableCell>
-        <TableCell style={style}>{props.name}</TableCell>
-        <TableCell style={style}>{waitTime}</TableCell>
-        <TableCell style={style}>{props.comment}</TableCell>
-        <TableCell style={style} padding="checkbox">
+        <TableCell style={style} align="center">{props.name}</TableCell>
+        <TableCell style={style} align="center">{waitTime}</TableCell>
+        <TableCell style={style} align="center">{props.comment}</TableCell>
+        <TableCell style={style} align="center">
           <Box display="flex" justifyContent="center">
             <IconButton onClick={this.handleDelete} id={props.waitId}>
-              <DeleteIcon />
+              <DeleteOutlinedIcon />
             </IconButton>
             <IconButton onClick={this.handleEdit} id={props.waitId}>
-              <EditIcon />
+              <EditOutlinedIcon />
             </IconButton>
           </Box>
         </TableCell>

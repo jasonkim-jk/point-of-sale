@@ -7,6 +7,7 @@ export default class ViewChef extends React.Component {
     super(props);
     this.state = {};
     this.getOrderData = this.getOrderData.bind(this);
+    this.deleteTable = this.deleteTable.bind(this);
   }
 
   componentDidMount() {
@@ -29,13 +30,39 @@ export default class ViewChef extends React.Component {
       });
   }
 
+  deleteTable(orderId) {
+    const orders = [...this.state.orders];
+    for (const [index, item] of orders.entries()) {
+      if (item.orderId === orderId) {
+        orders.splice(index, 1);
+        this.updateOrderStatus(orderId, true, orders);
+      }
+    }
+  }
+
+  updateOrderStatus(orderId, value, stateData) {
+    const reqBody = { isSent: value };
+
+    fetch(`/api/orders/${orderId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reqBody)
+    }).then(response => {
+      if (response.status === 200) {
+        this.setState({ orders: stateData });
+      }
+    });
+  }
+
   render() {
     if (!this.state.orders) return <></>;
 
     const tableOrderItems = this.state.orders.map(table => {
       return (
         <Grid item xs={4} key={table.orderId}>
-          <ViewChefItem data={table} />
+          <ViewChefItem data={table} deleteAllDone={this.deleteTable} />
         </Grid>
       );
     });
