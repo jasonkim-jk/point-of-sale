@@ -34,7 +34,11 @@ export default class ViewRestaurant extends React.Component {
     url = url.replace(/\/$/, '');
     return (
       <>
-        <TablePopUp open={this.state.dialogOpen} tableData={this.state.tableData} />
+        <TablePopUp
+          open={this.state.dialogOpen}
+          tableData={this.state.tableData}
+          viewDialog={this.viewDialog}
+        />
         <Box display="flex">
           <ViewChecks url={url} />
           <Switch>
