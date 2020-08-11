@@ -18,21 +18,10 @@ const useStyles = theme => ({
     padding: theme.spacing(0, 2),
     margin: theme.spacing(0)
   },
-  upload: {
-    display: 'none'
-  },
-  uploadBtn: {
-    padding: theme.spacing(1.5)
-  },
   button: {
     minWidth: 100,
     padding: theme.spacing(1),
     margin: theme.spacing(1, 2)
-  },
-  imageName: {
-    padding: theme.spacing(1),
-    fontStyle: 'italic',
-    color: 'gray'
   }
 });
 
