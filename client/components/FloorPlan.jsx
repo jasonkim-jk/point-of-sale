@@ -67,7 +67,15 @@ export default class FloorPlan extends React.Component {
       }
       const children = <div>{`T${tableId}`}<div>{this.parseTimeSeated(timeSeated)}</div></div>;
       return (
-        <TableButton key={tableId} tableData={table} color={color} text={children} status={table}/>
+        <TableButton
+          key={tableId}
+          tableData={table}
+          color={color}
+          text={children}
+          status={table}
+          viewDialog={this.props.viewDialog}
+          dialogOpen={this.props.dialogOpen}
+        />
       );
     });
 

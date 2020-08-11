@@ -10,6 +10,19 @@ import {
 } from 'react-router-dom';
 
 export default class ViewRestaurant extends React.Component {
+  constructor(props) {
+    super(props);
+    this.viewDialog = this.viewDialog.bind(this);
+    this.state = {
+      dialogOpen: false
+    };
+  }
+
+  viewDialog(params) {
+    this.setState({
+      dialogOpen: params
+    });
+  }
 
   render() {
     let { path, url } = this.props.match;
@@ -22,7 +35,12 @@ export default class ViewRestaurant extends React.Component {
         <ViewChecks url={url} />
         <Switch>
           <Route path={`${path}/checkitem/:checkId/:tableId`} component={ViewCheckItem} />
-          <Route exact path={path} component={FloorPlan} />
+          <Route
+            exact path={path}
+            render={props => (
+              <FloorPlan {...props} viewDialog={this.viewDialog} dialogOpen={this.state.dialogOpen}/>
+            )}
+          />
         </Switch>
 
       </Box>
