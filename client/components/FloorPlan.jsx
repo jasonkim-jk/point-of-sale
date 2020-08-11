@@ -22,10 +22,28 @@ export default class FloorPlan extends React.Component {
       });
   }
 
-  // This is just a placeholder for now
   parseTimeSeated(timeSeated) {
     if (timeSeated) {
-      return timeSeated;
+      const splitTime = timeSeated.split('T');
+      const furtherSplit = splitTime[1].split(':');
+      let [hours, minutes] = furtherSplit;
+      hours = parseInt(hours, 10);
+      // this is for timezone.  Idk why 5 works
+      hours += 5;
+      if (hours > 12) {
+        hours -= 12;
+      }
+      let amPM = 'AM';
+      if (hours > 11) {
+        amPM = 'PM';
+      }
+      if (hours === 24 || hours === 0) {
+        hours = 12;
+        amPM = 'AM';
+      } else if (hours > 12) {
+        hours -= 12;
+      }
+      return `${hours}:${minutes} ${amPM}`;
     }
     return '';
   }

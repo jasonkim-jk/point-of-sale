@@ -26,18 +26,28 @@ export default class ViewChecks extends React.Component {
       .catch(() => console.error('server response error'));
   }
 
-  parseTime(crap) {
+  parseTime(time) {
     // 2020-06-03T07:00:00.000Z
-    const time = crap.split('T')[1];
-    const fullTime = time.split(':');
-    let hrs = fullTime[0];
-    const mins = fullTime[1];
-    const AMOrPM = parseInt(hrs) === 24 || parseInt(hrs) < 12 ? 'AM' : 'PM';
-    if (hrs > 12) {
-      hrs -= 12;
+    const splitTime = time.split('T');
+    const furtherSplit = splitTime[1].split(':');
+    let [hours, minutes] = furtherSplit;
+    hours = parseInt(hours, 10);
+    // this is for timezone.  Idk why 5 works
+    hours += 5;
+    if (hours > 12) {
+      hours -= 12;
     }
-    const hrsAndMinutes = `${hrs}:${mins}`;
-    return `${hrsAndMinutes} ${AMOrPM}`;
+    let amPM = 'AM';
+    if (hours > 11) {
+      amPM = 'PM';
+    }
+    if (hours === 24 || hours === 0) {
+      hours = 12;
+      amPM = 'AM';
+    } else if (hours > 12) {
+      hours -= 12;
+    }
+    return `${hours}:${minutes} ${amPM}`;
   }
 
   render() {
