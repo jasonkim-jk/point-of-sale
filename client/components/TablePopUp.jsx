@@ -12,8 +12,7 @@ export default class TablePopUp extends React.Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.state = {
-      isOpen: false,
-      isSeatable: true
+      isOpen: false
     };
   }
 
@@ -23,17 +22,8 @@ export default class TablePopUp extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.open !== prevProps.open) {
-      const status = this.props.tableData.tableStatus;
-      let isSeatable;
-      if (status === 0) {
-        isSeatable = true;
-      }
-      if (status > 0) {
-        isSeatable = false;
-      }
       this.setState({
-        isOpen: this.props.open,
-        isSeatable: isSeatable
+        isOpen: this.props.open
       });
     }
   }
@@ -44,7 +34,8 @@ export default class TablePopUp extends React.Component {
   }
 
   render() {
-    const { tableId, tableStatus } = this.props.tableData;
+    let { tableId, tableStatus } = this.props.tableData;
+    tableStatus = parseInt(tableStatus, 0);
     let seatState;
     switch (tableStatus) {
       case (0):
@@ -58,14 +49,14 @@ export default class TablePopUp extends React.Component {
         break;
       default:
     }
-    let seatButtonId;
-    let seatButtonText;
-    if (this.state.isSeatable) {
-      seatButtonId = 'seat';
-      seatButtonText = `Seat Table #${tableId}`;
+    let buttonId;
+    let buttonText;
+    if (tableStatus === 0) {
+      buttonId = 'seat';
+      buttonText = `Seat Table #${tableId}`;
     } else {
-      seatButtonId = 'unseat';
-      seatButtonText = `Empty Table #${tableId}`;
+      buttonId = 'view-order';
+      buttonText = `View Order for Table #${tableId}`;
     }
     return (
       <Dialog
@@ -73,17 +64,9 @@ export default class TablePopUp extends React.Component {
         onClose={this.handleClose}
       >
         <DialogTitle>{`Table #${tableId} is ${seatState}`}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Would you like to:
-          </DialogContentText>
-        </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClick} color="primary" id={seatButtonId}>
-            {seatButtonText}
-          </Button>
-          <Button onClick={this.handleClick} color="primary" id="view-order">
-            {`View order for Table #${tableId}`}
+          <Button onClick={this.handleClick} color="primary" id={buttonId}>
+            {buttonText}
           </Button>
         </DialogActions>
       </Dialog>
