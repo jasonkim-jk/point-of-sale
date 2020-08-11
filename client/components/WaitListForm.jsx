@@ -4,8 +4,39 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import MessageIcon from '@material-ui/icons/Message';
+import { withStyles } from '@material-ui/core/styles';
 
-export default class WaitListForm extends React.Component {
+const useStyles = theme => ({
+  title: {
+    padding: theme.spacing(2)
+  },
+  form: {
+    padding: theme.spacing(0, 2),
+    margin: theme.spacing(0)
+  },
+  upload: {
+    display: 'none'
+  },
+  uploadBtn: {
+    padding: theme.spacing(1.5)
+  },
+  button: {
+    minWidth: 100,
+    padding: theme.spacing(1),
+    margin: theme.spacing(1, 2)
+  },
+  imageName: {
+    padding: theme.spacing(1),
+    fontStyle: 'italic',
+    color: 'gray'
+  }
+});
+
+class WaitListForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -82,6 +113,7 @@ export default class WaitListForm extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     const partySize = parseInt(this.state.partySize, 10);
     let partyValidationError;
     const submitText = this.state.editMode ? 'Update' : 'Submit';
@@ -93,23 +125,68 @@ export default class WaitListForm extends React.Component {
     }
 
     return (
-      <Box width="35%" mt={2} ml={4} display="flex" justifyContent="center" flexDirection="column">
-        <Typography variant="h4">
+      <Box mt={2}>
+        <Typography variant="h4" align="center" className={classes.title}>
           {titleText}
         </Typography>
         <form onSubmit={this.handleSubmit} onReset={this.handleReset}>
-          <FormControl>
-            <TextField onChange={this.handleChange} value={this.state.name}
-              margin="normal" id="name" label="Name" fullWidth={true} variant="outlined"/>
-            <TextField error={partyValidationError} onChange={this.handleChange} value={this.state.partySize}
-              margin="normal" id="partySize" label="Party Size" variant="outlined" />
-            <TextField onChange={this.handleChange} value={this.state.comment}
-              margin="normal" id="comment" label="Comment" variant="outlined" helperText="optional" />
-            <Box display="flex">
-              <Button type="submit" variant="contained" color="primary">{submitText}</Button>
-              <Box ml={1}>
-                <Button type="reset" variant="contained" color="secondary">Cancel</Button>
-              </Box>
+          <FormControl fullWidth className={classes.form}>
+            <TextField
+              onChange={this.handleChange}
+              value={this.state.name}
+              margin="normal"
+              id="name"
+              label="Name"
+              variant="outlined"
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <PersonOutlineIcon />
+                  </InputAdornment>
+                )
+              }}
+            />
+            <TextField
+              error={partyValidationError}
+              onChange={this.handleChange}
+              value={this.state.partySize}
+              margin="normal"
+              id="partySize"
+              label="Party Size"
+              variant="outlined"
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <GroupAddIcon />
+                  </InputAdornment>
+                )
+              }}
+            />
+            <TextField
+              onChange={this.handleChange}
+              value={this.state.comment}
+              margin="normal"
+              id="comment"
+              label="Comment"
+              variant="outlined"
+              helperText="optional"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <MessageIcon />
+                  </InputAdornment>
+                )
+              }}
+            />
+            <Box display="flex" justifyContent="center" mt={2} p={1}>
+              <Button type="submit" variant="contained" color="primary" className={classes.button}>
+                {submitText}
+              </Button>
+              <Button type="reset" variant="contained" color="secondary" className={classes.button}>
+                Cancel
+              </Button>
             </Box>
           </FormControl>
         </form>
@@ -117,3 +194,5 @@ export default class WaitListForm extends React.Component {
     );
   }
 }
+
+export default withStyles(useStyles)(WaitListForm);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow }
   from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import WaitListTableItem from './WaitListTableItem';
 
 export default class WaitListTable extends React.Component {
@@ -16,17 +17,27 @@ export default class WaitListTable extends React.Component {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">Seated</TableCell>
-              <TableCell>Party Size</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Wait Time</TableCell>
-              <TableCell>Comment</TableCell>
-              <TableCell padding="checkbox"></TableCell>
+              <TableCell>
+                <Typography variant="subtitle1">Seated</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography variant="subtitle1">Party Size</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography variant="subtitle1">Name</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography variant="subtitle1">Wait Time</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography variant="subtitle1">Comment</Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography variant="subtitle1">Operation</Typography>
+              </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {waitListItems}
-          </TableBody>
+          <TableBody>{waitListItems}</TableBody>
         </Table>
       </TableContainer>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 
 import WaitListTable from './WaitListTable';
 import WaitListForm from './WaitListForm';
@@ -112,11 +112,15 @@ export default class WaitList extends React.Component {
   render() {
     const waitList = this.state.waitList;
     return (
-      <Box display="flex">
-        <WaitListTable editCustomer={this.editCustomer} deleteCustomer={this.deleteCustomer} seatCustomer={this.seatCustomer} updateList={this.updateList} waitList={waitList}/>
-        <WaitListForm updateCustomer={this.updateCustomer} stopEdit={this.stopEdit} mode={this.state.formEditMode} formEditItem={this.state.formEditItem}
-          addCustomer={this.addCustomer}/>
-      </Box>
+      <Grid container spacing={2}>
+        <Grid item xs={8}>
+          <WaitListTable editCustomer={this.editCustomer} deleteCustomer={this.deleteCustomer} seatCustomer={this.seatCustomer} updateList={this.updateList} waitList={waitList}/>
+        </Grid>
+        <Grid item xs={4}>
+          <WaitListForm updateCustomer={this.updateCustomer} stopEdit={this.stopEdit} mode={this.state.formEditMode} formEditItem={this.state.formEditItem}
+            addCustomer={this.addCustomer}/>
+        </Grid>
+      </Grid>
     );
   }
 }
