@@ -13,20 +13,35 @@ export default class ViewRestaurant extends React.Component {
   constructor(props) {
     super(props);
     this.viewDialog = this.viewDialog.bind(this);
+    this.updateTables = this.updateTables.bind(this);
     this.changeTableStatus = this.changeTableStatus.bind(this);
     this.state = {
+      floorPlan: [],
       dialogOpen: false,
       tableData: {}
     };
   }
 
   viewDialog(dialogOpen, tableData) {
-    console.log('Dialog Viewed');
-    console.log(tableData, 'params work too');
     this.setState({
       dialogOpen: dialogOpen,
       tableData: tableData
     });
+  }
+
+  componentDidMount() {
+    this.updateTables();
+  }
+
+  updateTables() {
+    fetch('/api/restaurant')
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ floorPlan: data });
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   changeTableStatus(tableId, newStatus) {
@@ -39,7 +54,7 @@ export default class ViewRestaurant extends React.Component {
       body: JSON.stringify(newStatus)
     })
       .then(response => {
-        console.log('this should update after');
+        this.updateTables();
       });
   }
 
@@ -62,7 +77,7 @@ export default class ViewRestaurant extends React.Component {
             <Route
               exact path={path}
               render={props => (
-                <FloorPlan {...props} viewDialog={this.viewDialog} dialogOpen={this.state.dialogOpen}/>
+                <FloorPlan {...props} floorPlan={this.state.floorPlan} viewDialog={this.viewDialog} dialogOpen={this.state.dialogOpen}/>
               )}
             />
           </Switch>

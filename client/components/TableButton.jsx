@@ -46,7 +46,6 @@ class TableButton extends React.Component {
   }
 
   handleClick(e) {
-    console.log(e.currentTarget.id);
     this.props.viewDialog(true, this.props.tableData);
   }
 

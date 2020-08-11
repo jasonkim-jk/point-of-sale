@@ -6,30 +6,22 @@ import TableButton from './TableButton';
 export default class FloorPlan extends React.Component {
   constructor(props) {
     super(props);
-    this.updateTables = this.updateTables.bind(this);
     this.state = {
-      tables: []
+      floorPlan: []
     };
   }
 
-  componentDidMount() {
-    this.updateTables();
-  }
-
-  updateTables() {
-    fetch('/api/restaurant')
-      .then(response => response.json())
-      .then(data => {
-        this.setState({ tables: data });
-      })
-      .catch(error => {
-        console.error(error);
+  componentDidUpdate(prevProps) {
+    if (this.props.floorPlan !== prevProps.floorPlan) {
+      this.setState({
+        floorPlan: this.props.floorPlan
       });
+    }
   }
 
   render() {
-    const { tables } = this.state;
-    const tableList = tables.map(table => {
+    const { floorPlan } = this.state;
+    const tableList = floorPlan.map(table => {
       return (
         <TableButton
           key={table.tableId}

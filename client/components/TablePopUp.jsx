@@ -1,9 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default class TablePopUp extends React.Component {
@@ -32,13 +30,12 @@ export default class TablePopUp extends React.Component {
     const id = e.currentTarget.id;
     const { tableId } = this.props.tableData;
     if (id === 'seat') {
-      console.log('changing table status');
       this.props.changeTableStatus(tableId, 1);
       this.handleClose();
       return;
     }
     if (id === 'view-order') {
-      console.log('no view order functionality yet');
+      console.error('no view order functionality yet');
 
     }
 
