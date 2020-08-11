@@ -6,12 +6,17 @@ import TableButton from './TableButton';
 export default class FloorPlan extends React.Component {
   constructor(props) {
     super(props);
+    this.updateTables = this.updateTables.bind(this);
     this.state = {
       tables: []
     };
   }
 
   componentDidMount() {
+    this.updateTables();
+  }
+
+  updateTables() {
     fetch('/api/restaurant')
       .then(response => response.json())
       .then(data => {

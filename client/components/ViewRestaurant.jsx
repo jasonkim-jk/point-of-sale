@@ -13,6 +13,7 @@ export default class ViewRestaurant extends React.Component {
   constructor(props) {
     super(props);
     this.viewDialog = this.viewDialog.bind(this);
+    this.changeTableStatus = this.changeTableStatus.bind(this);
     this.state = {
       dialogOpen: false,
       tableData: {}
@@ -28,6 +29,20 @@ export default class ViewRestaurant extends React.Component {
     });
   }
 
+  changeTableStatus(tableId, newStatus) {
+    newStatus = { newStatus: newStatus };
+    fetch(`/api/restaurant/${tableId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newStatus)
+    })
+      .then(response => {
+        console.log('this should update after');
+      });
+  }
+
   render() {
     let { path, url } = this.props.match;
     path = path.replace(/\/$/, '');
@@ -38,6 +53,7 @@ export default class ViewRestaurant extends React.Component {
           open={this.state.dialogOpen}
           tableData={this.state.tableData}
           viewDialog={this.viewDialog}
+          changeTableStatus={this.changeTableStatus}
         />
         <Box display="flex">
           <ViewChecks url={url} />

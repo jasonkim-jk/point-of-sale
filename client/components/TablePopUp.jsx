@@ -30,7 +30,18 @@ export default class TablePopUp extends React.Component {
 
   handleClick(e) {
     const id = e.currentTarget.id;
-    console.log('id', id);
+    const { tableId } = this.props.tableData;
+    if (id === 'seat') {
+      console.log('changing table status');
+      this.props.changeTableStatus(tableId, 1);
+      this.handleClose();
+      return;
+    }
+    if (id === 'view-order') {
+      console.log('no view order functionality yet');
+
+    }
+
   }
 
   render() {
