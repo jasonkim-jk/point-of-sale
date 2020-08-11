@@ -417,11 +417,27 @@ app.put('/api/checks/:checkId', (req, res, next) => {
   update "checks"
   set "isPaid" = true, "tip" = $1
   where "checkId" = $2
+  returning "tableId"
   `;
+
   const params = [tip, checkId];
   db.query(sql, params)
     .then(result => {
-      res.status(200).json(result.rows);
+      if (result.rows.length > 0) {
+        const tableId = result.rows[0].tableId;
+        const sqlTwo = `
+        update "tables"
+        set "tableStatus" = 2
+        where "tableId" = $1
+        `;
+        const paramsTwo = [tableId];
+        db.query(sqlTwo, paramsTwo)
+          .then(result => {
+            res.status(200).json('update table status success');
+          })
+          .catch(error => next(error));
+      }
+
     })
     .catch(error => next(error));
 });
