@@ -326,6 +326,7 @@ app.get('/api/waitlist', (req, res, next) => {
 
 app.get('/api/checks/:checkId', (req, res, next) => {
   const { checkId } = req.params;
+
   const sql = `
   select "m".*, "c"."taxRate" from "checks" as "c"
   join "checkOrders" as "co" on "co"."checkId" = "c"."checkId"
@@ -340,6 +341,22 @@ app.get('/api/checks/:checkId', (req, res, next) => {
       res.status(200).json(result.rows);
     })
     .catch(err => next(err));
+});
+
+app.put('/api/checks/:checkId', (req, res, next) => {
+  const { checkId } = req.params;
+  const { tip } = req.body;
+  const sql = `
+  update "checks"
+  set "isPaid" = true, "tip" = $1
+  where "checkId" = $2
+  `;
+  const params = [tip, checkId];
+  db.query(sql, params)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(error => next(error));
 });
 
 app.post('/api/waitlist', (req, res, next) => {
