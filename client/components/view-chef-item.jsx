@@ -28,6 +28,9 @@ const useStyles = theme => ({
     color: '#fff',
     backgroundColor: green[500],
     marginRight: theme.spacing(2)
+  },
+  done: {
+    marginRight: theme.spacing(2)
   }
 });
 
@@ -38,8 +41,48 @@ class ViewChefItem extends React.Component {
     this.handleToggle = this.handleToggle.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({ items: this.props.data.items });
+    this.checkAllDont(this.props.data.items);
+  }
+
   handleToggle(event) {
-    this.setState({ ...this.state, [event.target.name]: event.target.checked });
+    const orderItemId = parseInt(event.target.name);
+    const value = !event.target.checked;
+    const reqBody = { isCompleted: value };
+    const items = [...this.state.items];
+
+    fetch(`/api/orderItems/${orderItemId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(reqBody)
+    }).then(response => {
+      if (response.status === 200) {
+        for (const item of items) {
+          if (item.orderItemId === orderItemId) {
+            item.isCompleted = value;
+            this.setState({ items: items });
+          }
+        }
+        this.checkAllDont(items);
+      }
+    });
+  }
+
+  checkAllDont(items) {
+    let completedItems = 0;
+
+    for (const item of items) {
+      if (item.isCompleted) completedItems++;
+    }
+
+    if (completedItems === items.length) {
+      this.setState({ allDone: true });
+    } else {
+      this.setState({ allDone: false });
+    }
   }
 
   elapsedTime(orderedAt) {
@@ -51,20 +94,27 @@ class ViewChefItem extends React.Component {
   }
 
   render() {
+    if (!this.state.items) return <></>;
+
     const { classes } = this.props;
-    const { tableId, items, ...others } = this.props.data;
+    const { tableId, ...others } = this.props.data;
+    const items = this.state.items;
 
     const lists = items.map(item => {
       return (
         <React.Fragment key={item.orderItemId}>
           <ListItem className={classes.list}>
-            <Avatar className={classes.green}>{item.quantity}</Avatar>
+            <Avatar className={this.state.allDone || item.isCompleted ? classes.done : classes.green}>
+              {item.quantity}
+            </Avatar>
             <ListItemText id={item.item} primary={item.item} />
             <ListItemSecondaryAction className={classes.listToggle}>
               <Switch
                 name={item.orderItemId.toString()}
                 onChange={this.handleToggle}
-                // checked={this.state.item.orderItemId}
+                checked={!item.isCompleted}
+                id={tableId.toString()}
+                color="primary"
               />
             </ListItemSecondaryAction>
           </ListItem>
@@ -77,7 +127,7 @@ class ViewChefItem extends React.Component {
       <List
         subheader={
           <ListSubheader disableSticky>
-            <Box mt={2} p={2} bgcolor="success.main">
+            <Box mt={2} p={2} bgcolor={this.state.allDone ? 'text.disabled' : 'success.main'}>
               <Grid container spacing={2}>
                 <Grid item xs>
                   <Typography variant="h5">Table {tableId}</Typography>
