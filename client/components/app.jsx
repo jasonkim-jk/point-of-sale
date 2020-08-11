@@ -40,6 +40,9 @@ export default class App extends React.Component {
             <Route path="/menu-customizer">
               <MenuCustomizer />
             </Route>
+            <Route path="/sales-report">
+              <SaleReport />
+            </Route>
             <Route strict path="/" component={ViewRestaurant} />
           </Switch>
         </Container>
