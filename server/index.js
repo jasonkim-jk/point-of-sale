@@ -221,6 +221,30 @@ app.delete('/api/menus/:itemId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/orders', (req, res, next) => {
+  const sql = `
+      select "o"."tableId",
+             "o"."orderId",
+             "o"."orderedAt",
+      array_agg(jsonb_build_object(
+        'item', "m"."item"
+        'quantity', "oi"."quantity",
+        'isCompleted', "oi"."isCompleted",
+       )) as "items"
+        from "orders" as "o"
+        join "orderItems" as "oi" using ("orderId")
+        join "menus" as "m" using ("itemId")
+    group by "o"."tableId", "o"."orderId", "o"."orderedAt"
+    order by "o"."orderedAt" desc;
+  `;
+
+  db.query(sql)
+    .then(result => {
+      res.status(200).json(result.rows);
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/sales', (req, res, next) => {
   const sql = `
   select "menus"."item" as "Item Name",
@@ -234,9 +258,6 @@ app.get('/api/sales', (req, res, next) => {
     group by ("menus"."item", "menus"."imageUrl", "menus"."salePrice", "menus"."cost")
     order by "Profit" desc;
     `;
-    // join "orders" using ("orderId")
-    // join "tables" using ("tableId")
-    // where "orders"."isSent" = false
 
   db.query(sql)
     .then(result => {
