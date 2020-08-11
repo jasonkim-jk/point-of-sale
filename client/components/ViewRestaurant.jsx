@@ -1,9 +1,9 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-
 import FloorPlan from './FloorPlan';
 import ViewChecks from './ViewChecks';
 import ViewCheckItem from './ViewCheckItem';
+import TablePopUp from './TablePopUp';
 import {
   Switch,
   Route
@@ -14,13 +14,17 @@ export default class ViewRestaurant extends React.Component {
     super(props);
     this.viewDialog = this.viewDialog.bind(this);
     this.state = {
-      dialogOpen: false
+      dialogOpen: false,
+      tableData: {}
     };
   }
 
-  viewDialog(params) {
+  viewDialog(dialogOpen, tableData) {
+    console.log('Dialog Viewed');
+    console.log(tableData, 'params work too');
     this.setState({
-      dialogOpen: params
+      dialogOpen: dialogOpen,
+      tableData: tableData
     });
   }
 
@@ -29,21 +33,21 @@ export default class ViewRestaurant extends React.Component {
     path = path.replace(/\/$/, '');
     url = url.replace(/\/$/, '');
     return (
-
-      <Box display="flex">
-
-        <ViewChecks url={url} />
-        <Switch>
-          <Route path={`${path}/checkitem/:checkId/:tableId`} component={ViewCheckItem} />
-          <Route
-            exact path={path}
-            render={props => (
-              <FloorPlan {...props} viewDialog={this.viewDialog} dialogOpen={this.state.dialogOpen}/>
-            )}
-          />
-        </Switch>
-
-      </Box>
+      <>
+        <TablePopUp open={this.state.dialogOpen} tableData={this.state.tableData} />
+        <Box display="flex">
+          <ViewChecks url={url} />
+          <Switch>
+            <Route path={`${path}/checkitem/:checkId/:tableId`} component={ViewCheckItem} />
+            <Route
+              exact path={path}
+              render={props => (
+                <FloorPlan {...props} viewDialog={this.viewDialog} dialogOpen={this.state.dialogOpen}/>
+              )}
+            />
+          </Switch>
+        </Box>
+      </>
     );
   }
 }

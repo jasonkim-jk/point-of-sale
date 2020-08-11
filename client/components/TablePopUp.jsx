@@ -18,6 +18,14 @@ export default class TablePopUp extends React.Component {
 
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.open !== prevProps.open) {
+      this.setState({
+        isOpen: this.props.open
+      });
+    }
+  }
+
   render() {
     return (
       <Dialog

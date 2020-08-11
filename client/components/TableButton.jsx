@@ -14,6 +14,10 @@ const useStyles = theme => ({
 });
 
 class TableButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
 
   parseTimeSeated(timeSeated) {
     if (timeSeated) {
@@ -41,6 +45,11 @@ class TableButton extends React.Component {
     return '';
   }
 
+  handleClick(e) {
+    console.log(e.currentTarget.id);
+    this.props.viewDialog(true, this.props.tableData);
+  }
+
   render() {
     const { classes } = this.props;
     const { tableId, tableStatus, timeSeated } = this.props.tableData;
@@ -59,7 +68,7 @@ class TableButton extends React.Component {
     }
     return (
       <Grid item xs={3}>
-        <Button variant="contained" color={color} className={classes.root}>
+        <Button id={`T${tableId}`} onClick={this.handleClick} variant="contained" color={color} className={classes.root}>
           <div>{`T${tableId}`}<div>{this.parseTimeSeated(timeSeated)}</div></div>
         </Button>
       </Grid>
