@@ -306,6 +306,29 @@ app.patch('/api/orderItems/:orderItemId', (req, res, next) => {
 
 });
 
+app.delete('/api/orderItems/:orderItemId', (req, res, next) => {
+  if (!checkValidity(req.params.orderItemId)) {
+    return res.status(400).json({ error: 'Sorry, your requested id is invalid.' });
+  }
+  const orderItemId = parseInt(req.params.orderItemId);
+  const paramDb = [orderItemId];
+  const sql = `
+    delete from "orderItems"
+          where "orderItemId" = $1
+      returning *
+  `;
+
+  db.query(sql, paramDb)
+    .then(result => {
+      if (result.rows[0] === undefined) {
+        return res.status(400).json({ error: 'Requested id may not exist in the database. Check your data agin.' });
+      } else {
+        res.status(204).end();
+      }
+    })
+    .catch(err => next(err));
+});
+
 app.get('/api/sales', (req, res, next) => {
   const sql = `
       select "menus"."item" as "Item Name",
