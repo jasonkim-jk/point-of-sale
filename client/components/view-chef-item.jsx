@@ -12,6 +12,7 @@ import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
 import { withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
+import WaitListTableItem from './WaitListTableItem';
 
 const useStyles = theme => ({
   list: {
@@ -38,7 +39,15 @@ class ViewChefItem extends React.Component {
   }
 
   handleToggle(event) {
-    // console.log(event.target.name, event.target.checked);
+    this.setState({ ...this.state, [event.target.name]: event.target.checked });
+  }
+
+  elapsedTime(orderedAt) {
+    const waitObj = new WaitListTableItem();
+    const splitTime = orderedAt.split('T');
+    const [hours, minutes] = splitTime[1].split(':');
+    const SQLTime = `${hours}:${minutes}`;
+    return waitObj.getWaitTime(SQLTime, 'short');
   }
 
   render() {
@@ -55,7 +64,7 @@ class ViewChefItem extends React.Component {
               <Switch
                 name={item.orderItemId.toString()}
                 onChange={this.handleToggle}
-                checked={item.isCompleted}
+                // checked={this.state.item.orderItemId}
               />
             </ListItemSecondaryAction>
           </ListItem>
@@ -71,14 +80,10 @@ class ViewChefItem extends React.Component {
             <Box mt={2} p={2} bgcolor="success.main">
               <Grid container spacing={2}>
                 <Grid item xs>
-                  <Typography variant="h5">
-                    Table {tableId}
-                  </Typography>
+                  <Typography variant="h5">Table {tableId}</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="h5">
-                    {others.orderedAt}
-                  </Typography>
+                  <Typography variant="h5">{this.elapsedTime(others.orderedAt)}</Typography>
                 </Grid>
               </Grid>
             </Box>

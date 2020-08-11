@@ -21,14 +21,19 @@ export default class WaitListTableItem extends React.Component {
     };
   }
 
-  getWaitTime(SQLTime) {
+  getWaitTime(SQLTime, type = 'long') {
     const SQLMinutes = this.parseSQLTime(SQLTime);
     const d = new Date();
     const currentMinutes = (d.getHours() * 60) + parseInt(d.getMinutes(), 10);
     const waitTotal = currentMinutes - SQLMinutes;
     const waitMinutes = waitTotal % 60;
     const waitHours = (waitTotal - waitMinutes) / 60;
-    const waitTime = `${waitHours} hours ${waitMinutes} minutes`;
+    let waitTime = '';
+    if (type === 'long') {
+      waitTime = `${waitHours} hours ${waitMinutes} minutes`;
+    } else {
+      waitTime = `${waitHours}:${waitMinutes.toString().padStart(2, '0')}`;
+    }
     return waitTime;
   }
 
