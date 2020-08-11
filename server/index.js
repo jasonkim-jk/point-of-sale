@@ -235,6 +235,7 @@ app.get('/api/orders', (req, res, next) => {
         from "orders" as "o"
         join "orderItems" as "oi" using ("orderId")
         join "menus" as "m" using ("itemId")
+       where "o"."isSent" = false
     group by "o"."tableId", "o"."orderId", "o"."orderedAt"
     order by "o"."orderedAt" desc;
   `;
@@ -275,6 +276,32 @@ app.post('/api/orders/', (req, res, next) => {
     })
     .then(result => {
       res.status(201).json(result);
+    })
+    .catch(err => next(err));
+});
+
+app.patch('/api/orders/:orderId', (req, res, next) => {
+  if (!checkValidity(req.params.orderId)) {
+    return res.status(400).json({ error: 'Sorry, your requested id is invalid.' });
+  }
+
+  const orderId = parseInt(req.params.orderId);
+  const isSent = req.body.isSent;
+  const paramDb = [orderId, isSent];
+  const sql = `
+      update "orders"
+         set "isSent" = $2
+       where "orderId" = $1
+   returning *
+  `;
+
+  db.query(sql, paramDb)
+    .then(result => {
+      if (result.rows[0] === undefined) {
+        return res.status(404).json({ error: 'Requested id may not exist in the database. Check your data agin.' });
+      } else {
+        res.status(200).json(result.rows[0]);
+      }
     })
     .catch(err => next(err));
 });
