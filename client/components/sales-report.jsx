@@ -122,8 +122,8 @@ class SaleReport extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {salesRow}
-            {salseTotal}
+            {this.state.saleData.length ? salesRow : <></>}
+            {this.state.saleData.length ? salseTotal : <></>}
           </TableBody>
         </Table>
       </TableContainer>
