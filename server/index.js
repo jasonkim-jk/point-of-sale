@@ -56,10 +56,68 @@ app.get('/api/restaurant', (req, res, next) => {
   const sql = `
     select *
       from "tables"
+      order by "tableId"
   `;
   db.query(sql)
     .then(result => {
       res.status(200).json(result.rows);
+    })
+    .catch(error => {
+      next(error);
+    });
+});
+
+app.put('/api/restaurant/:tableId', (req, res, next) => {
+  const tableId = parseInt(req.params.tableId);
+  if (!tableId) {
+    next(new ClientError('invalid tableId', 400));
+    return;
+  }
+  const newStatus = parseInt(req.body.newStatus, 10);
+  if (isNaN(newStatus) || newStatus > 2) {
+    next(new ClientError('newStatus is invalid', 400));
+    return;
+  }
+  let sql;
+  let params;
+  if (newStatus === 1) {
+    sql = `
+  update "tables"
+  set "tableStatus" =$1,
+    "timeSeated" = $2
+  where "tableId" = $3
+  returning *
+  `;
+    params = [newStatus, 'NOW()', tableId];
+  }
+  if (newStatus === 0) {
+    sql = `
+  update "tables"
+  set "tableStatus" =$1,
+    "timeSeated" = $2
+  where "tableId" = $3
+  returning *
+  `;
+    params = [newStatus, null, tableId];
+  }
+  if (newStatus === 2) {
+    sql = `
+    update "tables"
+    set "tableStatus" = $1
+    where "tableId" = $2
+    returning *
+  `;
+    params = [newStatus, tableId];
+  }
+
+  db.query(sql, params)
+    .then(response => {
+      const updated = response.rows[0];
+      if (!updated) {
+        next(new ClientError('table is not found', 404));
+        return;
+      }
+      res.status(200).json(updated);
     })
     .catch(error => {
       next(error);
