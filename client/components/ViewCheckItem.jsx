@@ -8,6 +8,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import {
+  Link
+} from 'react-router-dom';
 
 export default class ViewCheckItem extends React.Component {
   constructor(props) {
@@ -89,10 +92,12 @@ export default class ViewCheckItem extends React.Component {
             </TableRow>
             <TableRow >
               <TableCell colSpan={3} align="center">
-                <Button variant="contained">Cancel</Button>
+                <Button variant="contained"><Link to={'/'}>Cancel</Link></Button>
 
               </TableCell>
-              <TableCell align="left">  <Button variant="contained" color="primary" >Pay</Button></TableCell>
+              <TableCell align="left">  <Button variant="contained" color="primary" style={{ padding: '8px 32px' }}> <Link to={`/paycheck/${params.checkId}/${params.tableId}`}>
+               Pay
+              </Link></Button></TableCell>
             </TableRow>
           </TableBody>
         </Table>

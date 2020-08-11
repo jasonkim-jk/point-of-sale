@@ -11,6 +11,7 @@ import {
 export default class ViewChecks extends React.Component {
   constructor(props) {
     super(props);
+    this.mounted = false;
     this.state = {
       openChecks: []
     };
@@ -18,12 +19,31 @@ export default class ViewChecks extends React.Component {
   }
 
   componentDidMount() {
+    this.mounted = true;
+    this.getData();
+    this.unlisten = this.props.history.listen((location, action) => {
+      this.getData();
+
+    });
+
+  }
+
+  getData() {
     fetch('/api/checks')
       .then(res => res.json())
       .then(data => {
-        this.setState({ openChecks: data });
+        if (this.mounted) {
+          this.setState({ openChecks: data });
+        }
       })
       .catch(() => console.error('server response error'));
+
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+    this.unlisten();
+
   }
 
   parseTime(time) {
@@ -52,6 +72,7 @@ export default class ViewChecks extends React.Component {
 
   render() {
     const { url } = this.props;
+
     const checks = this.state.openChecks.map(check => (
       <Grid item xs={12} key={check.checkId}>
         <Grid container spacing={1}>
@@ -81,7 +102,9 @@ export default class ViewChecks extends React.Component {
     return (
       <Box m={2} width="50%" fontWeight="fontWeightBold">
         <Grid container spacing={1}>
-          {checks}
+          {checks.length > 0 ? checks : (
+            <div> No Tables Found </div>
+          )}
         </Grid>
       </Box>
 
