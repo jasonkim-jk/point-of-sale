@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import NavBar from './NavBar';
 import ViewRestaurant from './ViewRestaurant';
-import ViewNewOrder from './view-new-order';
+import ViewChef from './view-chef';
 import WaitList from './WaitList';
 import MenuCustomizer from './menu-customizer';
 import SaleReport from './sales-report';
@@ -31,11 +31,11 @@ export default class App extends React.Component {
         <Container disableGutters={true}>
           <NavBar />
           <Switch>
+            <Route path="/chef">
+              <ViewChef />
+            </Route>
             <Route path="/wait-list">
               <WaitList />
-            </Route>
-            <Route path="/orders">
-              <ViewNewOrder />
             </Route>
             <Route path="/menu-customizer">
               <MenuCustomizer />

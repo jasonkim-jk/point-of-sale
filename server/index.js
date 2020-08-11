@@ -227,9 +227,10 @@ app.get('/api/orders', (req, res, next) => {
              "o"."orderId",
              "o"."orderedAt",
       array_agg(jsonb_build_object(
-        'item', "m"."item"
+        'orderItemId', "oi"."orderItemId",
+        'item', "m"."item",
         'quantity', "oi"."quantity",
-        'isCompleted', "oi"."isCompleted",
+        'isCompleted', "oi"."isCompleted"
        )) as "items"
         from "orders" as "o"
         join "orderItems" as "oi" using ("orderId")

@@ -34,8 +34,8 @@ class NavBar extends React.Component {
           <Link to='/table'>
             <Button size="large" color="inherit" className={classes.nav}>Table View</Button>
           </Link>
-          <Link to='/orders'>
-            <Button size="large" color="inherit" className={classes.nav} >Order Status</Button>
+          <Link to='/chef'>
+            <Button size="large" color="inherit" className={classes.nav} >Chef View</Button>
           </Link>
           <Link to='/wait-list'>
             <Button size="large" color="inherit" className={classes.nav} >Waiting List</Button>
