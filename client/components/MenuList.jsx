@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import MenuCard from './menu-card';
+import MenuCard from './MenuCard';
 
 export default class MenuList extends React.Component {
   constructor(props) {

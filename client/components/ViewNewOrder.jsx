@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import MenuList from './menu-list';
-import OrderBill from './order-bill';
+import MenuList from './MenuList';
+import OrderBill from './OrderBill';
 
 export default class ViewNewOrder extends React.Component {
   constructor(props) {

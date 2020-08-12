@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import MenuCustomizerTableItem from './menu-customizer-table-item';
+import MenuCustomizerTableItem from './MenuCustomizerTableItem';
 import Typography from '@material-ui/core/Typography';
 
 export default class MenuCustomizerTable extends React.Component {

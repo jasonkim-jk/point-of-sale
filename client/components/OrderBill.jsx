@@ -11,8 +11,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { withStyles } from '@material-ui/core/styles';
-import ReceiptNumber from './receipt-number';
-import OrderBillTotal from './order-bill-total';
+import ReceiptNumber from './ReceiptNumber';
+import OrderBillTotal from './OrderBillTotal';
 
 const useStyles = theme => ({
   paper: {
