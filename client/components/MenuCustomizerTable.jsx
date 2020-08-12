@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuCustomizerTableItem from './MenuCustomizerTableItem';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
 export default class MenuCustomizerTable extends React.Component {
   render() {
@@ -23,33 +24,36 @@ export default class MenuCustomizerTable extends React.Component {
     });
 
     return (
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Number</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Name</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Image</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Cost</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Sale Price</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Operation</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{menuItems}</TableBody>
-        </Table>
-      </TableContainer>
+      <Box pt={2} pl={1}>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Number</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Name</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Image</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Cost</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Sale Price</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Operation</Typography>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{menuItems}</TableBody>
+          </Table>
+        </TableContainer>
+
+      </Box>
     );
   }
 }

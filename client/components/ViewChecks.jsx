@@ -89,6 +89,14 @@ class ViewChecks extends React.Component {
     const { classes } = this.props;
     const { url } = this.props;
 
+    const noTables = (
+      <Box m={4}>
+        <Typography variant="h4">
+          No Tables Found
+        </Typography>
+      </Box>
+    );
+
     const checks = this.state.openChecks.map(check => (
       <Grid item xs={12} key={check.checkId}>
         <Grid container spacing={1}>
@@ -143,9 +151,7 @@ class ViewChecks extends React.Component {
     return (
       <Box m={2}>
         <Grid container spacing={1}>
-          {checks.length > 0 ? checks : (
-            <div> No Tables Found </div>
-          )}
+          {checks.length > 0 ? checks : noTables}
         </Grid>
       </Box>
     );
