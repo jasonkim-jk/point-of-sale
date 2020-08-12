@@ -7,11 +7,11 @@ import {
 } from 'react-router-dom';
 import NavBar from './NavBar';
 import ViewRestaurant from './ViewRestaurant';
-import ViewChef from './view-chef';
+import ViewChef from './ViewChef';
 import WaitList from './WaitList';
-import MenuCustomizer from './menu-customizer';
-import SaleReport from './sales-report';
-import ViewNewOrder from './view-new-order';
+import MenuCustomizer from './MenuCustomizer';
+import SaleReport from './SalesReport';
+import ViewNewOrder from './ViewNewOrder';
 
 export default class App extends React.Component {
   constructor(props) {

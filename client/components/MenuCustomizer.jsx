@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import MenuCustomizerTable from './menu-customizer-table';
-import MenuCustomizerForm from './menu-customizer-form';
+import MenuCustomizerTable from './MenuCustomizerTable';
+import MenuCustomizerForm from './MenuCustomizerForm';
 
 export default class MenuCustomizer extends React.Component {
   constructor(props) {
