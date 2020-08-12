@@ -5,6 +5,7 @@ const db = require('./database');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
+const headersMiddleware = require('./headers-middleware');
 
 const app = express();
 
@@ -51,6 +52,8 @@ function getDbParam(orderId, items) {
   paramDb.push(order, item, quantity, discount, time);
   return paramDb;
 }
+
+app.use('/api', headersMiddleware);
 
 app.get('/api/restaurant', (req, res, next) => {
   const sql = `
