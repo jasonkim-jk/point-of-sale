@@ -254,25 +254,68 @@ app.get('/api/orders/:tableId', (req, res, next) => {
   const tableId = parseInt(req.params.tableId);
   const paramDb = [tableId];
   const sql = `
-    select "o"."orderId",
-           "o"."orderedAt",
-        array_agg(jsonb_build_object(
-          'item', "m"."item",
-          'quantity', "oi"."quantity",
-          'salePrice', "m"."salePrice"
-        )) as "items"
-      from "orders" as "o"
-      join "orderItems" as "oi" using ("orderId")
-      join "menus" as "m" using ("itemId")
-     where "o"."tableId" = $1
-     group by "o"."orderId", "o"."orderedAt"
-     order by "o"."orderedAt" desc
-     limit 1;
+    select "timeSeated"
+      from "tables"
+     where "tables"."tableId" = $1
   `;
-
   db.query(sql, paramDb)
     .then(result => {
-      res.status(200).json(result.rows[0]);
+      if (result.rows[0] === undefined) {
+        throw new ClientError('Sorry, requested tableId may not exist now.', 400);
+      } else if (result.rows[0].timeSeated === null) {
+        throw new ClientError('Sorry, table is empty.', 400);
+      } else {
+        const timeSeated = result.rows[0].timeSeated;
+        const sql = `
+          select "orderedAt"
+            from "orders"
+           where "orders"."tableId" = $1
+        order by "orders"."orderedAt" desc
+           limit 1
+        `;
+
+        return db.query(sql, paramDb)
+          .then(result2 => {
+            if (result2.rows[0] === undefined) {
+              throw new ClientError('Sorry, requested tableId may not exist now.', 400);
+            } else {
+              const orderedAt = result2.rows[0].orderedAt;
+              return { timeSeated, orderedAt };
+            }
+          })
+          .catch(err => next(err));
+      }
+    })
+    .then(result => {
+      if (result === undefined) {
+        throw new ClientError('Sorry, requested tableId may not exist now.', 400);
+      }
+      if (result.timeSeated >= result.orderedAt) {
+        return res.status(404).json({ error: 'not ordered yet' });
+      }
+
+      const paramDb = [parseInt(req.params.tableId)];
+      const sql = `
+          select "o"."orderId",
+                "o"."orderedAt",
+              array_agg(jsonb_build_object(
+                'item', "m"."item",
+                'quantity', "oi"."quantity",
+                'salePrice', "m"."salePrice"
+              )) as "items"
+            from "orders" as "o"
+            join "orderItems" as "oi" using ("orderId")
+            join "menus" as "m" using ("itemId")
+          where "o"."tableId" = $1
+        group by "o"."orderId", "o"."orderedAt"
+        order by "o"."orderedAt" desc
+          limit 1;
+      `;
+
+      db.query(sql, paramDb)
+        .then(result => {
+          res.status(200).json(result.rows[0]);
+        });
     })
     .catch(err => next(err));
 });

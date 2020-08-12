@@ -49,11 +49,13 @@ export default class ViewNewOrder extends React.Component {
 
   getOrderedItems(id) {
     fetch(`/api/orders/${id}`)
-      .then(res => res.json())
+      .then(response => response.json())
       .then(data => {
-        this.setState({ orderedItems: data, prevOrder: true });
+        if (data.orderId) this.setState({ orderedItems: data, prevOrder: true });
       })
-      .catch(() => console.error('server response error'));
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   updateItemQty(itemId, qty) {
