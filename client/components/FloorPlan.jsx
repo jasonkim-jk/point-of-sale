@@ -19,6 +19,12 @@ export default class FloorPlan extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.setState({
+      floorPlan: this.props.floorPlan
+    });
+  }
+
   render() {
     const { floorPlan } = this.state;
     const tableList = floorPlan.map(table => {

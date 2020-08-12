@@ -11,6 +11,7 @@ import ViewChef from './view-chef';
 import WaitList from './WaitList';
 import MenuCustomizer from './menu-customizer';
 import SaleReport from './sales-report';
+import ViewNewOrder from './view-new-order';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -40,6 +41,7 @@ export default class App extends React.Component {
             <Route path="/menu-customizer">
               <MenuCustomizer />
             </Route>
+            <Route path="/order/:tableId" component={ViewNewOrder} />
             <Route path="/sales-report">
               <SaleReport />
             </Route>

@@ -35,8 +35,7 @@ export default class TablePopUp extends React.Component {
       return;
     }
     if (id === 'view-order') {
-      console.error('no view order functionality yet');
-
+      this.props.history.push(`/order/${this.props.tableData.tableId}`);
     }
 
   }

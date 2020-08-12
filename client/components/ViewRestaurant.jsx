@@ -71,6 +71,7 @@ export default class ViewRestaurant extends React.Component {
           tableData={this.state.tableData}
           viewDialog={this.viewDialog}
           changeTableStatus={this.changeTableStatus}
+          history={history}
         />
         <Box display="flex">
           <ViewChecks url={url} history={history}/>
