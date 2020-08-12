@@ -62,27 +62,15 @@ class ViewChecks extends React.Component {
   }
 
   parseTime(time) {
-    // 2020-06-03T07:00:00.000Z
-    const splitTime = time.split('T');
-    const furtherSplit = splitTime[1].split(':');
-    let [hours, minutes] = furtherSplit;
-    hours = parseInt(hours, 10);
-    // this is for timezone.  Idk why 5 works
-    hours += 5;
-    if (hours > 12) {
-      hours -= 12;
-    }
-    let amPM = 'AM';
-    if (hours > 11) {
-      amPM = 'PM';
-    }
-    if (hours === 24 || hours === 0) {
-      hours = 12;
-      amPM = 'AM';
-    } else if (hours > 12) {
-      hours -= 12;
-    }
-    return `${hours}:${minutes} ${amPM}`;
+    const jsTime = new Date(time);
+    let hours = jsTime.getHours();
+    let minutes = jsTime.getMinutes();
+    const amPM = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = !hours ? 12 : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    const timeString = `${hours}:${minutes} ${amPM}`;
+    return timeString;
   }
 
   render() {
