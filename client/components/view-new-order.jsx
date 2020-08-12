@@ -7,7 +7,7 @@ export default class ViewNewOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableId: 5,
+      tableId: 0,
       orders: {}
     };
     this.clearOrderItems = this.clearOrderItems.bind(this);
@@ -31,6 +31,12 @@ export default class ViewNewOrder extends React.Component {
       const obj = { ...this.state.orders, ...addItem };
       this.setState({ orders: obj });
     }
+  }
+
+  componentDidMount() {
+    this.setState({
+      tableId: this.props.match.params.tableId
+    });
   }
 
   updateItemQty(itemId, qty) {

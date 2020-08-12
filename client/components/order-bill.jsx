@@ -148,7 +148,7 @@ class OrderBill extends React.Component {
         <Grid container spacing={2}>
           <Grid item xs>
             <Typography gutterBottom variant="h4">
-              Table {this.table}
+              Table {this.props.table}
             </Typography>
           </Grid>
           <ReceiptNumber {...this.props} />
