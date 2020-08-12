@@ -35,8 +35,8 @@ export default class ViewCheckItem extends React.Component {
 
   render() {
     const { openCheck } = this.state;
-    const returnStuff = openCheck.map((stuff, index) => {
-      const { item, cost, salePrice } = stuff;
+    const orderItemRows = openCheck.map((orderItems, index) => {
+      const { item, cost, salePrice } = orderItems;
       return (
         <TableRow key={index}>
           <TableCell>{item}</TableCell>
@@ -47,15 +47,15 @@ export default class ViewCheckItem extends React.Component {
       );
     });
     const taxRate = openCheck.length > 0 ? openCheck[0].taxRate : 0;
-    let reduceStuff = 0;
-    reduceStuff = openCheck.reduce((accumulator, item) => {
+    let calculateTotal = 0;
+    calculateTotal = openCheck.reduce((accumulator, item) => {
 
       return accumulator + parseFloat(item.salePrice);
     }, 0);
 
     const { params } = this.props.match;
-    const invoiceTaxes = (taxRate / 100) * reduceStuff;
-    const invoiceTotal = invoiceTaxes + reduceStuff;
+    const invoiceTaxes = (taxRate / 100) * calculateTotal;
+    const invoiceTotal = invoiceTaxes + calculateTotal;
 
     return (
       <TableContainer component={Paper}>
@@ -65,21 +65,35 @@ export default class ViewCheckItem extends React.Component {
               <TableCell align="left" colSpan={3}>
                 <Typography variant="h4">Table { params.tableId }</Typography>
               </TableCell>
-              <TableCell align="right"><Typography variant="h5">Check #{ params.checkId }</Typography></TableCell>
+              <TableCell align="right">
+                <Typography variant="h5">
+                  Check #{ params.checkId }
+                </Typography>
+              </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell align="left"><Typography>Name</Typography></TableCell>
-              <TableCell align="right"><Typography>Quantity</Typography></TableCell>
-              <TableCell align="right"><Typography>Unit Cost</Typography></TableCell>
-              <TableCell align="right"><Typography>Price</Typography></TableCell>
+              <TableCell align="left">
+                <Typography>Name</Typography>
+              </TableCell>
+              <TableCell align="right">
+                <Typography>Quantity</Typography>
+              </TableCell>
+              <TableCell align="right">
+                <Typography>Unit Cost</Typography>
+              </TableCell>
+              <TableCell align="right">
+                <Typography>Price</Typography>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {returnStuff}
+            {orderItemRows}
             <TableRow>
               <TableCell rowSpan={3} />
               <TableCell colSpan={2}>SubTotal</TableCell>
-              <TableCell align="right">${this.ccyFormat(reduceStuff)}</TableCell>
+              <TableCell align="right">
+                ${this.ccyFormat(calculateTotal)}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Tax</TableCell>
@@ -92,12 +106,23 @@ export default class ViewCheckItem extends React.Component {
             </TableRow>
             <TableRow >
               <TableCell colSpan={3} align="center">
-                <Button variant="contained"><Link to={'/'}>Cancel</Link></Button>
-
+                <Link to={'/'}>
+                  <Button variant="contained">
+                      Cancel
+                  </Button>
+                </Link>
               </TableCell>
-              <TableCell align="left">  <Button variant="contained" color="primary" style={{ padding: '8px 32px' }}> <Link to={`/paycheck/${params.checkId}/${params.tableId}`}>
-               Pay
-              </Link></Button></TableCell>
+              <TableCell align="left">
+                <Link to={`/paycheck/${params.checkId}/${params.tableId}`}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    style={{ padding: '8px 32px' }}
+                  >
+                      Pay
+                  </Button>
+                </Link>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
