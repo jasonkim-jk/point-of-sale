@@ -1,15 +1,17 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 
 const useStyles = theme => ({
   root: {
     border: 0,
-    borderRadius: '40px',
+    borderRadius: '50%',
     color: 'black',
-    width: '80px',
-    height: '80px'
+    width: '130px',
+    height: '130px'
   }
 });
 
@@ -66,10 +68,27 @@ class TableButton extends React.Component {
       default:
     }
     return (
-      <Grid item xs={3}>
-        <Button id={`T${tableId}`} onClick={this.handleClick} variant="contained" color={color} className={classes.root}>
-          <div>{`T${tableId}`}<div>{this.parseTimeSeated(timeSeated)}</div></div>
-        </Button>
+      <Grid item xs={4}>
+        <Box display="flex" justifyContent="center" flexWrap="nowrap" m={3}>
+          <Button
+            id={`T${tableId}`}
+            onClick={this.handleClick}
+            variant="contained"
+            color={color}
+            className={classes.root}
+          >
+            <Box display="flex" justifyContent="center" flexWrap="wrap">
+              <Box>
+                <Typography variant="h4" noWrap>{`T ${tableId}`}</Typography>
+              </Box>
+              <Box>
+                <Typography variant="h6" noWrap>
+                  {this.parseTimeSeated(timeSeated)}
+                </Typography>
+              </Box>
+            </Box>
+          </Button>
+        </Box>
       </Grid>
     );
   }

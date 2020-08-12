@@ -1,14 +1,11 @@
 import React from 'react';
-import Box from '@material-ui/core/Box';
 import ViewPay from './ViewPay';
 import FloorPlan from './FloorPlan';
 import ViewChecks from './ViewChecks';
 import ViewCheckItem from './ViewCheckItem';
 import TablePopUp from './TablePopUp';
-import {
-  Switch,
-  Route
-} from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import { Switch, Route } from 'react-router-dom';
 
 export default class ViewRestaurant extends React.Component {
   constructor(props) {
@@ -73,19 +70,29 @@ export default class ViewRestaurant extends React.Component {
           changeTableStatus={this.changeTableStatus}
           history={history}
         />
-        <Box display="flex">
-          <ViewChecks url={url} history={history}/>
-          <Switch>
-            <Route path={`${path}/paycheck/:checkId/:tableId`} component={ViewPay}/>
-            <Route path={`${path}/checkitem/:checkId/:tableId`} component={ViewCheckItem} />
-            <Route
-              exact path={path}
-              render={props => (
-                <FloorPlan {...props} floorPlan={this.state.floorPlan} viewDialog={this.viewDialog} dialogOpen={this.state.dialogOpen}/>
-              )}
-            />
-          </Switch>
-        </Box>
+        <Grid container spacing={2}>
+          <Grid item xs={4} style={{ paddingTop: '0px' }}>
+            <ViewChecks url={url} history={history} />
+          </Grid>
+          <Grid item xs={8} style={{ paddingTop: '4px', paddingRight: '4px', paddingLeft: '0px' }}>
+            <Switch>
+              <Route path={`${path}/paycheck/:checkId/:tableId`} component={ViewPay} />
+              <Route path={`${path}/checkitem/:checkId/:tableId`} component={ViewCheckItem} />
+              <Route
+                exact
+                path={path}
+                render={props => (
+                  <FloorPlan
+                    {...props}
+                    floorPlan={this.state.floorPlan}
+                    viewDialog={this.viewDialog}
+                    dialogOpen={this.state.dialogOpen}
+                  />
+                )}
+              />
+            </Switch>
+          </Grid>
+        </Grid>
       </>
     );
   }
