@@ -74,10 +74,23 @@ export default class ViewRestaurant extends React.Component {
           <Grid item xs={4} style={{ paddingTop: '0px' }}>
             <ViewChecks url={url} history={history} />
           </Grid>
-          <Grid item xs={8} style={{ paddingTop: '4px', paddingRight: '4px', paddingLeft: '0px' }}>
+          <Grid
+            item xs={8}
+            style={{
+              paddingTop: '4px',
+              paddingRight:
+              '4px',
+              paddingLeft:
+              '0px'
+            }}
+          >
             <Switch>
-              <Route path={`${path}/paycheck/:checkId/:tableId`} component={ViewPay} />
-              <Route path={`${path}/checkitem/:checkId/:tableId`} component={ViewCheckItem} />
+              <Route
+                path={`${path}/paycheck/:checkId/:tableId`}
+                component={ViewPay} />
+              <Route
+                path={`${path}/checkitem/:checkId/:tableId`}
+                component={ViewCheckItem} />
               <Route
                 exact
                 path={path}

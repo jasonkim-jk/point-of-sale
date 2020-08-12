@@ -43,7 +43,11 @@ class SaleReport extends React.Component {
       .then(response => response.json())
       .then(data => {
         const total = this.getTotal(data);
-        this.setState({ saleData: data, totalSold: total.totalSold, totalProfit: total.totalProfit.toFixed(2) });
+        this.setState({
+          saleData: data,
+          totalSold: total.totalSold,
+          totalProfit: total.totalProfit.toFixed(2)
+        });
       })
       .catch(error => {
         console.error(error);
@@ -59,35 +63,50 @@ class SaleReport extends React.Component {
           <TableCell align="center">{item['Item Name']}</TableCell>
           <TableCell align="center" className={classes.cell}>
             <Box display="flex" justifyContent="center" bgcolor="background.paper">
-              <Avatar variant="rounded" alt={item['Item Name']} className={classes.image} src={item.Image} />
+              <Avatar
+                variant="rounded"
+                alt={item['Item Name']}
+                className={classes.image}
+                src={item.Image}
+              />
             </Box>
           </TableCell>
           <TableCell align="center">{item['Total Sold']}</TableCell>
           <TableCell align="center">${item['Sale Price']}</TableCell>
           <TableCell align="center">${item.Cost}</TableCell>
-          <TableCell align="center">${parseFloat(item.Profit).toFixed(2)}</TableCell>
+          <TableCell align="center">
+            ${parseFloat(item.Profit).toFixed(2)}
+          </TableCell>
         </TableRow>
       );
     });
 
-    const salseTotal = (
+    const salesTotal = (
       <>
         <TableRow >
           <TableCell rowSpan={2} />
           <TableCell rowSpan={2} />
           <TableCell colSpan={4}>
-            <Typography variant="h5" color="secondary">TOTAL SOLD MENU</Typography>
+            <Typography variant="h5" color="secondary">
+              Total Items Sold
+            </Typography>
           </TableCell>
           <TableCell align="center">
-            <Typography variant="h5" color="primary">{this.state.totalSold}</Typography>
+            <Typography variant="h5" color="primary">
+              {this.state.totalSold}
+            </Typography>
           </TableCell>
         </TableRow>
         <TableRow>
           <TableCell colSpan={4}>
-            <Typography variant="h5" color="secondary">TOTAL PROFIT</Typography>
+            <Typography variant="h5" color="secondary">
+              Total Profit
+            </Typography>
           </TableCell>
           <TableCell align="center">
-            <Typography variant="h5" color="primary">${parseFloat(this.state.totalProfit).toLocaleString()}</Typography>
+            <Typography variant="h5" color="primary">
+              ${parseFloat(this.state.totalProfit).toLocaleString()}
+            </Typography>
           </TableCell>
         </TableRow>
       </>
@@ -123,7 +142,7 @@ class SaleReport extends React.Component {
           </TableHead>
           <TableBody>
             {this.state.saleData.length ? salesRow : <></>}
-            {this.state.saleData.length ? salseTotal : <></>}
+            {this.state.saleData.length ? salesTotal : <></>}
           </TableBody>
         </Table>
       </TableContainer>

@@ -170,10 +170,20 @@ class WaitListForm extends React.Component {
               }}
             />
             <Box display="flex" justifyContent="center" mt={2} p={1}>
-              <Button type="submit" variant="contained" color="primary" className={classes.button}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.button}
+              >
                 {submitText}
               </Button>
-              <Button type="reset" variant="contained" color="secondary" className={classes.button}>
+              <Button
+                type="reset"
+                variant="contained"
+                color="secondary"
+                className={classes.button}
+              >
                 Cancel
               </Button>
             </Box>

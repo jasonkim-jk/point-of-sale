@@ -56,7 +56,13 @@ class MenuCustomizerForm extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.editView && nextProps.editItem.item !== prevState.item) {
       const menu = nextProps.editItem;
-      return { editView: true, item: menu.item, cost: menu.cost, salePrice: menu.salePrice, image: '' };
+      return {
+        editView: true,
+        item: menu.item,
+        cost: menu.cost,
+        salePrice: menu.salePrice,
+        image: ''
+      };
     }
     return true;
   }
@@ -129,7 +135,11 @@ class MenuCustomizerForm extends React.Component {
         <Typography variant="h4" align="center" className={classes.title}>
           {titleText}
         </Typography>
-        <form onSubmit={this.handleSubmit} onReset={this.handleReset} name="menuForm">
+        <form
+          onSubmit={this.handleSubmit}
+          onReset={this.handleReset}
+          name="menuForm"
+        >
           <FormControl fullWidth className={classes.form}>
             <TextField
               onChange={this.handleChange}
@@ -217,16 +227,36 @@ class MenuCustomizerForm extends React.Component {
                 >
                   Menu Image Upload
                 </Button>
-                <Typography variant="caption" display="block" className={classes.imageName}>
+                <Typography
+                  variant="caption"
+                  display="block"
+                  className={classes.imageName}
+                >
                   {this.state.image}
                 </Typography>
               </label>
             </Box>
-            <Box display="flex" justifyContent="center" mt={5} p={1} bgcolor="background.paper">
-              <Button type="submit" variant="contained" color="primary" className={classes.button}>
+            <Box
+              display="flex"
+              justifyContent="center"
+              mt={5}
+              p={1}
+              bgcolor="background.paper"
+            >
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.button}
+              >
                 {buttonText}
               </Button>
-              <Button type="reset" variant="contained" color="secondary" className={classes.button}>
+              <Button
+                type="reset"
+                variant="contained"
+                color="secondary"
+                className={classes.button}
+              >
                 Cancel
               </Button>
             </Box>

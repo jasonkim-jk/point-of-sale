@@ -93,7 +93,12 @@ class ViewChecks extends React.Component {
       <Grid item xs={12} key={check.checkId}>
         <Grid container spacing={1}>
           <Grid item xs={6}>
-            <Typography variant="h4" noWrap color="primary" className={classes.table}>
+            <Typography
+              variant="h4"
+              noWrap
+              color="primary"
+              className={classes.table}
+            >
               Table {check.tableId}
             </Typography>
             <Typography variant="h5" className={classes.time}>
@@ -103,20 +108,30 @@ class ViewChecks extends React.Component {
           <Grid item xs={6}>
             <Box display="flex" justifyContent="flex-end" flexWrap="wrap">
               <Box>
-                <Typography align="right" variant="h5" noWrap className={classes.checkId}>
+                <Typography
+                  align="right"
+                  variant="h5"
+                  noWrap
+                  className={classes.checkId}
+                >
                   Check #{check.checkId}
                 </Typography>
               </Box>
               <Box>
-                <Button
-                  variant="contained"
-                  size="medium"
-                  className={classes.checkId}
-                  startIcon={<ReceiptIcon />}
-                  style={{ backgroundColor: '#1DBE94', color: 'white' }}
-                >
-                  <Link to={`${url}/checkitem/${check.checkId}/${check.tableId}`}>View Check</Link>
-                </Button>
+                <Link to={`${url}/checkitem/${check.checkId}/${check.tableId}`}>
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    className={classes.checkId}
+                    startIcon={<ReceiptIcon />}
+                    style={{
+                      backgroundColor: '#1DBE94',
+                      color: 'white'
+                    }}
+                  >
+                      View Check
+                  </Button>
+                </Link>
               </Box>
             </Box>
           </Grid>
