@@ -16,7 +16,7 @@ const useStyles = theme => ({
   },
   padding: {
     padding: 0,
-    paddingLeft: 20
+    paddingLeft: 5
   },
   navbar: {
     background: '#073b4c'
@@ -33,11 +33,6 @@ class NavBar extends React.Component {
           <Link to="/">
             <Button size="large" color="inherit" className={classes.nav}>
               Restaurant View
-            </Button>
-          </Link>
-          <Link to="/table">
-            <Button size="large" color="inherit" className={classes.nav}>
-              Table View
             </Button>
           </Link>
           <Link to="/chef">
