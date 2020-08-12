@@ -87,11 +87,22 @@ export default class ViewChecks extends React.Component {
           <Grid item xs={5}>
             <Typography align="right" style={{ marginTop: '-5px' }}>
             Table {check.tableId}<br></br>
-              <Button size="small" variant="contained" style={{ backgroundColor: '#118AB2', color: 'white', fontSize: '10px', marginBottom: '10px', borderRadius: '0px', padding: '2px 8px' }}>
-                <Link to={`${url}/checkitem/${check.checkId}/${check.tableId}`}>
-            View Check
-                </Link>
-              </Button>
+              <Link to={`${url}/checkitem/${check.checkId}/${check.tableId}`}>
+                <Button
+                  size="small"
+                  variant="contained"
+                  style={{
+                    backgroundColor: '#118AB2',
+                    color: 'white',
+                    fontSize: '10px',
+                    marginBottom: '10px',
+                    borderRadius: '0px',
+                    padding: '2px 8px'
+                  }}
+                >
+                  View Check
+                </Button>
+              </Link>
             </Typography>
           </Grid>
         </Grid>

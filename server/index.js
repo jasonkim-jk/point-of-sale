@@ -146,7 +146,9 @@ app.post('/api/menus', upload.single('image'), (req, res) => {
   let salePrice = req.body.salePrice;
 
   if (!item || !cost || !salePrice) {
-    return res.status(400).json({ error: 'Sorry, missing information. Check input data again.' });
+    return res.status(400).json({
+      error: 'Sorry, missing information. Check input data again.'
+    });
   }
 
   cost = parseFloat(cost).toFixed(2);
@@ -163,7 +165,9 @@ app.post('/api/menus', upload.single('image'), (req, res) => {
     .then(result => {
       res.status(201).json(result.rows[0]);
     })
-    .catch(() => res.status(500).json({ error: 'An unexpected error occured.' }));
+    .catch(() => res.status(500).json({
+      error: 'An unexpected error occured.'
+    }));
 });
 
 app.put('/api/menus/:itemId', upload.single('image'), (req, res, next) => {
@@ -173,7 +177,9 @@ app.put('/api/menus/:itemId', upload.single('image'), (req, res, next) => {
   let salePrice = req.body.salePrice;
 
   if (!checkValidity(itemId) || !item || !cost || !salePrice) {
-    return res.status(400).json({ error: 'Sorry, your requested information is invalid.' });
+    return res.status(400).json({
+      error: 'Sorry, your requested information is invalid.'
+    });
   }
 
   cost = parseFloat(cost).toFixed(2);
@@ -193,7 +199,9 @@ app.put('/api/menus/:itemId', upload.single('image'), (req, res, next) => {
   db.query(sql, paramDb)
     .then(result => {
       if (result.rows[0] === undefined) {
-        return res.status(400).json({ error: 'Requested itemId may not exist in the database. Check your data agin.' });
+        return res.status(400).json({
+          error: 'Requested itemId may not exist in the database. Check your data agin.'
+        });
       } else {
         res.status(200).json(result.rows[0]);
       }
@@ -203,7 +211,9 @@ app.put('/api/menus/:itemId', upload.single('image'), (req, res, next) => {
 
 app.delete('/api/menus/:itemId', (req, res, next) => {
   if (!checkValidity(req.params.itemId)) {
-    return res.status(400).json({ error: 'Sorry, your requested id is invalid.' });
+    return res.status(400).json({
+      error: 'Sorry, your requested id is invalid.'
+    });
   }
   const itemId = parseInt(req.params.itemId);
   const paramDb = [itemId];
@@ -216,7 +226,10 @@ app.delete('/api/menus/:itemId', (req, res, next) => {
   db.query(sql, paramDb)
     .then(result => {
       if (result.rows[0] === undefined) {
-        return res.status(400).json({ error: 'Requested itemId may not exist in the database. Check your data agin.' });
+        return res.status(400).json({
+          error: `Requested itemId may not exist in the database.
+            Check your data agin.`
+        });
       } else {
         res.status(204).end();
       }
@@ -226,19 +239,19 @@ app.delete('/api/menus/:itemId', (req, res, next) => {
 
 app.get('/api/orders', (req, res, next) => {
   const sql = `
-      select "o"."tableId",
-             "o"."orderId",
-             "o"."orderedAt",
-      array_agg(jsonb_build_object(
-        'orderItemId', "oi"."orderItemId",
-        'item', "m"."item",
-        'quantity', "oi"."quantity",
-        'isCompleted', "oi"."isCompleted"
-       )) as "items"
-        from "orders" as "o"
-        join "orderItems" as "oi" using ("orderId")
-        join "menus" as "m" using ("itemId")
-       where "o"."isSent" = false
+    select "o"."tableId",
+          "o"."orderId",
+          "o"."orderedAt",
+    array_agg(jsonb_build_object(
+      'orderItemId', "oi"."orderItemId",
+      'item', "m"."item",
+      'quantity', "oi"."quantity",
+      'isCompleted', "oi"."isCompleted"
+    )) as "items"
+    from "orders" as "o"
+    join "orderItems" as "oi" using ("orderId")
+    join "menus" as "m" using ("itemId")
+    where "o"."isSent" = false
     group by "o"."tableId", "o"."orderId", "o"."orderedAt"
     order by "o"."orderedAt" desc;
   `;
@@ -252,14 +265,16 @@ app.get('/api/orders', (req, res, next) => {
 
 app.get('/api/orders/:tableId', (req, res, next) => {
   if (!checkValidity(req.params.tableId)) {
-    return res.status(400).json({ error: 'Sorry, your requested id is invalid.' });
+    return res.status(400).json({
+      error: 'Sorry, your requested id is invalid.'
+    });
   }
   const tableId = parseInt(req.params.tableId);
   const paramDb = [tableId];
   const sql = `
     select "timeSeated"
-      from "tables"
-     where "tables"."tableId" = $1
+    from "tables"
+    where "tables"."tableId" = $1
   `;
   db.query(sql, paramDb)
     .then(result => {
@@ -271,10 +286,10 @@ app.get('/api/orders/:tableId', (req, res, next) => {
         const timeSeated = result.rows[0].timeSeated;
         const sql = `
           select "orderedAt"
-            from "orders"
-           where "orders"."tableId" = $1
-        order by "orders"."orderedAt" desc
-           limit 1
+          from "orders"
+          where "orders"."tableId" = $1
+          order by "orders"."orderedAt" desc
+          limit 1
         `;
 
         return db.query(sql, paramDb)
@@ -300,18 +315,18 @@ app.get('/api/orders/:tableId', (req, res, next) => {
       const paramDb = [parseInt(req.params.tableId)];
       const sql = `
           select "o"."orderId",
-                "o"."orderedAt",
-              array_agg(jsonb_build_object(
-                'item', "m"."item",
-                'quantity', "oi"."quantity",
-                'salePrice', "m"."salePrice"
-              )) as "items"
-            from "orders" as "o"
-            join "orderItems" as "oi" using ("orderId")
-            join "menus" as "m" using ("itemId")
+            "o"."orderedAt",
+          array_agg(jsonb_build_object(
+            'item', "m"."item",
+            'quantity', "oi"."quantity",
+            'salePrice', "m"."salePrice"
+          )) as "items"
+          from "orders" as "o"
+          join "orderItems" as "oi" using ("orderId")
+          join "menus" as "m" using ("itemId")
           where "o"."tableId" = $1
-        group by "o"."orderId", "o"."orderedAt"
-        order by "o"."orderedAt" desc
+          group by "o"."orderId", "o"."orderedAt"
+          order by "o"."orderedAt" desc
           limit 1;
       `;
 
@@ -325,7 +340,9 @@ app.get('/api/orders/:tableId', (req, res, next) => {
 
 app.post('/api/orders/', (req, res, next) => {
   if (!checkValidity(req.body.tableId) || req.body.items.length === 0) {
-    return res.status(400).json({ error: 'Sorry, your order information is incomplete.' });
+    return res.status(400).json({
+      error: 'Sorry, your order information is incomplete.'
+    });
   }
 
   const paramDb = [parseInt(req.body.tableId), 'NOW()'];
@@ -340,9 +357,9 @@ app.post('/api/orders/', (req, res, next) => {
       const orderId = result.rows[0].orderId;
       const paramDb = getDbParam(orderId, req.body.items);
       const sql = `
-          insert into "orderItems" ("orderId", "itemId", "quantity", "discount", "createdAt")
+        insert into "orderItems" ("orderId", "itemId", "quantity", "discount", "createdAt")
         select * from UNNEST ($1::int[], $2::int[], $3::int[], $4::int[], $5::timestamp[])
-            returning "orderItemId"
+        returning "orderItemId"
       `;
 
       return db.query(sql, paramDb).then(result2 => {
@@ -366,15 +383,17 @@ app.patch('/api/orders/:orderId', (req, res, next) => {
   const paramDb = [orderId, isSent];
   const sql = `
       update "orders"
-         set "isSent" = $2
-       where "orderId" = $1
-   returning *
+      set "isSent" = $2
+      where "orderId" = $1
+      returning *
   `;
 
   db.query(sql, paramDb)
     .then(result => {
       if (result.rows[0] === undefined) {
-        return res.status(404).json({ error: 'Requested id may not exist in the database. Check your data agin.' });
+        return res.status(404).json({
+          error: 'Requested id may not exist in the database. Check your data agin.'
+        });
       } else {
         res.status(200).json(result.rows[0]);
       }
@@ -384,7 +403,9 @@ app.patch('/api/orders/:orderId', (req, res, next) => {
 
 app.patch('/api/orderItems/:orderItemId', (req, res, next) => {
   if (!checkValidity(req.params.orderItemId)) {
-    return res.status(400).json({ error: 'Sorry, your requested id is invalid.' });
+    return res.status(400).json({
+      error: 'Sorry, your requested id is invalid.'
+    });
   }
 
   const orderItemId = parseInt(req.params.orderItemId);
@@ -392,15 +413,17 @@ app.patch('/api/orderItems/:orderItemId', (req, res, next) => {
   const paramDb = [orderItemId, isCompleted];
   const sql = `
       update "orderItems"
-         set "isCompleted" = $2
-       where "orderItemId" = $1
-   returning *
+      set "isCompleted" = $2
+      where "orderItemId" = $1
+      returning *
   `;
 
   db.query(sql, paramDb)
     .then(result => {
       if (result.rows[0] === undefined) {
-        return res.status(404).json({ error: 'Requested id may not exist in the database. Check your data agin.' });
+        return res.status(404).json({
+          error: 'Requested id may not exist in the database. Check your data agin.'
+        });
       } else {
         res.status(200).json(result.rows[0]);
       }
@@ -411,20 +434,24 @@ app.patch('/api/orderItems/:orderItemId', (req, res, next) => {
 
 app.delete('/api/orderItems/:orderItemId', (req, res, next) => {
   if (!checkValidity(req.params.orderItemId)) {
-    return res.status(400).json({ error: 'Sorry, your requested id is invalid.' });
+    return res.status(400).json({
+      error: 'Sorry, your requested id is invalid.'
+    });
   }
   const orderItemId = parseInt(req.params.orderItemId);
   const paramDb = [orderItemId];
   const sql = `
     delete from "orderItems"
-          where "orderItemId" = $1
-      returning *
+    where "orderItemId" = $1
+    returning *
   `;
 
   db.query(sql, paramDb)
     .then(result => {
       if (result.rows[0] === undefined) {
-        return res.status(400).json({ error: 'Requested id may not exist in the database. Check your data agin.' });
+        return res.status(400).json({
+          error: 'Requested id may not exist in the database. Check your data agin.'
+        });
       } else {
         res.status(204).end();
       }
@@ -435,15 +462,15 @@ app.delete('/api/orderItems/:orderItemId', (req, res, next) => {
 app.get('/api/sales', (req, res, next) => {
   const sql = `
       select "menus"."item" as "Item Name",
-            "menus"."imageUrl" as "Image",
-            sum("orderItems"."quantity") as "Total Sold",
-            "menus"."salePrice" as "Sale Price",
-            "menus"."cost" as "Cost",
-            ("menus"."salePrice" - "menus"."cost") * sum("orderItems"."quantity") as "Profit"
-        from "menus"
-        join "orderItems" using ("itemId")
-    group by ("menus"."item", "menus"."imageUrl", "menus"."salePrice", "menus"."cost")
-    order by "Profit" desc;
+        "menus"."imageUrl" as "Image",
+        sum("orderItems"."quantity") as "Total Sold",
+        "menus"."salePrice" as "Sale Price",
+        "menus"."cost" as "Cost",
+        ("menus"."salePrice" - "menus"."cost") * sum("orderItems"."quantity") as "Profit"
+      from "menus"
+      join "orderItems" using ("itemId")
+      group by ("menus"."item", "menus"."imageUrl", "menus"."salePrice", "menus"."cost")
+      order by "Profit" desc;
     `;
 
   db.query(sql)
@@ -456,7 +483,7 @@ app.get('/api/sales', (req, res, next) => {
 app.get('/api/checks', (req, res, next) => {
   const sql = `
     select * from "checks"
-      where "isPaid" = false
+    where "isPaid" = false
     `;
   db.query(sql)
     .then(result => {
@@ -519,8 +546,10 @@ app.put('/api/checks/:checkId', (req, res, next) => {
 });
 
 app.get('/api/waitlist', (req, res, next) => {
-  const sql = `select * from "waitLists"
-  order by  "isSeated" asc, "time" asc;`;
+  const sql =
+  `select * from "waitLists"
+  order by  "isSeated" asc, "time" asc;
+  `;
   db.query(sql)
     .then(result => {
       res.status(200).json(result.rows);
@@ -539,7 +568,8 @@ app.post('/api/waitlist', (req, res, next) => {
   } else {
     comment = null;
   }
-  const sql = `insert into "waitLists" ("name", "partySize", "comment", "time")
+  const sql = `
+    insert into "waitLists" ("name", "partySize", "comment", "time")
     values($1, $2, $3, now())
     returning *`;
   const params = [req.body.name, partySize, comment];
@@ -562,11 +592,11 @@ app.patch('/api/waitlist/:waitId', (req, res, next) => {
     return;
   }
   const sql = `
-  update "waitLists"
-  set "isSeated" = $2
-  where "waitId" = $1
-  returning *
-  `;
+    update "waitLists"
+    set "isSeated" = $2
+    where "waitId" = $1
+    returning *
+    `;
   const params = [waitId, !isSeated];
   db.query(sql, params)
     .then(result => {
@@ -601,12 +631,12 @@ app.put('/api/waitlist/:waitId', (req, res, next) => {
     comment = null;
   }
   const sql = `
-  update "waitLists"
-  set "name" = $1,
-  "partySize" = $2,
-  "comment" = $3
-  where "waitId" = $4
-  returning *
+    update "waitLists"
+    set "name" = $1,
+    "partySize" = $2,
+    "comment" = $3
+    where "waitId" = $4
+    returning *
   `;
   const params = [name, partySize, comment, waitId];
   db.query(sql, params)
@@ -631,9 +661,9 @@ app.delete('/api/waitlist/:waitId', (req, res, next) => {
     return;
   }
   const sql = `
-  delete from "waitLists"
-  where "waitId" = $1
-  returning *
+    delete from "waitLists"
+    where "waitId" = $1
+    returning *
   `;
   const params = [waitId];
   db.query(sql, params)

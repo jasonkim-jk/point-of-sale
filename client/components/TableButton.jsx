@@ -67,8 +67,16 @@ class TableButton extends React.Component {
     }
     return (
       <Grid item xs={3}>
-        <Button id={`T${tableId}`} onClick={this.handleClick} variant="contained" color={color} className={classes.root}>
-          <div>{`T${tableId}`}<div>{this.parseTimeSeated(timeSeated)}</div></div>
+        <Button
+          id={`T${tableId}`}
+          onClick={this.handleClick}
+          variant="contained"
+          color={color}
+          className={classes.root}
+        >
+          <div>{`T${tableId}`}<div>
+            {this.parseTimeSeated(timeSeated)}
+          </div></div>
         </Button>
       </Grid>
     );

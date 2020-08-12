@@ -76,12 +76,23 @@ export default class ViewRestaurant extends React.Component {
         <Box display="flex">
           <ViewChecks url={url} history={history}/>
           <Switch>
-            <Route path={`${path}/paycheck/:checkId/:tableId`} component={ViewPay}/>
-            <Route path={`${path}/checkitem/:checkId/:tableId`} component={ViewCheckItem} />
+            <Route
+              path={`${path}/paycheck/:checkId/:tableId`}
+              component={ViewPay}
+            />
+            <Route
+              path={`${path}/checkitem/:checkId/:tableId`}
+              component={ViewCheckItem}
+            />
             <Route
               exact path={path}
               render={props => (
-                <FloorPlan {...props} floorPlan={this.state.floorPlan} viewDialog={this.viewDialog} dialogOpen={this.state.dialogOpen}/>
+                <FloorPlan
+                  {...props}
+                  floorPlan={this.state.floorPlan}
+                  viewDialog={this.viewDialog}
+                  dialogOpen={this.state.dialogOpen}
+                />
               )}
             />
           </Switch>

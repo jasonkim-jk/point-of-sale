@@ -43,7 +43,7 @@ class ViewChefItem extends React.Component {
 
   componentDidMount() {
     this.setState({ items: this.props.data.items });
-    this.checkAllDont(this.props.data.items);
+    this.checkAllCompleted(this.props.data.items);
   }
 
   handleToggle(event) {
@@ -66,12 +66,12 @@ class ViewChefItem extends React.Component {
             this.setState({ items: items });
           }
         }
-        this.checkAllDont(items);
+        this.checkAllCompleted(items);
       }
     });
   }
 
-  checkAllDont(items) {
+  checkAllCompleted(items) {
     let completedItems = 0;
 
     for (const item of items) {
@@ -79,7 +79,7 @@ class ViewChefItem extends React.Component {
     }
 
     if (completedItems === items.length) {
-      this.props.deleteAllDone(this.props.data.orderId);
+      this.props.deleteCompletedOrder(this.props.data.orderId);
     }
   }
 
@@ -131,7 +131,9 @@ class ViewChefItem extends React.Component {
                   <Typography variant="h5">Table {tableId}</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="h5">{this.elapsedTime(others.orderedAt)}</Typography>
+                  <Typography variant="h5">
+                    {this.elapsedTime(others.orderedAt)}
+                  </Typography>
                 </Grid>
               </Grid>
             </Box>

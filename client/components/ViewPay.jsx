@@ -56,18 +56,28 @@ export default class ViewPay extends React.Component {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell><Typography variant="h4">Total: ${invoiceTotal}</Typography></TableCell>
-              <TableCell><Typography variant="h6" align="center">Check #{this.props.match.params.checkId}</Typography></TableCell>
+              <TableCell>
+                <Typography variant="h4">Total: ${invoiceTotal}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant="h6" align="center">
+                  Check #{this.props.match.params.checkId}
+                </Typography>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
               <TableCell colSpan={3}>
                 <FormControl fullWidth variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-amount">Tips</InputLabel>
+                  <InputLabel htmlFor="outlined-adornment-amount">
+                    Tips
+                  </InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-tips"
-                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                    startAdornment={
+                      <InputAdornment position="start">$</InputAdornment>
+                    }
                     labelWidth={60}
                   />
                 </FormControl>
@@ -76,10 +86,14 @@ export default class ViewPay extends React.Component {
             <TableRow>
               <TableCell colSpan={3}>
                 <FormControl fullWidth variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-amount">Total</InputLabel>
+                  <InputLabel htmlFor="outlined-adornment-amount">
+                    Total
+                  </InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-total"
-                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                    startAdornment={
+                      <InputAdornment position="start">$</InputAdornment>
+                    }
                     labelWidth={60}
                   />
                 </FormControl>
@@ -88,10 +102,14 @@ export default class ViewPay extends React.Component {
             <TableRow>
               <TableCell colSpan={3}>
                 <FormControl fullWidth variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-amount">Cash</InputLabel>
+                  <InputLabel htmlFor="outlined-adornment-amount">
+                    Cash
+                  </InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-cash"
-                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                    startAdornment={
+                      <InputAdornment position="start">$</InputAdornment>
+                    }
                     labelWidth={60}
                   />
                 </FormControl>
@@ -103,16 +121,25 @@ export default class ViewPay extends React.Component {
                   <InputLabel htmlFor="outlined-adornment-amount">Card</InputLabel>
                   <OutlinedInput
                     id="outlined-adornment-card"
-                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                    startAdornment={
+                      <InputAdornment position="start">$</InputAdornment>
+                    }
                     labelWidth={60}
                   />
                 </FormControl>
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell align="left">  <Button variant="contained" color="primary" style={{ padding: '10px 60px' }} onClick={this.userPaid}>
-        Pay
-              </Button></TableCell>
+              <TableCell align="left">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{ padding: '10px 60px' }}
+                  onClick={this.userPaid}
+                >
+                  Pay
+                </Button>
+              </TableCell>
             </TableRow>
           </TableBody>
 
