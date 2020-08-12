@@ -37,6 +37,11 @@ export default class TablePopUp extends React.Component {
     if (id === 'view-order') {
       this.props.history.push(`/order/${this.props.tableData.tableId}`);
     }
+    if (id === 'empty') {
+      this.props.changeTableStatus(tableId, 0);
+      this.handleClose();
+
+    }
 
   }
 
@@ -61,10 +66,13 @@ export default class TablePopUp extends React.Component {
     if (tableStatus === 0) {
       buttonId = 'seat';
       buttonText = `Seat Table #${tableId}`;
-    } else {
+    } else if (tableStatus === 1 || tableStatus === 2) {
       buttonId = 'view-order';
       buttonText = `View Order for Table #${tableId}`;
     }
+
+    const clearButton = `Clear Table for Table #${tableId}`;
+
     return (
       <Dialog
         open={this.state.isOpen}
@@ -74,6 +82,10 @@ export default class TablePopUp extends React.Component {
         <DialogActions>
           <Button onClick={this.handleClick} color="primary" id={buttonId}>
             {buttonText}
+
+          </Button>
+          <Button color="secondary" id="empty" onClick={this.handleClick}>
+            {clearButton}
           </Button>
         </DialogActions>
       </Dialog>
