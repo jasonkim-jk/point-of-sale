@@ -247,6 +247,36 @@ app.get('/api/orders', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/orders/:tableId', (req, res, next) => {
+  if (!checkValidity(req.params.tableId)) {
+    return res.status(400).json({ error: 'Sorry, your requested id is invalid.' });
+  }
+  const tableId = parseInt(req.params.tableId);
+  const paramDb = [tableId];
+  const sql = `
+    select "o"."orderId",
+           "o"."orderedAt",
+        array_agg(jsonb_build_object(
+          'item', "m"."item",
+          'quantity', "oi"."quantity",
+          'salePrice', "m"."salePrice"
+        )) as "items"
+      from "orders" as "o"
+      join "orderItems" as "oi" using ("orderId")
+      join "menus" as "m" using ("itemId")
+     where "o"."tableId" = $1
+     group by "o"."orderId", "o"."orderedAt"
+     order by "o"."orderedAt" desc
+     limit 1;
+  `;
+
+  db.query(sql, paramDb)
+    .then(result => {
+      res.status(200).json(result.rows[0]);
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/orders/', (req, res, next) => {
   if (!checkValidity(req.body.tableId) || req.body.items.length === 0) {
     return res.status(400).json({ error: 'Sorry, your order information is incomplete.' });

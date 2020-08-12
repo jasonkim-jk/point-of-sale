@@ -8,7 +8,10 @@ export default class ViewNewOrder extends React.Component {
     super(props);
     this.state = {
       tableId: 0,
-      orders: {}
+      orders: {},
+      orderedItems: [],
+      prevOrder: false,
+      taxRate: 7
     };
     this.clearOrderItems = this.clearOrderItems.bind(this);
     this.addItemToOrder = this.addItemToOrder.bind(this);
@@ -35,9 +38,22 @@ export default class ViewNewOrder extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      tableId: this.props.match.params.tableId
-    });
+    const tableId = this.props.match.params.tableId;
+    this.getOrderedItems(tableId);
+    this.setTableId(tableId);
+  }
+
+  setTableId(id) {
+    this.setState({ tableId: id });
+  }
+
+  getOrderedItems(id) {
+    fetch(`/api/orders/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ orderedItems: data, prevOrder: true });
+      })
+      .catch(() => console.error('server response error'));
   }
 
   updateItemQty(itemId, qty) {
@@ -68,13 +84,14 @@ export default class ViewNewOrder extends React.Component {
           <MenuList addToOrder={this.addItemToOrder} />
         </Grid>
         <Grid item xs={5}>
-          {/* <OrderBill table={this.state.tableId} check receipt="123" orderItem={this.state.orders} cancelOrder={this.clearOrderItems}/> */}
           <OrderBill
             table={this.state.tableId}
             orderItem={this.state.orders}
+            prevOrder={this.state.prevOrder}
+            orderedItems={this.state.orderedItems}
             cancelOrder={this.clearOrderItems}
             updateItem={this.updateItemQty}
-            taxRate="7.5"
+            taxRate={this.state.taxRate}
           />
         </Grid>
       </Grid>
