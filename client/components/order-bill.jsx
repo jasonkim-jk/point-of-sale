@@ -89,7 +89,6 @@ class OrderBill extends React.Component {
 
   handleCancel() {
     this.props.cancelOrder();
-    // routing
   }
 
   handleOrder() {
@@ -116,7 +115,6 @@ class OrderBill extends React.Component {
           this.setState({ ordered: !this.state.ordered });
         } else {
           this.setState({ popup: true });
-          this.handleCancel();
         }
       }
     }).catch(error => console.error(error.message));
@@ -138,10 +136,16 @@ class OrderBill extends React.Component {
 
   closePopup() {
     this.setState({ popup: false });
+    this.handleCancel();
   }
 
   static getDerivedStateFromProps(props, state) {
-    const price = updateRow(props.orderedItems, props.taxRate, props.prevOrder);
+    let price = {};
+    if (props.prevOrder) {
+      price = updateRow(props.orderedItems, props.taxRate, props.prevOrder);
+    } else {
+      price = updateRow(props.orderItem, props.taxRate, props.prevOrder);
+    }
     return { total: price.total.toFixed(2), subTotal: price.subTotal.toFixed(2), tax: price.tax.toFixed(2) };
   }
 
