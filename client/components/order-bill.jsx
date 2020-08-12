@@ -42,18 +42,30 @@ function createRow(name, qty, price, id) {
   return { id, name, qty, priceRow };
 }
 
-function updateRow(orders, taxRate) {
+function updateRow(orders, taxRate, prevOrder) {
   let subTotal = 0;
   rows.splice(0, rows.length);
 
-  for (const item in orders) {
-    const itemId = parseFloat(orders[item].itemId);
-    const price = parseFloat(orders[item].salePrice);
-    const qty = parseInt(orders[item].quantity);
-    const rowValue = createRow(`${orders[item].item}`, qty, price, itemId);
-    subTotal += parseFloat(rowValue.priceRow);
-    rows.push(rowValue);
+  if (prevOrder) {
+    for (const [index, element] of orders.items.entries()) {
+      const item = element.item;
+      const price = parseFloat(element.salePrice);
+      const qty = parseInt(element.quantity);
+      const rowValue = createRow(item, qty, price, index);
+      subTotal += parseFloat(rowValue.priceRow);
+      rows.push(rowValue);
+    }
+  } else {
+    for (const item in orders) {
+      const itemId = parseFloat(orders[item].itemId);
+      const price = parseFloat(orders[item].salePrice);
+      const qty = parseInt(orders[item].quantity);
+      const rowValue = createRow(`${orders[item].item}`, qty, price, itemId);
+      subTotal += parseFloat(rowValue.priceRow);
+      rows.push(rowValue);
+    }
   }
+
   const tax = subTotal * parseFloat(taxRate) / 100;
   const total = subTotal + tax;
   return { total, subTotal, tax };
@@ -102,8 +114,8 @@ class OrderBill extends React.Component {
         if (this.state.payFeature) {
           this.setState({ ordered: !this.state.ordered });
         } else {
-          this.handleCancel();
           this.setState({ popup: true });
+          this.handleCancel();
         }
       }
     }).catch(error => console.error(error.message));
@@ -128,7 +140,7 @@ class OrderBill extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const price = updateRow(props.orderItem, props.taxRate);
+    const price = updateRow(props.orderedItems, props.taxRate, props.prevOrder);
     return { total: price.total.toFixed(2), subTotal: price.subTotal.toFixed(2), tax: price.tax.toFixed(2) };
   }
 
@@ -201,9 +213,9 @@ class OrderBill extends React.Component {
                 <TableRow key={row.name}>
                   <TableCell>{row.name}</TableCell>
                   <TableCell align="center" id={row.id} className={classes.qty}>
-                    {this.props.check ? <></> : plusBtnComponent}
+                    {this.props.check || this.props.prevOrder ? <></> : plusBtnComponent}
                     {row.qty}
-                    {this.props.check ? <></> : minusBtnComponent}
+                    {this.props.check || this.props.prevOrder ? <></> : minusBtnComponent}
                   </TableCell>
                   <TableCell align="right">${row.priceRow}</TableCell>
                 </TableRow>
@@ -213,9 +225,9 @@ class OrderBill extends React.Component {
           </Table>
           <Box display="flex" justifyContent="center" m={1} mt={3} p={1} bgcolor="background.paper">
             <Button variant="contained" className={classes.button} onClick={this.handleCancel}>
-              Cancel
+              {this.props.prevOrder ? 'Back' : 'Cancel'}
             </Button>
-            {this.props.check ? <></> : orderBtnComponent}
+            {this.props.check || this.props.prevOrder ? <></> : orderBtnComponent}
             {this.state.payFeature ? payBtnComponent : <></>}
           </Box>
         </TableContainer>

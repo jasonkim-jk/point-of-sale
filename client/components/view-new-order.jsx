@@ -9,7 +9,9 @@ export default class ViewNewOrder extends React.Component {
     this.state = {
       tableId: 0,
       orders: {},
-      taxRate: 7.5
+      orderedItems: [],
+      prevOrder: false,
+      taxRate: 7
     };
     this.clearOrderItems = this.clearOrderItems.bind(this);
     this.addItemToOrder = this.addItemToOrder.bind(this);
@@ -35,11 +37,22 @@ export default class ViewNewOrder extends React.Component {
   }
 
   componentDidMount() {
-    this.setTableId(this.props.match.params.tableId);
+    const tableId = this.props.match.params.tableId;
+    this.getOrderedItems(tableId);
+    this.setTableId(tableId);
   }
 
   setTableId(id) {
     this.setState({ tableId: id });
+  }
+
+  getOrderedItems(id) {
+    fetch(`/api/orders/${id}`)
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ orderedItems: data, prevOrder: true });
+      })
+      .catch(() => console.error('server response error'));
   }
 
   updateItemQty(itemId, qty) {
@@ -73,6 +86,8 @@ export default class ViewNewOrder extends React.Component {
           <OrderBill
             table={this.state.tableId}
             orderItem={this.state.orders}
+            prevOrder={this.state.prevOrder}
+            orderedItems={this.state.orderedItems}
             cancelOrder={this.clearOrderItems}
             updateItem={this.updateItemQty}
             taxRate={this.state.taxRate}
