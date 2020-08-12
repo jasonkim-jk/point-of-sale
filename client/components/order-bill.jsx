@@ -77,6 +77,7 @@ class OrderBill extends React.Component {
 
   handleCancel() {
     this.props.cancelOrder();
+    // routing
   }
 
   handleOrder() {
