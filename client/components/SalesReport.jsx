@@ -87,7 +87,7 @@ class SaleReport extends React.Component {
             <Typography variant="h5" color="secondary">TOTAL PROFIT</Typography>
           </TableCell>
           <TableCell align="center">
-            <Typography variant="h5" color="primary">${this.state.totalProfit}</Typography>
+            <Typography variant="h5" color="primary">${parseFloat(this.state.totalProfit).toLocaleString()}</Typography>
           </TableCell>
         </TableRow>
       </>
