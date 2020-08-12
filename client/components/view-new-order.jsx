@@ -8,7 +8,8 @@ export default class ViewNewOrder extends React.Component {
     super(props);
     this.state = {
       tableId: 0,
-      orders: {}
+      orders: {},
+      taxRate: 7.5
     };
     this.clearOrderItems = this.clearOrderItems.bind(this);
     this.addItemToOrder = this.addItemToOrder.bind(this);
@@ -34,9 +35,11 @@ export default class ViewNewOrder extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      tableId: this.props.match.params.tableId
-    });
+    this.setTableId(this.props.match.params.tableId);
+  }
+
+  setTableId(id) {
+    this.setState({ tableId: id });
   }
 
   updateItemQty(itemId, qty) {
@@ -67,13 +70,12 @@ export default class ViewNewOrder extends React.Component {
           <MenuList addToOrder={this.addItemToOrder} />
         </Grid>
         <Grid item xs={5}>
-          {/* <OrderBill table={this.state.tableId} check receipt="123" orderItem={this.state.orders} cancelOrder={this.clearOrderItems}/> */}
           <OrderBill
             table={this.state.tableId}
             orderItem={this.state.orders}
             cancelOrder={this.clearOrderItems}
             updateItem={this.updateItemQty}
-            taxRate="7.5"
+            taxRate={this.state.taxRate}
           />
         </Grid>
       </Grid>

@@ -1,19 +1,15 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Box from '@material-ui/core/Box';
+import { Paper, Grid, Divider, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 import { withStyles } from '@material-ui/core/styles';
 import ReceiptNumber from './receipt-number';
 import OrderBillTotal from './order-bill-total';
@@ -63,16 +59,20 @@ function updateRow(orders, taxRate) {
   return { total, subTotal, tax };
 }
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 class OrderBill extends React.Component {
   constructor(props) {
     super(props);
-    this.table = this.props.table;
-    this.state = { ordered: false };
+    this.state = { ordered: false, payFeature: false, popup: false };
     this.handleCancel = this.handleCancel.bind(this);
     this.handleOrder = this.handleOrder.bind(this);
     this.handlePay = this.handlePay.bind(this);
     this.handleIncrease = this.handleIncrease.bind(this);
     this.handleDecrease = this.handleDecrease.bind(this);
+    this.closePopup = this.closePopup.bind(this);
   }
 
   handleCancel() {
@@ -83,7 +83,7 @@ class OrderBill extends React.Component {
     const orders = this.props.orderItem;
     const orderItems = { tableId: 0, items: [] };
 
-    orderItems.tableId = this.table;
+    orderItems.tableId = this.props.table;
     for (const property in orders) {
       const item = [orders[property].itemId, orders[property].quantity];
       orderItems.items.push(item);
@@ -99,7 +99,12 @@ class OrderBill extends React.Component {
       body: JSON.stringify(orderItems)
     }).then(response => {
       if (response.status === 201) {
-        this.setState({ ordered: !this.state.ordered });
+        if (this.state.payFeature) {
+          this.setState({ ordered: !this.state.ordered });
+        } else {
+          this.handleCancel();
+          this.setState({ popup: true });
+        }
       }
     }).catch(error => console.error(error.message));
   }
@@ -116,6 +121,10 @@ class OrderBill extends React.Component {
 
   handleDecrease(event) {
     this.props.updateItem(event.currentTarget.parentElement.id, -1);
+  }
+
+  closePopup() {
+    this.setState({ popup: false });
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -137,9 +146,27 @@ class OrderBill extends React.Component {
         <RemoveIcon className={classes.icon} fontSize="small" color="secondary" />
       </IconButton>
     );
-    const orderBtnCompoent = (
-      <Button variant="contained" color="primary" className={classes.button} onClick={this.handleOrder} disabled={orderBtn}>
+    const orderBtnComponent = (
+      <>
+        <Button variant="contained" color="primary" className={classes.button} onClick={this.handleOrder} disabled={orderBtn}>
               Order
+        </Button>
+        <Dialog open={this.state.popup} TransitionComponent={Transition} keepMounted onClose={this.closePopup}>
+          <DialogTitle id="alert-dialog-slide-title">New Order</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+            Your order has been successfully processed.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.closePopup} color="primary">OKAY</Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    );
+    const payBtnComponent = (
+      <Button variant="contained" color="primary" className={classes.button} onClick={this.handlePay} disabled={payBtn}>
+        Pay
       </Button>
     );
 
@@ -188,16 +215,8 @@ class OrderBill extends React.Component {
             <Button variant="contained" className={classes.button} onClick={this.handleCancel}>
               Cancel
             </Button>
-            {this.props.check ? <></> : orderBtnCompoent}
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              onClick={this.handlePay}
-              disabled={payBtn}
-            >
-              Pay
-            </Button>
+            {this.props.check ? <></> : orderBtnComponent}
+            {this.state.payFeature ? payBtnComponent : <></>}
           </Box>
         </TableContainer>
       </Paper>
