@@ -41,7 +41,7 @@ export default class App extends React.Component {
             <Route path="/menu-customizer">
               <MenuCustomizer />
             </Route>
-            <Route path="/order/:tableId" component={ViewNewOrder} />
+            <Route path="/order/:tableId" component={ViewNewOrder} history={history}/>
             <Route path="/sales-report">
               <SaleReport />
             </Route>

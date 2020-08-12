@@ -17,6 +17,7 @@ export default class ViewNewOrder extends React.Component {
 
   clearOrderItems() {
     this.setState({ orders: {} });
+    this.props.history.push('/');
   }
 
   addItemToOrder(item) {
