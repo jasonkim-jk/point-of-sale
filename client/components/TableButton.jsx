@@ -10,8 +10,8 @@ const useStyles = theme => ({
     border: 0,
     borderRadius: '50%',
     color: 'black',
-    width: '130px',
-    height: '130px'
+    width: '7.5rem',
+    height: '7.5rem'
   }
 });
 

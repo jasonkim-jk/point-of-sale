@@ -113,39 +113,41 @@ class SaleReport extends React.Component {
     );
 
     return (
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Ranking</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Item Name</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Item Image</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Total Sold</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Sale Price</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Cost</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="subtitle1">Profit</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.state.saleData.length ? salesRow : <></>}
-            {this.state.saleData.length ? salesTotal : <></>}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Box p={2}>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Ranking</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Item Name</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Item Image</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Total Sold</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Sale Price</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Cost</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">Profit</Typography>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {this.state.saleData.length ? salesRow : <></>}
+              {this.state.saleData.length ? salesTotal : <></>}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     );
   }
 }
