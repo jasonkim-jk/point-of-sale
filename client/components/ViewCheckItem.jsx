@@ -97,12 +97,18 @@ export default class ViewCheckItem extends React.Component {
             </TableRow>
             <TableRow>
               <TableCell>Tax</TableCell>
-              <TableCell align="right">{`${(taxRate).toFixed(2)} %`}</TableCell>
-              <TableCell align="right">${invoiceTaxes.toFixed(2)}</TableCell>
+              <TableCell align="right">
+                {`${(taxRate).toFixed(2)} %`}
+              </TableCell>
+              <TableCell align="right">
+                ${invoiceTaxes.toFixed(2)}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell colSpan={2}>Total</TableCell>
-              <TableCell align="right">${invoiceTotal.toFixed(2)}</TableCell>
+              <TableCell align="right">
+                ${invoiceTotal.toFixed(2)}
+              </TableCell>
             </TableRow>
             <TableRow >
               <TableCell colSpan={3} align="center">

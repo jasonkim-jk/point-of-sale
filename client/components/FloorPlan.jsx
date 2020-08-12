@@ -39,8 +39,8 @@ export default class FloorPlan extends React.Component {
     });
 
     return (
-      <Box style={{ backgroundColor: '#0B5B75', marginTop: '0px' }}>
-        <Grid container spacing={3} className="floorplan-container">
+      <Box m={3}>
+        <Grid container spacing={5} className="floorplan-container" style={{ backgroundColor: '#0B5B75' }}>
           {tableList}
         </Grid>
       </Box>
