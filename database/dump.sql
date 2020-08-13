@@ -34,7 +34,6 @@ DROP SEQUENCE public."menus_itemId_seq";
 DROP TABLE public.menus;
 DROP SEQUENCE public."checks_checkId_seq";
 DROP TABLE public.checks;
-DROP TABLE public."checkOrders";
 DROP EXTENSION plpgsql;
 DROP SCHEMA public;
 --
@@ -68,16 +67,6 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 SET default_tablespace = '';
 
 SET default_with_oids = false;
-
---
--- Name: checkOrders; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public."checkOrders" (
-    "checkId" integer NOT NULL,
-    "orderId" integer NOT NULL
-);
-
 
 --
 -- Name: checks; Type: TABLE; Schema: public; Owner: -
@@ -189,7 +178,8 @@ CREATE TABLE public.orders (
     "orderId" integer NOT NULL,
     "isSent" boolean DEFAULT false NOT NULL,
     "tableId" integer NOT NULL,
-    "orderedAt" timestamp without time zone NOT NULL
+    "orderedAt" timestamp without time zone NOT NULL,
+    "checkId" integer
 );
 
 
@@ -294,21 +284,26 @@ ALTER TABLE ONLY public."waitLists" ALTER COLUMN "waitId" SET DEFAULT nextval('p
 
 
 --
--- Data for Name: checkOrders; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public."checkOrders" ("checkId", "orderId") FROM stdin;
-\.
-
-
---
 -- Data for Name: checks; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.checks ("checkId", "isPaid", "tableId", "taxRate", tip, "createdAt") FROM stdin;
-1	f	1	7	\N	2020-08-10 12:41:24.049287
-2	f	2	7	\N	2020-08-10 12:42:56.558299
-3	f	3	7	\N	2020-08-10 12:43:01.840627
+34	t	1	7	\N	2020-08-12 21:51:02.05861
+35	t	3	7	\N	2020-08-12 22:09:04.061371
+37	t	9	7	\N	2020-08-12 22:28:37.885783
+36	t	1	7	\N	2020-08-12 22:18:01.126096
+38	t	2	7	\N	2020-08-12 22:36:00.92768
+39	t	1	7	\N	2020-08-12 22:44:25.514847
+40	t	1	7	\N	2020-08-12 22:52:35.295425
+43	t	3	7	\N	2020-08-12 23:06:07.020965
+44	t	3	7	\N	2020-08-12 23:51:07.721719
+42	t	2	7	\N	2020-08-12 23:01:52.022525
+41	t	1	7	\N	2020-08-12 22:53:29.020993
+45	f	4	7	\N	2020-08-13 00:00:12.311824
+46	t	7	7	\N	2020-08-13 00:00:16.710963
+47	f	2	7	\N	2020-08-13 00:47:50.308039
+48	t	5	7	\N	2020-08-13 00:48:26.668866
+49	t	5	7	\N	2020-08-13 00:50:32.730737
 \.
 
 
@@ -335,39 +330,38 @@ COPY public.menus ("itemId", item, cost, "salePrice", "imageUrl") FROM stdin;
 --
 
 COPY public."orderItems" ("orderItemId", "orderId", "itemId", quantity, "isCompleted", discount, "createdAt") FROM stdin;
-1	1	2	3	f	0	2020-08-09 16:26:48.732927
-2	1	4	5	f	0	2020-08-09 16:26:48.732927
-3	2	1	2	f	0	2020-08-09 16:47:18.7115
-4	2	2	11	f	0	2020-08-09 16:47:18.7115
-5	2	5	10	f	0	2020-08-09 16:47:18.7115
-6	3	3	4	f	0	2020-08-09 17:47:15.67739
-7	3	4	4	f	0	2020-08-09 17:47:15.67739
-8	3	5	5	f	0	2020-08-09 17:47:15.67739
-9	3	6	5	f	0	2020-08-09 17:47:15.67739
-10	4	1	4	f	0	2020-08-09 21:13:24.681653
-11	4	2	14	f	0	2020-08-09 21:13:24.681653
-12	4	3	5	f	0	2020-08-09 21:13:24.681653
-13	4	4	9	f	0	2020-08-09 21:13:24.681653
-14	4	5	17	f	0	2020-08-09 21:13:24.681653
-15	4	6	1	f	0	2020-08-09 21:13:24.681653
-16	4	7	6	f	0	2020-08-09 21:13:24.681653
-17	4	8	6	f	0	2020-08-09 21:13:24.681653
-18	4	9	19	f	0	2020-08-09 21:13:24.681653
-19	4	10	4	f	0	2020-08-09 21:13:24.681653
-20	5	1	71	f	0	2020-08-09 23:05:15.058808
-21	5	2	74	f	0	2020-08-09 23:05:15.058808
-22	5	3	59	f	0	2020-08-09 23:05:15.058808
-23	5	4	37	f	0	2020-08-09 23:05:15.058808
-24	5	5	62	f	0	2020-08-09 23:05:15.058808
-25	5	6	37	f	0	2020-08-09 23:05:15.058808
-26	5	7	55	f	0	2020-08-09 23:05:15.058808
-27	5	8	26	f	0	2020-08-09 23:05:15.058808
-28	5	9	31	f	0	2020-08-09 23:05:15.058808
-29	5	10	41	f	0	2020-08-09 23:05:15.058808
-30	6	2	2	f	0	2020-08-10 00:49:46.683053
-31	6	3	3	f	0	2020-08-10 00:49:46.683053
-32	6	4	4	f	0	2020-08-10 00:49:46.683053
-33	7	8	90	f	0	2020-08-10 00:50:14.933692
+69	26	2	5	f	0	2020-08-12 21:51:02.067622
+70	27	1	1	f	0	2020-08-12 22:09:04.071817
+71	27	2	1	f	0	2020-08-12 22:09:04.071817
+72	27	3	1	f	0	2020-08-12 22:09:04.071817
+73	28	2	6	f	0	2020-08-12 22:18:01.133267
+74	29	2	1	f	0	2020-08-12 22:28:37.89001
+75	29	5	1	f	0	2020-08-12 22:28:37.89001
+76	29	8	1	f	0	2020-08-12 22:28:37.89001
+77	30	3	4	f	0	2020-08-12 22:36:00.931347
+78	31	3	2	f	0	2020-08-12 22:44:25.521608
+79	32	2	6	f	0	2020-08-12 22:52:35.29898
+80	33	2	1	f	0	2020-08-12 22:53:29.027493
+81	33	3	1	f	0	2020-08-12 22:53:29.027493
+82	34	2	4	f	0	2020-08-12 23:01:52.02885
+83	35	1	1	f	0	2020-08-12 23:06:07.02901
+86	36	2	6	f	0	2020-08-12 23:51:07.729012
+85	35	3	1	f	0	2020-08-12 23:06:07.02901
+84	35	2	1	f	0	2020-08-12 23:06:07.02901
+87	37	2	2	f	0	2020-08-13 00:00:12.315762
+88	38	1	1	f	0	2020-08-13 00:00:16.720463
+89	38	3	1	f	0	2020-08-13 00:00:16.720463
+90	39	1	1	f	0	2020-08-13 00:47:50.316186
+91	39	2	1	f	0	2020-08-13 00:47:50.316186
+92	39	3	1	f	0	2020-08-13 00:47:50.316186
+93	39	4	1	f	0	2020-08-13 00:47:50.316186
+94	40	1	1	f	0	2020-08-13 00:48:26.675123
+95	40	2	1	f	0	2020-08-13 00:48:26.675123
+96	40	4	1	f	0	2020-08-13 00:48:26.675123
+97	40	6	1	f	0	2020-08-13 00:48:26.675123
+98	41	2	1	f	0	2020-08-13 00:50:32.733914
+99	41	5	1	f	0	2020-08-13 00:50:32.733914
+100	41	6	1	f	0	2020-08-13 00:50:32.733914
 \.
 
 
@@ -375,14 +369,23 @@ COPY public."orderItems" ("orderItemId", "orderId", "itemId", quantity, "isCompl
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.orders ("orderId", "isSent", "tableId", "orderedAt") FROM stdin;
-1	f	5	2020-08-09 16:26:48.686631
-2	f	5	2020-08-09 16:47:18.683879
-3	f	5	2020-08-09 17:47:15.647647
-4	f	5	2020-08-09 21:13:24.64756
-5	f	5	2020-08-09 23:05:15.034439
-6	f	5	2020-08-10 00:49:46.650401
-7	f	5	2020-08-10 00:50:14.91458
+COPY public.orders ("orderId", "isSent", "tableId", "orderedAt", "checkId") FROM stdin;
+26	f	1	2020-08-12 21:51:02.065632	34
+27	f	3	2020-08-12 22:09:04.069577	35
+28	f	1	2020-08-12 22:18:01.131332	36
+29	f	9	2020-08-12 22:28:37.888093	37
+30	f	2	2020-08-12 22:36:00.929638	38
+31	f	1	2020-08-12 22:44:25.519666	39
+32	f	1	2020-08-12 22:52:35.297314	40
+33	f	1	2020-08-12 22:53:29.025767	41
+34	f	2	2020-08-12 23:01:52.027061	42
+35	f	3	2020-08-12 23:06:07.026699	43
+36	f	3	2020-08-12 23:51:07.726654	44
+37	f	4	2020-08-13 00:00:12.314075	45
+38	f	7	2020-08-13 00:00:16.715811	46
+39	f	2	2020-08-13 00:47:50.314379	47
+40	f	5	2020-08-13 00:48:26.67347	48
+41	f	5	2020-08-13 00:50:32.732436	49
 \.
 
 
@@ -391,16 +394,16 @@ COPY public.orders ("orderId", "isSent", "tableId", "orderedAt") FROM stdin;
 --
 
 COPY public.tables ("tableId", "tableStatus", "timeSeated") FROM stdin;
-1	0	\N
-2	0	\N
-3	0	\N
-4	0	\N
+10	0	\N
 5	0	\N
 6	0	\N
-7	0	\N
 8	0	\N
 9	0	\N
-10	0	\N
+3	0	\N
+4	1	2020-08-12 23:58:48.841716
+7	0	\N
+1	1	2020-08-13 00:13:28.874744
+2	1	2020-08-13 00:47:44.236472
 \.
 
 
@@ -409,10 +412,10 @@ COPY public.tables ("tableId", "tableStatus", "timeSeated") FROM stdin;
 --
 
 COPY public."waitLists" ("waitId", name, "partySize", "time", comment, "isSeated") FROM stdin;
-1	Uzair	1	08:07:25.878813-07	Big Anime Table	f
 3	Kevin	5	08:15:25.878813-07	4th of july no mask	f
 4	Julius	3	08:16:25.878813-07	Three musketeers	f
 2	Jason	4	08:10:25.878813-07	Family of 4	f
+5	uzair	3	00:05:21.441828-07	anime haha	f
 \.
 
 
@@ -420,7 +423,7 @@ COPY public."waitLists" ("waitId", name, "partySize", "time", comment, "isSeated
 -- Name: checks_checkId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."checks_checkId_seq"', 3, true);
+SELECT pg_catalog.setval('public."checks_checkId_seq"', 49, true);
 
 
 --
@@ -434,21 +437,21 @@ SELECT pg_catalog.setval('public."menus_itemId_seq"', 11, true);
 -- Name: orderItems_orderItemId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."orderItems_orderItemId_seq"', 33, true);
+SELECT pg_catalog.setval('public."orderItems_orderItemId_seq"', 100, true);
 
 
 --
 -- Name: orders_orderId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."orders_orderId_seq"', 7, true);
+SELECT pg_catalog.setval('public."orders_orderId_seq"', 41, true);
 
 
 --
 -- Name: waitLists_waitId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."waitLists_waitId_seq"', 4, true);
+SELECT pg_catalog.setval('public."waitLists_waitId_seq"', 5, true);
 
 
 --
