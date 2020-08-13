@@ -349,9 +349,9 @@ COPY public.tables ("tableId", "tableStatus", "timeSeated") FROM stdin;
 
 COPY public."waitLists" ("waitId", name, "partySize", "time", comment, "isSeated") FROM stdin;
 1	Uzair	1	08:07:25.878813-07	Big Anime Table	f
+2	Jason	4	08:10:25.878813-07	Family of 4	f
 3	Kevin	5	08:15:25.878813-07	4th of july no mask	f
 4	Julius	3	08:16:25.878813-07	Three musketeers	f
-2	Jason	4	08:10:25.878813-07	Family of 4	f
 \.
 
 

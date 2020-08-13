@@ -12,7 +12,6 @@ import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
 import { withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
-import WaitListTableItem from './WaitListTableItem';
 
 const useStyles = theme => ({
   list: {
@@ -83,12 +82,10 @@ class ViewChefItem extends React.Component {
     }
   }
 
-  elapsedTime(orderedAt) {
-    const waitObj = new WaitListTableItem();
-    const splitTime = orderedAt.split('T');
-    const [hours, minutes] = splitTime[1].split(':');
-    const SQLTime = `${hours}:${minutes}`;
-    return waitObj.getWaitTime(SQLTime, 'short');
+  elapsedTime(totalMinutes) {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${hours}:${minutes.toString().padStart(2, '0')}`;
   }
 
   render() {
@@ -131,9 +128,7 @@ class ViewChefItem extends React.Component {
                   <Typography variant="h5">Table {tableId}</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="h5">
-                    {this.elapsedTime(others.orderedAt)}
-                  </Typography>
+                  <Typography variant="h5">{this.elapsedTime(others.elapsedMinutes)}</Typography>
                 </Grid>
               </Grid>
             </Box>
