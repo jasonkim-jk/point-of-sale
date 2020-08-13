@@ -249,9 +249,9 @@ class OrderBill extends React.Component {
                 <TableRow key={row.name}>
                   <TableCell>{row.name}</TableCell>
                   <TableCell align="center" id={row.id} className={classes.qty}>
-                    {this.props.check || this.props.prevOrder ? <></> : plusBtnComponent}
-                    {row.qty}
                     {this.props.check || this.props.prevOrder ? <></> : minusBtnComponent}
+                    {row.qty}
+                    {this.props.check || this.props.prevOrder ? <></> : plusBtnComponent}
                   </TableCell>
                   <TableCell align="right">${row.priceRow}</TableCell>
                 </TableRow>
