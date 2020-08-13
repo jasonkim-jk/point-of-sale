@@ -84,9 +84,13 @@ export default class TablePopUp extends React.Component {
             {buttonText}
 
           </Button>
-          <Button color="secondary" id="empty" onClick={this.handleClick}>
-            {clearButton}
-          </Button>
+          {
+            this.props.tableData.isClosed &&
+            <Button color="secondary" id="empty" onClick={this.handleClick}>
+              {clearButton}
+            </Button>
+          }
+
         </DialogActions>
       </Dialog>
     );

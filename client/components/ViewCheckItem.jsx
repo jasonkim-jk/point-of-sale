@@ -36,11 +36,11 @@ export default class ViewCheckItem extends React.Component {
   render() {
     const { openCheck } = this.state;
     const returnStuff = openCheck.map((stuff, index) => {
-      const { item, cost, salePrice } = stuff;
+      const { item, cost, salePrice, quantity } = stuff;
       return (
         <TableRow key={index}>
           <TableCell>{item}</TableCell>
-          <TableCell align="right">1</TableCell>
+          <TableCell align="right">{quantity}</TableCell>
           <TableCell align="right">{cost}</TableCell>
           <TableCell align="right">${salePrice}</TableCell>
         </TableRow>

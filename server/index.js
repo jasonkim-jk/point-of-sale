@@ -54,9 +54,19 @@ function getDbParam(orderId, items) {
 
 app.get('/api/restaurant', (req, res, next) => {
   const sql = `
-    select *
-      from "tables"
+  with "openChecks" as (
+    select "c"."tableId", "c"."isPaid"
+    from "checks" as "c"
+    order by "c"."createdAt" desc
+
+  )
+  select distinct on ("t"."tableId") "t".*,
+      coalesce("oc"."isPaid", false) and "t"."tableStatus" = 2 as "isClosed"
+      from "tables" as "t"
+      left join "openChecks" as "oc" using ("tableId")
+
       order by "tableId"
+
   `;
   db.query(sql)
     .then(result => {
@@ -320,37 +330,71 @@ app.get('/api/orders/:tableId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+function getCheckId(db, tableId) {
+  const selectCheckIdSql = `
+    select "checkId" from "checks"
+      where "tableId" = $1
+      and   "isPaid" = false
+            limit 1
+  `;
+  const selectCheckIdParams = [tableId];
+  const insertCheckSql = `
+    insert into "checks" ("tableId", "createdAt")
+      values ($1, now())
+    returning "checkId"
+  `;
+  const insertCheckIdParams = [tableId];
+  return db.query(selectCheckIdSql, selectCheckIdParams)
+    .then(result => {
+      if (result.rows.length === 0) {
+        return db.query(insertCheckSql, insertCheckIdParams)
+          .then(result => {
+            return result.rows[0].checkId;
+          });
+      } else {
+        return result.rows[0].checkId;
+      }
+    });
+}
+
 app.post('/api/orders/', (req, res, next) => {
   if (!checkValidity(req.body.tableId) || req.body.items.length === 0) {
     return res.status(400).json({ error: 'Sorry, your order information is incomplete.' });
   }
-
-  const paramDb = [parseInt(req.body.tableId), 'NOW()'];
-  const sql = `
-      insert into "orders" ("tableId", "orderedAt")
-          values ($1, $2)
+  getCheckId(db, req.body.tableId)
+    .then(checkId => {
+      const paramDb = [parseInt(req.body.tableId), 'NOW()', checkId];
+      const sql = `
+      insert into "orders" ("tableId", "orderedAt", "checkId")
+          values ($1, $2, $3)
         returning *
     `;
 
-  db.query(sql, paramDb)
-    .then(result => {
-      const orderId = result.rows[0].orderId;
-      const paramDb = getDbParam(orderId, req.body.items);
-      const sql = `
+      return db.query(sql, paramDb)
+        .then(result => {
+          const orderId = result.rows[0].orderId;
+          const paramDb = getDbParam(orderId, req.body.items);
+          const sql = `
           insert into "orderItems" ("orderId", "itemId", "quantity", "discount", "createdAt")
         select * from UNNEST ($1::int[], $2::int[], $3::int[], $4::int[], $5::timestamp[])
             returning "orderItemId"
       `;
 
-      return db.query(sql, paramDb).then(result2 => {
-        const orderItemIds = result2.rows;
-        return { orderId, orderItemIds };
-      });
+          return db.query(sql, paramDb)
+            .then(result2 => {
+              const orderItemIds = result2.rows;
+
+              return { orderId, orderItemIds };
+
+            });
+        });
+
     })
     .then(result => {
       res.status(201).json(result);
     })
     .catch(err => next(err));
+
 });
 
 app.patch('/api/orders/:orderId', (req, res, next) => {
@@ -468,9 +512,9 @@ app.get('/api/checks/:checkId', (req, res, next) => {
   const { checkId } = req.params;
 
   const sql = `
-  select "m".*, "c"."taxRate" from "checks" as "c"
-  join "checkOrders" as "co" on "co"."checkId" = "c"."checkId"
-  join "orders" as "o" on "o"."orderId" = "co"."orderId"
+  select "m".*, "c"."taxRate", "oi"."quantity"
+  from "checks" as "c"
+  join "orders" as "o" using ("checkId")
   join "orderItems" as "oi" on "oi"."orderId" = "o"."orderId"
   join "menus" as "m" on "m"."itemId" = "oi"."itemId"
   where "c"."checkId" = $1;
@@ -504,11 +548,11 @@ app.put('/api/checks/:checkId', (req, res, next) => {
         where "tableId" = $1
         `;
         const paramsTwo = [tableId];
-        db.query(sqlTwo, paramsTwo)
+        return db.query(sqlTwo, paramsTwo)
           .then(result => {
             res.status(200).json('update table status success');
-          })
-          .catch(error => next(error));
+          });
+
       }
 
     })
