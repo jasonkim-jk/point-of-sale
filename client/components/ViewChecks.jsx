@@ -77,10 +77,10 @@ class ViewChecks extends React.Component {
     const { classes } = this.props;
     const { url } = this.props;
 
-    const noTables = (
+    const noChecks = (
       <Box m={4}>
         <Typography variant="h4">
-          No Tables Found
+          No Open Checks
         </Typography>
       </Box>
     );
@@ -139,7 +139,7 @@ class ViewChecks extends React.Component {
     return (
       <Box m={2}>
         <Grid container spacing={1}>
-          {checks.length > 0 ? checks : noTables}
+          {checks.length > 0 ? checks : noChecks}
         </Grid>
       </Box>
     );

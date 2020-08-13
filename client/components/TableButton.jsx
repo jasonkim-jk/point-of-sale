@@ -68,7 +68,7 @@ class TableButton extends React.Component {
           >
             <Box display="flex" justifyContent="center" flexWrap="wrap">
               <Box>
-                <Typography variant="h4" noWrap>{`T ${tableId}`}</Typography>
+                <Typography variant="h4" noWrap>{`T${tableId}`}</Typography>
               </Box>
               <Box>
                 <Typography variant="h6" noWrap>
