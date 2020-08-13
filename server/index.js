@@ -241,7 +241,7 @@ app.get('/api/orders', (req, res, next) => {
   const sql = `
     select "o"."tableId",
           "o"."orderId",
-          "o"."orderedAt",
+          (extract(epoch from now() - "o"."orderedAt") / 60)::integer as "elapsedMinutes",
     array_agg(jsonb_build_object(
       'orderItemId', "oi"."orderItemId",
       'item', "m"."item",
