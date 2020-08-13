@@ -251,7 +251,7 @@ app.get('/api/orders', (req, res, next) => {
   const sql = `
     select "o"."tableId",
           "o"."orderId",
-          "o"."orderedAt",
+          (extract(epoch from now() - "o"."orderedAt") / 60)::integer as "elapsedMinutes",
     array_agg(jsonb_build_object(
       'orderItemId', "oi"."orderItemId",
       'item', "m"."item",
@@ -389,12 +389,12 @@ app.post('/api/orders/', (req, res, next) => {
           values ($1, $2, $3)
         returning *
     `;
-    
- return db.query(sql, paramDb)
-    .then(result => {
-      const orderId = result.rows[0].orderId;
-      const paramDb = getDbParam(orderId, req.body.items);
-      const sql = `
+
+      return db.query(sql, paramDb)
+        .then(result => {
+          const orderId = result.rows[0].orderId;
+          const paramDb = getDbParam(orderId, req.body.items);
+          const sql = `
         insert into "orderItems" ("orderId", "itemId", "quantity", "discount", "createdAt")
         select * from UNNEST ($1::int[], $2::int[], $3::int[], $4::int[], $5::timestamp[])
         returning "orderItemId"

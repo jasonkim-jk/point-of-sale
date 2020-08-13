@@ -69,7 +69,7 @@ class ViewCheckItem extends React.Component {
     const taxRate = openCheck.length > 0 ? openCheck[0].taxRate : 0;
     let calculateTotal = 0;
     calculateTotal = openCheck.reduce((accumulator, item) => {
-      return accumulator + parseFloat(item.salePrice);
+      return accumulator + parseFloat(item.salePrice) * (item.quantity);
     }, 0);
 
     const { params } = this.props.match;

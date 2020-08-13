@@ -95,7 +95,7 @@ class ViewPay extends React.Component {
     const taxRate = data.length > 0 ? data[0].taxRate : 0;
     let reduceStuff = 0;
     reduceStuff = data.reduce((accumulator, item) => {
-      return accumulator + parseFloat(item.salePrice);
+      return accumulator + parseFloat(item.salePrice) * (item.quantity);
     }, 0);
 
     const invoiceTaxes = (taxRate / 100) * reduceStuff;
