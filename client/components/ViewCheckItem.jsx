@@ -20,6 +20,9 @@ const useStyles = theme => ({
   },
   cell: {
     padding: theme.spacing(0)
+  },
+  title: {
+    padding: theme.spacing(1.5, 4)
   }
 });
 
@@ -79,10 +82,10 @@ class ViewCheckItem extends React.Component {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell align="left" colSpan={3}>
+                <TableCell align="left" colSpan={3} className={classes.title}>
                   <Typography variant="h4">Table {params.tableId}</Typography>
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="right" className={classes.title}>
                   <Typography variant="h5">Check #{params.checkId}</Typography>
                 </TableCell>
               </TableRow>
