@@ -32,6 +32,15 @@ const useStyles = theme => ({
   },
   qty: {
     padding: theme.spacing(0)
+  },
+  popupTitle: {
+    margin: theme.spacing(2, 0, 0)
+  },
+  popupBtn: {
+    minWidth: 100,
+    minHeight: 40,
+    padding: theme.spacing(1),
+    margin: theme.spacing(0, 3, 3, 0)
   }
 });
 
@@ -176,22 +185,23 @@ class OrderBill extends React.Component {
           onClick={this.handleOrder}
           disabled={orderBtn}
         >
-              Order
+          Order
         </Button>
-        <Dialog
-          open={this.state.popup}
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={this.closePopup}
-        >
-          <DialogTitle id="alert-dialog-slide-title">New Order</DialogTitle>
+        <Dialog open={this.state.popup} TransitionComponent={Transition} keepMounted onClose={this.closePopup}>
+          <DialogTitle className={classes.popupTitle}>New Order</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description">
-            Your order has been successfully processed.
-            </DialogContentText>
+            <DialogContentText>Your order has been successfully processed.</DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.closePopup} color="primary">OKAY</Button>
+            <Button
+              onClick={this.closePopup}
+              color="primary"
+              variant="contained"
+              size="large"
+              className={classes.popupBtn}
+            >
+              OKAY
+            </Button>
           </DialogActions>
         </Dialog>
       </>

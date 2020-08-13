@@ -3,8 +3,21 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { withStyles } from '@material-ui/core/styles';
 
-export default class TablePopUp extends React.Component {
+const useStyles = theme => ({
+  button: {
+    minWidth: 170,
+    minHeight: 50,
+    padding: theme.spacing(1),
+    margin: theme.spacing(0, 5, 5)
+  },
+  title: {
+    margin: theme.spacing(3, 1, 1, 3)
+  }
+});
+
+class TablePopUp extends React.Component {
   constructor(props) {
     super(props);
     this.handleClose = this.handleClose.bind(this);
@@ -40,12 +53,11 @@ export default class TablePopUp extends React.Component {
     if (id === 'empty') {
       this.props.changeTableStatus(tableId, 0);
       this.handleClose();
-
     }
-
   }
 
   render() {
+    const { classes } = this.props;
     let { tableId, tableStatus } = this.props.tableData;
     tableStatus = parseInt(tableStatus, 0);
     let seatState;
@@ -65,33 +77,47 @@ export default class TablePopUp extends React.Component {
     let buttonText;
     if (tableStatus === 0) {
       buttonId = 'seat';
-      buttonText = `Seat Table #${tableId}`;
+      buttonText = 'Seat Table';
     } else if (tableStatus === 1 || tableStatus === 2) {
       buttonId = 'view-order';
-      buttonText = `View Order for Table #${tableId}`;
+      buttonText = 'View Order';
     }
 
-    const clearButton = `Clear Table for Table #${tableId}`;
+    const titleText = `Table #${tableId} is ${seatState}`;
+    const clearButton = 'Clear Table';
 
     return (
-      <Dialog
-        open={this.state.isOpen}
-        onClose={this.handleClose}
-      >
-        <DialogTitle>{`Table #${tableId} is ${seatState}`}</DialogTitle>
+      <Dialog open={this.state.isOpen} onClose={this.handleClose} maxWidth="lg">
+        <DialogTitle className={classes.title}>{titleText}</DialogTitle>
         <DialogActions>
-          <Button onClick={this.handleClick} color="primary" id={buttonId}>
+          <Button
+            color="primary"
+            onClick={this.handleClick}
+            id={buttonId}
+            variant="contained"
+            size="large"
+            className={classes.button}
+          >
             {buttonText}
           </Button>
-          {
-            this.props.tableData.isClosed &&
-            <Button color="secondary" id="empty" onClick={this.handleClick}>
-              {clearButton}
-            </Button>
-          }
+
+        { this.props.tableData.isClosed &&
+          <Button
+            color="secondary"
+            onClick={this.handleClick}
+            id="empty"
+            variant="contained"
+            size="large"
+            className={classes.button}
+          > 
+            {clearButton}
+          </Button>
+           }
 
         </DialogActions>
       </Dialog>
     );
   }
 }
+
+export default withStyles(useStyles)(TablePopUp);
