@@ -35,7 +35,13 @@ class ViewCheckItem extends React.Component {
   }
 
   componentDidMount() {
+    this.getData();
+
+  }
+
+  getData() {
     const checkId = this.props.match.params.checkId;
+
     fetch(`/api/checks/${checkId}`)
       .then(res => res.json())
       .then(data => {
@@ -46,6 +52,12 @@ class ViewCheckItem extends React.Component {
 
   ccyFormat(num) {
     return `${num.toFixed(2)}`;
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.checkId !== this.props.match.params.checkId) {
+      this.getData();
+    }
   }
 
   render() {
