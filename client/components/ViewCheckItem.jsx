@@ -52,7 +52,7 @@ class ViewCheckItem extends React.Component {
     const { classes } = this.props;
     const { openCheck } = this.state;
     const orderItemRows = openCheck.map((orderItems, index) => {
-      const { item, imageUrl, salePrice } = orderItems;
+      const { item, imageUrl, salePrice, quantity } = orderItems;
       return (
         <TableRow key={index}>
           <TableCell align="center">{item}</TableCell>
@@ -61,7 +61,7 @@ class ViewCheckItem extends React.Component {
               <Avatar variant="rounded" alt={item} className={classes.image} src={imageUrl} />
             </Box>
           </TableCell>
-          <TableCell align="center">1</TableCell>
+          <TableCell align="center">{quantity}</TableCell>
           <TableCell align="right">${salePrice}</TableCell>
         </TableRow>
       );

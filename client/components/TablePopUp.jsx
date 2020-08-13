@@ -100,6 +100,8 @@ class TablePopUp extends React.Component {
           >
             {buttonText}
           </Button>
+
+        { this.props.tableData.isClosed &&
           <Button
             color="secondary"
             onClick={this.handleClick}
@@ -107,9 +109,11 @@ class TablePopUp extends React.Component {
             variant="contained"
             size="large"
             className={classes.button}
-          >
+          > 
             {clearButton}
           </Button>
+           }
+
         </DialogActions>
       </Dialog>
     );
