@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import MenuList from './MenuList';
 import OrderBill from './OrderBill';
 
@@ -51,7 +52,12 @@ export default class ViewNewOrder extends React.Component {
     fetch(`/api/orders/${id}`)
       .then(response => response.json())
       .then(data => {
-        if (data.orderId) this.setState({ orderedItems: data, prevOrder: true });
+        if (data.orderId) {
+          this.setState({
+            orderedItems: data,
+            prevOrder: true
+          });
+        }
       })
       .catch(error => {
         console.error(error);
@@ -83,18 +89,22 @@ export default class ViewNewOrder extends React.Component {
     return (
       <Grid container spacing={2}>
         <Grid item xs={7}>
-          <MenuList addToOrder={this.addItemToOrder} />
+          <Box pt={2} pl={1}>
+            <MenuList addToOrder={this.addItemToOrder} />
+          </Box>
         </Grid>
         <Grid item xs={5}>
-          <OrderBill
-            table={this.state.tableId}
-            orderItem={this.state.orders}
-            prevOrder={this.state.prevOrder}
-            orderedItems={this.state.orderedItems}
-            cancelOrder={this.clearOrderItems}
-            updateItem={this.updateItemQty}
-            taxRate={this.state.taxRate}
-          />
+          <Box pt={2}>
+            <OrderBill
+              table={this.state.tableId}
+              orderItem={this.state.orders}
+              prevOrder={this.state.prevOrder}
+              orderedItems={this.state.orderedItems}
+              cancelOrder={this.clearOrderItems}
+              updateItem={this.updateItemQty}
+              taxRate={this.state.taxRate}
+            />
+          </Box>
         </Grid>
       </Grid>
     );

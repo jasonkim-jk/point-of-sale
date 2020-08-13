@@ -120,7 +120,11 @@ export default class WaitListTableItem extends React.Component {
     return (
       <TableRow hover={true}>
         <TableCell style={style}>
-          <Checkbox color="default" onChange={this.handleChange} checked={isChecked} />
+          <Checkbox
+            color="default"
+            onChange={this.handleChange}
+            checked={isChecked}
+          />
         </TableCell>
         <TableCell style={style} align="center">
           <Typography style={weight}>{props.partySize}</Typography>

@@ -4,11 +4,26 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
-import {
-  Link
-} from 'react-router-dom';
+import ReceiptIcon from '@material-ui/icons/Receipt';
+import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
-export default class ViewChecks extends React.Component {
+const useStyles = theme => ({
+  table: {
+    margin: theme.spacing(1.5, 0, 1.5, 1)
+  },
+  time: {
+    margin: theme.spacing(0, 0, 2.5, 1)
+  },
+  checkId: {
+    margin: theme.spacing(1.5, 1, 0, 0)
+  },
+  checkBtn: {
+    margin: theme.spacing(1.5, 1, 0, 0)
+  }
+});
+
+class ViewChecks extends React.Component {
   constructor(props) {
     super(props);
     this.mounted = false;
@@ -47,67 +62,88 @@ export default class ViewChecks extends React.Component {
   }
 
   parseTime(time) {
-    // 2020-06-03T07:00:00.000Z
-    const splitTime = time.split('T');
-    const furtherSplit = splitTime[1].split(':');
-    let [hours, minutes] = furtherSplit;
-    hours = parseInt(hours, 10);
-    // this is for timezone.  Idk why 5 works
-    hours += 5;
-    if (hours > 12) {
-      hours -= 12;
-    }
-    let amPM = 'AM';
-    if (hours > 11) {
-      amPM = 'PM';
-    }
-    if (hours === 24 || hours === 0) {
-      hours = 12;
-      amPM = 'AM';
-    } else if (hours > 12) {
-      hours -= 12;
-    }
-    return `${hours}:${minutes} ${amPM}`;
+    const jsTime = new Date(time);
+    let hours = jsTime.getHours();
+    let minutes = jsTime.getMinutes();
+    const amPM = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = !hours ? 12 : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    const timeString = `${hours}:${minutes} ${amPM}`;
+    return timeString;
   }
 
   render() {
+    const { classes } = this.props;
     const { url } = this.props;
+
+    const noTables = (
+      <Box m={4}>
+        <Typography variant="h4">
+          No Tables Found
+        </Typography>
+      </Box>
+    );
 
     const checks = this.state.openChecks.map(check => (
       <Grid item xs={12} key={check.checkId}>
         <Grid container spacing={1}>
           <Grid item xs={6}>
-            <Typography component="div">
-              <Box fontWeight="fontWeightBold">
-                Check #{check.checkId}
-              </Box>
+            <Typography
+              variant="h4"
+              noWrap
+              color="primary"
+              className={classes.table}
+            >
+              Table {check.tableId}
+            </Typography>
+            <Typography variant="h5" className={classes.time}>
               {this.parseTime(check.createdAt)}
             </Typography>
           </Grid>
-          <Grid item xs={5}>
-            <Typography align="right" style={{ marginTop: '-5px' }}>
-            Table {check.tableId}<br></br>
-              <Button size="small" variant="contained" style={{ backgroundColor: '#118AB2', color: 'white', fontSize: '10px', marginBottom: '10px', borderRadius: '0px', padding: '2px 8px' }}>
+          <Grid item xs={6}>
+            <Box display="flex" justifyContent="flex-end" flexWrap="wrap">
+              <Box>
+                <Typography
+                  align="right"
+                  variant="h5"
+                  noWrap
+                  className={classes.checkId}
+                >
+                  Check #{check.checkId}
+                </Typography>
+              </Box>
+              <Box>
                 <Link to={`${url}/checkitem/${check.checkId}/${check.tableId}`}>
-            View Check
+                  <Button
+                    variant="contained"
+                    size="medium"
+                    className={classes.checkId}
+                    startIcon={<ReceiptIcon />}
+                    style={{
+                      backgroundColor: '#1DBE94',
+                      color: 'white'
+                    }}
+                  >
+                      View Check
+                  </Button>
                 </Link>
-              </Button>
-            </Typography>
+              </Box>
+            </Box>
           </Grid>
         </Grid>
-        <Divider/>
+        <Divider />
       </Grid>
     ));
 
     return (
-      <Box m={2} width="50%" fontWeight="fontWeightBold">
+      <Box m={2}>
         <Grid container spacing={1}>
-          {checks.length > 0 ? checks : (
-            <div> No Tables Found </div>
-          )}
+          {checks.length > 0 ? checks : noTables}
         </Grid>
       </Box>
-
     );
   }
 }
+
+export default withStyles(useStyles)(ViewChecks);

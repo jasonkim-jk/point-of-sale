@@ -24,7 +24,11 @@ export default class MenuCustomizer extends React.Component {
     fetch('/api/menus')
       .then(response => response.json())
       .then(data => {
-        this.setState({ menus: data, formStatusEdit: false, formEditItem: {} });
+        this.setState({
+          menus: data,
+          formStatusEdit: false,
+          formEditItem: {}
+        });
       })
       .catch(error => {
         console.error(error);
@@ -39,7 +43,10 @@ export default class MenuCustomizer extends React.Component {
     for (const item of this.state.menus) {
       if (item.itemId === parseInt(itemId)) {
         const editItem = { ...item };
-        this.setState({ formStatusEdit: true, formEditItem: editItem });
+        this.setState({
+          formStatusEdit: true,
+          formEditItem: editItem
+        });
         break;
       }
     }
@@ -53,10 +60,19 @@ export default class MenuCustomizer extends React.Component {
     return (
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <MenuCustomizerTable menuList={this.state.menus} reloadMenus={this.reloadMenus} editItem={this.editItem}/>
+          <MenuCustomizerTable
+            menuList={this.state.menus}
+            reloadMenus={this.reloadMenus}
+            editItem={this.editItem}
+          />
         </Grid>
         <Grid item xs={4}>
-          <MenuCustomizerForm reloadMenus={this.reloadMenus} editView={this.state.formStatusEdit} editItem={this.state.formEditItem} resetItem={this.clearEditItem}/>
+          <MenuCustomizerForm
+            reloadMenus={this.reloadMenus}
+            editView={this.state.formStatusEdit}
+            editItem={this.state.formEditItem}
+            resetItem={this.clearEditItem}
+          />
         </Grid>
       </Grid>
     );

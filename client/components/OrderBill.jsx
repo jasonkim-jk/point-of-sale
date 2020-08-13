@@ -146,7 +146,11 @@ class OrderBill extends React.Component {
     } else {
       price = updateRow(props.orderItem, props.taxRate, props.prevOrder);
     }
-    return { total: price.total.toFixed(2), subTotal: price.subTotal.toFixed(2), tax: price.tax.toFixed(2) };
+    return {
+      total: price.total.toFixed(2),
+      subTotal: price.subTotal.toFixed(2),
+      tax: price.tax.toFixed(2)
+    };
   }
 
   render() {
@@ -165,10 +169,21 @@ class OrderBill extends React.Component {
     );
     const orderBtnComponent = (
       <>
-        <Button variant="contained" color="primary" className={classes.button} onClick={this.handleOrder} disabled={orderBtn}>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          onClick={this.handleOrder}
+          disabled={orderBtn}
+        >
               Order
         </Button>
-        <Dialog open={this.state.popup} TransitionComponent={Transition} keepMounted onClose={this.closePopup}>
+        <Dialog
+          open={this.state.popup}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={this.closePopup}
+        >
           <DialogTitle id="alert-dialog-slide-title">New Order</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
@@ -182,7 +197,13 @@ class OrderBill extends React.Component {
       </>
     );
     const payBtnComponent = (
-      <Button variant="contained" color="primary" className={classes.button} onClick={this.handlePay} disabled={payBtn}>
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        onClick={this.handlePay}
+        disabled={payBtn}
+      >
         Pay
       </Button>
     );
@@ -228,8 +249,17 @@ class OrderBill extends React.Component {
               <OrderBillTotal price={this.state} />
             </TableBody>
           </Table>
-          <Box display="flex" justifyContent="center" m={1} mt={3} p={1} bgcolor="background.paper">
-            <Button variant="contained" className={classes.button} onClick={this.handleCancel}>
+          <Box
+            display="flex"
+            justifyContent="center"
+            m={1} mt={3} p={1}
+            bgcolor="background.paper"
+          >
+            <Button
+              variant="contained"
+              className={classes.button}
+              onClick={this.handleCancel}
+            >
               {this.props.prevOrder ? 'Back' : 'Cancel'}
             </Button>
             {this.props.check || this.props.prevOrder ? <></> : orderBtnComponent}

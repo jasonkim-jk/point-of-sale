@@ -55,14 +55,29 @@ class MenuCustomizerTableItem extends React.Component {
         <TableCell align="center">{itemId}</TableCell>
         <TableCell align="center">{item}</TableCell>
         <TableCell align="center" className={classes.cell}>
-          <Box display="flex" justifyContent="center" bgcolor="background.paper">
-            <Avatar variant="rounded" alt={item} className={classes.image} src={imageUrl} />
+          <Box
+            display="flex"
+            justifyContent="center"
+            bgcolor="background.paper"
+          >
+            <Avatar
+              variant="rounded"
+              alt={item}
+              className={classes.image}
+              src={imageUrl}
+            />
           </Box>
         </TableCell>
         <TableCell align="center">${parseFloat(cost).toFixed(2)}</TableCell>
-        <TableCell align="center">${parseFloat(salePrice).toFixed(2)}</TableCell>
         <TableCell align="center">
-          <Box display="flex" justifyContent="center" bgcolor="background.paper">
+          ${parseFloat(salePrice).toFixed(2)}
+        </TableCell>
+        <TableCell align="center">
+          <Box
+            display="flex"
+            justifyContent="center"
+            bgcolor="background.paper"
+          >
             <IconButton onClick={this.handleEdit} id={itemId}>
               <EditOutlinedIcon className={classes.icon} />
             </IconButton>
