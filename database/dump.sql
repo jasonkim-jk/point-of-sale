@@ -34,7 +34,6 @@ DROP SEQUENCE public."menus_itemId_seq";
 DROP TABLE public.menus;
 DROP SEQUENCE public."checks_checkId_seq";
 DROP TABLE public.checks;
-DROP TABLE public."checkOrders";
 DROP EXTENSION plpgsql;
 DROP SCHEMA public;
 --
@@ -68,16 +67,6 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 SET default_tablespace = '';
 
 SET default_with_oids = false;
-
---
--- Name: checkOrders; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public."checkOrders" (
-    "checkId" integer NOT NULL,
-    "orderId" integer NOT NULL
-);
-
 
 --
 -- Name: checks; Type: TABLE; Schema: public; Owner: -
@@ -189,7 +178,8 @@ CREATE TABLE public.orders (
     "orderId" integer NOT NULL,
     "isSent" boolean DEFAULT false NOT NULL,
     "tableId" integer NOT NULL,
-    "orderedAt" timestamp without time zone NOT NULL
+    "orderedAt" timestamp without time zone NOT NULL,
+    "checkId" integer
 );
 
 
@@ -294,21 +284,10 @@ ALTER TABLE ONLY public."waitLists" ALTER COLUMN "waitId" SET DEFAULT nextval('p
 
 
 --
--- Data for Name: checkOrders; Type: TABLE DATA; Schema: public; Owner: -
---
-
-COPY public."checkOrders" ("checkId", "orderId") FROM stdin;
-\.
-
-
---
 -- Data for Name: checks; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 COPY public.checks ("checkId", "isPaid", "tableId", "taxRate", tip, "createdAt") FROM stdin;
-1	f	1	7	\N	2020-08-10 12:41:24.049287
-2	f	2	7	\N	2020-08-10 12:42:56.558299
-3	f	3	7	\N	2020-08-10 12:43:01.840627
 \.
 
 
@@ -335,39 +314,6 @@ COPY public.menus ("itemId", item, cost, "salePrice", "imageUrl") FROM stdin;
 --
 
 COPY public."orderItems" ("orderItemId", "orderId", "itemId", quantity, "isCompleted", discount, "createdAt") FROM stdin;
-1	1	2	3	f	0	2020-08-09 16:26:48.732927
-2	1	4	5	f	0	2020-08-09 16:26:48.732927
-3	2	1	2	f	0	2020-08-09 16:47:18.7115
-4	2	2	11	f	0	2020-08-09 16:47:18.7115
-5	2	5	10	f	0	2020-08-09 16:47:18.7115
-6	3	3	4	f	0	2020-08-09 17:47:15.67739
-7	3	4	4	f	0	2020-08-09 17:47:15.67739
-8	3	5	5	f	0	2020-08-09 17:47:15.67739
-9	3	6	5	f	0	2020-08-09 17:47:15.67739
-10	4	1	4	f	0	2020-08-09 21:13:24.681653
-11	4	2	14	f	0	2020-08-09 21:13:24.681653
-12	4	3	5	f	0	2020-08-09 21:13:24.681653
-13	4	4	9	f	0	2020-08-09 21:13:24.681653
-14	4	5	17	f	0	2020-08-09 21:13:24.681653
-15	4	6	1	f	0	2020-08-09 21:13:24.681653
-16	4	7	6	f	0	2020-08-09 21:13:24.681653
-17	4	8	6	f	0	2020-08-09 21:13:24.681653
-18	4	9	19	f	0	2020-08-09 21:13:24.681653
-19	4	10	4	f	0	2020-08-09 21:13:24.681653
-20	5	1	71	f	0	2020-08-09 23:05:15.058808
-21	5	2	74	f	0	2020-08-09 23:05:15.058808
-22	5	3	59	f	0	2020-08-09 23:05:15.058808
-23	5	4	37	f	0	2020-08-09 23:05:15.058808
-24	5	5	62	f	0	2020-08-09 23:05:15.058808
-25	5	6	37	f	0	2020-08-09 23:05:15.058808
-26	5	7	55	f	0	2020-08-09 23:05:15.058808
-27	5	8	26	f	0	2020-08-09 23:05:15.058808
-28	5	9	31	f	0	2020-08-09 23:05:15.058808
-29	5	10	41	f	0	2020-08-09 23:05:15.058808
-30	6	2	2	f	0	2020-08-10 00:49:46.683053
-31	6	3	3	f	0	2020-08-10 00:49:46.683053
-32	6	4	4	f	0	2020-08-10 00:49:46.683053
-33	7	8	90	f	0	2020-08-10 00:50:14.933692
 \.
 
 
@@ -375,14 +321,7 @@ COPY public."orderItems" ("orderItemId", "orderId", "itemId", quantity, "isCompl
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.orders ("orderId", "isSent", "tableId", "orderedAt") FROM stdin;
-1	f	5	2020-08-09 16:26:48.686631
-2	f	5	2020-08-09 16:47:18.683879
-3	f	5	2020-08-09 17:47:15.647647
-4	f	5	2020-08-09 21:13:24.64756
-5	f	5	2020-08-09 23:05:15.034439
-6	f	5	2020-08-10 00:49:46.650401
-7	f	5	2020-08-10 00:50:14.91458
+COPY public.orders ("orderId", "isSent", "tableId", "orderedAt", "checkId") FROM stdin;
 \.
 
 
@@ -420,7 +359,7 @@ COPY public."waitLists" ("waitId", name, "partySize", "time", comment, "isSeated
 -- Name: checks_checkId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."checks_checkId_seq"', 3, true);
+SELECT pg_catalog.setval('public."checks_checkId_seq"', 1, true);
 
 
 --
@@ -434,14 +373,14 @@ SELECT pg_catalog.setval('public."menus_itemId_seq"', 11, true);
 -- Name: orderItems_orderItemId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."orderItems_orderItemId_seq"', 33, true);
+SELECT pg_catalog.setval('public."orderItems_orderItemId_seq"', 1, true);
 
 
 --
 -- Name: orders_orderId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."orders_orderId_seq"', 7, true);
+SELECT pg_catalog.setval('public."orders_orderId_seq"', 1, true);
 
 
 --
