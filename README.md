@@ -30,10 +30,10 @@ A POS (Point of Sale) application for restaurant managers who want to receive or
 # Getting Started
 
 1. Clone the repository and navigate to the directory
-> cd point-of-sale
-3. Install all dependencies > npm install
-4. Import existing databse > npm run db:import
-5. Compile project > npm run dev
+``` cd point-of-sale ```
+3. Install all dependencies ``` npm install ```
+4. Import existing databse ``` npm run db:import ```
+5. Compile project ``` npm run dev ```
 6. Access application by entering [https://localhost:3000](https://localhost:3000) in the browser.
 
 # Lessons Learned
