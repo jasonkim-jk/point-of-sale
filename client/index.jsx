@@ -6,7 +6,7 @@ import defaultTheme from './themes/DefaultTheme';
 
 ReactDOM.render(
   <ThemeProvider theme={defaultTheme}>
-    <App />,
+    <App />
   </ThemeProvider>,
   document.querySelector('#root')
 );
