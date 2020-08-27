@@ -20,7 +20,7 @@ const useStyles = theme => ({
     margin: theme.spacing(0)
   },
   button: {
-    minWidth: 100,
+    minWidth: 80,
     padding: theme.spacing(1),
     margin: theme.spacing(1, 2)
   }
@@ -107,7 +107,7 @@ class ViewPay extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Box pt={10} p={15}>
+      <Box pt={5} p={5}>
         <form onSubmit={this.handleSubmit} onReset={this.handleReset} name="payForm">
           <FormControl fullWidth className={classes.form}>
             <TextField
@@ -174,8 +174,8 @@ class ViewPay extends React.Component {
                 )
               }}
             />
-            <Box display="flex" justifyContent="center" mt={3} p={1}>
-              <Typography variant="h4" align="center" className={classes.title}>
+            <Box display="flex" justifyContent="center" mt={2}>
+              <Typography variant="h5" align="center" className={classes.title}>
                 Pay for ${this.state.totalBill}
               </Typography>
               <Button type="submit" variant="contained" color="primary" className={classes.button}>
