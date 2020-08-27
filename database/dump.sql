@@ -306,6 +306,8 @@ COPY public.menus ("itemId", item, cost, "salePrice", "imageUrl") FROM stdin;
 8	Spicy Samgyubsal	4.25	10.08	/images/spicy-pork.png
 9	Red Wine Samgyubsal	4.53	10.44	/images/wine-pork.png
 10	Cajun Samgyubsal	5.15	12.76	/images/cajun-pork.png
+11	Potato Salad	2.55	4.99	/images/potato-salad.png
+12	Radish Paper	1.75	3.99	/images/radish-paper.png
 \.
 
 
@@ -368,7 +370,7 @@ SELECT pg_catalog.setval('public."checks_checkId_seq"', 1, true);
 -- Name: menus_itemId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."menus_itemId_seq"', 11, true);
+SELECT pg_catalog.setval('public."menus_itemId_seq"', 13, true);
 
 
 --
