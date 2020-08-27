@@ -71,7 +71,7 @@ export default class ViewChef extends React.Component {
 
     const tableOrderItems = this.state.orders.map(table => {
       return (
-        <Grid item xs={4} key={table.orderId}>
+        <Grid item xs={12} md={4} key={table.orderId}>
           <ViewChefItem data={table} deleteCompletedOrder={this.deleteTable} />
         </Grid>
       );

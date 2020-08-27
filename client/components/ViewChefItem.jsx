@@ -11,21 +11,20 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
 import { withStyles } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
 
 const useStyles = theme => ({
   list: {
     margin: theme.spacing(1, 1, 1, 3)
   },
   listToggle: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(1)
   },
   divider: {
     margin: theme.spacing(0, 3)
   },
   green: {
     color: '#fff',
-    backgroundColor: green[500],
+    backgroundColor: '#1dbe94',
     marginRight: theme.spacing(2)
   },
   done: {
@@ -99,9 +98,7 @@ class ViewChefItem extends React.Component {
       return (
         <React.Fragment key={item.orderItemId}>
           <ListItem className={classes.list}>
-            <Avatar className={item.isCompleted ? classes.done : classes.green}>
-              {item.quantity}
-            </Avatar>
+            <Avatar className={item.isCompleted ? classes.done : classes.green}>{item.quantity}</Avatar>
             <ListItemText id={item.item} primary={item.item} />
             <ListItemSecondaryAction className={classes.listToggle}>
               <Switch
@@ -122,13 +119,13 @@ class ViewChefItem extends React.Component {
       <List
         subheader={
           <ListSubheader disableSticky>
-            <Box mt={2} p={2} bgcolor={'success.main'}>
+            <Box mt={2} p={2} bgcolor={'#1dbe94'}>
               <Grid container spacing={2}>
                 <Grid item xs>
-                  <Typography variant="h5">Table {tableId}</Typography>
+                  <Typography variant="h6">Table {tableId}</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant="h5">{this.elapsedTime(others.elapsedMinutes)}</Typography>
+                  <Typography variant="h6">{this.elapsedTime(others.elapsedMinutes)}</Typography>
                 </Grid>
               </Grid>
             </Box>
