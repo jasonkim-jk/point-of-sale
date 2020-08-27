@@ -59,14 +59,14 @@ export default class MenuCustomizer extends React.Component {
   render() {
     return (
       <Grid container spacing={2}>
-        <Grid item xs={8}>
+        <Grid item xs={12} md={8}>
           <MenuCustomizerTable
             menuList={this.state.menus}
             reloadMenus={this.reloadMenus}
             editItem={this.editItem}
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <MenuCustomizerForm
             reloadMenus={this.reloadMenus}
             editView={this.state.formStatusEdit}
