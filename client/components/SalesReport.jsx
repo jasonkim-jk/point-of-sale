@@ -56,6 +56,15 @@ class SaleReport extends React.Component {
 
   render() {
     const { classes } = this.props;
+
+    const noReport = (
+      <TableRow>
+        <TableCell align="center" colSpan={7}>
+          <Typography variant="h5">There are no reports yet.</Typography>
+        </TableCell>
+      </TableRow>
+    );
+
     const salesRow = this.state.saleData.map((item, index) => {
       return (
         <TableRow key={item['Item Name']}>
@@ -142,7 +151,7 @@ class SaleReport extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.state.saleData.length ? salesRow : <></>}
+              {this.state.saleData.length ? salesRow : noReport}
               {this.state.saleData.length ? salesTotal : <></>}
             </TableBody>
           </Table>
