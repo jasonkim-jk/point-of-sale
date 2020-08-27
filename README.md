@@ -2,7 +2,7 @@
 A POS (Point of Sale) application for restaurant workers who want to receive orders, take seats, pay bills, customize menus, see a wait list and sales report.
 
 ## Live Demo
-https://pos.jsonkim.com
+[Link to Live Site](https://pos.jsonkim.com)
 
 ## Features
 1. Users can view the floor plan of the restaurant
