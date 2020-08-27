@@ -35,10 +35,9 @@ export default class FloorPlan extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(newStatus)
-    })
-      .then(response => {
-        this.updateTables();
-      });
+    }).then(response => {
+      this.updateTables();
+    });
   }
 
   updateTables() {
@@ -56,12 +55,7 @@ export default class FloorPlan extends React.Component {
     const { floorPlan } = this.state;
     const tableList = floorPlan.map(table => {
       return (
-        <TableButton
-          key={table.tableId}
-          tableData={table}
-          viewDialog={this.viewDialog}
-          dialogOpen={this.dialogOpen}
-        />
+        <TableButton key={table.tableId} tableData={table} viewDialog={this.viewDialog} dialogOpen={this.dialogOpen} />
       );
     });
 
@@ -76,10 +70,10 @@ export default class FloorPlan extends React.Component {
         />
 
         <Box m={3}>
-        <Grid container spacing={5} className="floorplan-container" style={{ backgroundColor: '#0B5B75' }}>
-          {tableList}
-        </Grid>
-      </Box>
+          <Grid container spacing={5} className="floorplan-container" style={{ backgroundColor: '#eceff1' }}>
+            {tableList}
+          </Grid>
+        </Box>
       </>
     );
   }

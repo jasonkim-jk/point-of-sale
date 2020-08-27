@@ -71,9 +71,13 @@ class ViewChecks extends React.Component {
     const { url } = this.props;
 
     const noChecks = (
-      <Box m={4}>
-        <Typography variant="h4">No Open Checks</Typography>
-      </Box>
+      <Grid item xs={12}>
+        <Box m={4}>
+          <Typography variant="h4" align="center">
+            No Open Checks
+          </Typography>
+        </Box>
+      </Grid>
     );
 
     const checks = this.state.openChecks.map(check => (
@@ -87,9 +91,7 @@ class ViewChecks extends React.Component {
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="h6">
-                  {this.parseTime(check.createdAt)}
-                </Typography>
+                <Typography variant="h6">{this.parseTime(check.createdAt)}</Typography>
               </Box>
             </Box>
           </Grid>
@@ -124,7 +126,7 @@ class ViewChecks extends React.Component {
     ));
 
     return (
-      <Box m={2}>
+      <Box mt={3} ml={2} mb={2}>
         <Grid container spacing={1}>
           {checks.length > 0 ? checks : noChecks}
         </Grid>

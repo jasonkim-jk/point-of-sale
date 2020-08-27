@@ -15,12 +15,13 @@ export default class ViewRestaurant extends React.Component {
     return (
       <>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={4} style={{ paddingTop: '0px' }}>
+          <Grid item xs={12} md={4}>
             <ViewChecks url={url} history={history} />
           </Grid>
           <Grid
             item
-            xs={12} md={8}
+            xs={12}
+            md={8}
             style={{
               paddingTop: '4px',
               paddingRight: '4px',
