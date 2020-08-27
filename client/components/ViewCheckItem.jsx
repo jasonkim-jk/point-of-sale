@@ -95,10 +95,14 @@ class ViewCheckItem extends React.Component {
             <TableHead>
               <TableRow>
                 <TableCell align="left" colSpan={3} className={classes.title}>
-                  <Typography variant="h4">Table {params.tableId}</Typography>
+                  <Typography variant="h5" noWrap>
+                    Table {params.tableId}
+                  </Typography>
                 </TableCell>
                 <TableCell align="right" className={classes.title}>
-                  <Typography variant="h5">Check #{params.checkId}</Typography>
+                  <Typography variant="h6" noWrap>
+                    Check #{params.checkId}
+                  </Typography>
                 </TableCell>
               </TableRow>
               <TableRow>

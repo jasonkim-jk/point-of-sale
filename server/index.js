@@ -305,7 +305,7 @@ app.get('/api/orders/:tableId', (req, res, next) => {
         return db.query(sql, paramDb)
           .then(result2 => {
             if (result2.rows[0] === undefined) {
-              throw new ClientError('Sorry, requested tableId may not exist now.', 400);
+              return res.status(200).json({});
             } else {
               const orderedAt = result2.rows[0].orderedAt;
               return { timeSeated, orderedAt };
@@ -315,11 +315,8 @@ app.get('/api/orders/:tableId', (req, res, next) => {
       }
     })
     .then(result => {
-      if (result === undefined) {
-        throw new ClientError('Sorry, requested tableId may not exist now.', 400);
-      }
-      if (result.timeSeated >= result.orderedAt) {
-        return res.status(404).json({ error: 'not ordered yet' });
+      if (result.timeSeated >= result.orderedAt || result === undefined) {
+        return res.status(200).json({});
       }
 
       const paramDb = [parseInt(req.params.tableId)];

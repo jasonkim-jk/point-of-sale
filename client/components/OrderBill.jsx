@@ -11,7 +11,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { withStyles } from '@material-ui/core/styles';
-import ReceiptNumber from './ReceiptNumber';
 import OrderBillTotal from './OrderBillTotal';
 
 const useStyles = theme => ({
@@ -226,7 +225,6 @@ class OrderBill extends React.Component {
               Table {this.props.table}
             </Typography>
           </Grid>
-          <ReceiptNumber {...this.props} />
         </Grid>
         <Divider />
         <TableContainer>
@@ -249,9 +247,11 @@ class OrderBill extends React.Component {
                 <TableRow key={row.name}>
                   <TableCell>{row.name}</TableCell>
                   <TableCell align="center" id={row.id} className={classes.qty}>
-                    {this.props.check || this.props.prevOrder ? <></> : minusBtnComponent}
-                    {row.qty}
-                    {this.props.check || this.props.prevOrder ? <></> : plusBtnComponent}
+                    <Typography noWrap id={row.id}>
+                      {this.props.check || this.props.prevOrder ? <></> : minusBtnComponent}
+                      {row.qty}
+                      {this.props.check || this.props.prevOrder ? <></> : plusBtnComponent}
+                    </Typography>
                   </TableCell>
                   <TableCell align="right">${row.priceRow}</TableCell>
                 </TableRow>
@@ -259,17 +259,8 @@ class OrderBill extends React.Component {
               <OrderBillTotal price={this.state} />
             </TableBody>
           </Table>
-          <Box
-            display="flex"
-            justifyContent="center"
-            m={1} mt={3} p={1}
-            bgcolor="background.paper"
-          >
-            <Button
-              variant="contained"
-              className={classes.button}
-              onClick={this.handleCancel}
-            >
+          <Box display="flex" justifyContent="center" m={1} mt={3} p={1} bgcolor="background.paper">
+            <Button variant="contained" className={classes.button} onClick={this.handleCancel}>
               {this.props.prevOrder ? 'Back' : 'Cancel'}
             </Button>
             {this.props.check || this.props.prevOrder ? <></> : orderBtnComponent}

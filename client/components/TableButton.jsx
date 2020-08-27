@@ -8,8 +8,8 @@ import { withStyles } from '@material-ui/core/styles';
 const useStyles = theme => ({
   root: {
     border: 0,
-    borderRadius: '50%',
-    color: 'black',
+    borderRadius: '25%',
+    color: '#263238',
     width: '7.5rem',
     height: '7.5rem'
   }
@@ -57,8 +57,8 @@ class TableButton extends React.Component {
       default:
     }
     return (
-      <Grid item xs={4}>
-        <Box display="flex" justifyContent="center" flexWrap="nowrap" m={3}>
+      <Grid item xs={6} sm={4}>
+        <Box display="flex" justifyContent="center" flexWrap="nowrap" m={1}>
           <Button
             id={`T${tableId}`}
             onClick={this.handleClick}

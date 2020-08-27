@@ -24,7 +24,7 @@ export default class MenuList extends React.Component {
 
   render() {
     const menuCard = this.state.menus.map(menu => (
-      <Grid item xs={4} key={menu.itemId}>
+      <Grid item xs={6} sm={4} key={menu.itemId}>
         <MenuCard menuItem={menu} addItem={this.addItem}/>
       </Grid>
     ));

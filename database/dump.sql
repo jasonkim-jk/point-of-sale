@@ -340,6 +340,8 @@ COPY public.tables ("tableId", "tableStatus", "timeSeated") FROM stdin;
 8	0	\N
 9	0	\N
 10	0	\N
+11	0	\N
+12	0	\N
 \.
 
 
@@ -416,4 +418,3 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-

@@ -88,12 +88,12 @@ export default class ViewNewOrder extends React.Component {
   render() {
     return (
       <Grid container spacing={2}>
-        <Grid item xs={7}>
-          <Box pt={2} pl={1}>
+        <Grid item xs={12} md={7}>
+          <Box pt={2} pl={1} pr={1}>
             <MenuList addToOrder={this.addItemToOrder} />
           </Box>
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={12} md={5}>
           <Box pt={2}>
             <OrderBill
               table={this.state.tableId}

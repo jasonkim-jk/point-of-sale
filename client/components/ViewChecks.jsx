@@ -10,16 +10,13 @@ import { Link } from 'react-router-dom';
 
 const useStyles = theme => ({
   table: {
-    margin: theme.spacing(1.5, 0, 1.5, 1)
-  },
-  time: {
-    margin: theme.spacing(0, 0, 2.5, 1)
+    margin: theme.spacing(0, 2, 0, 0)
   },
   checkId: {
-    margin: theme.spacing(1.5, 1, 0, 0)
+    margin: theme.spacing(0, 2, 0, 0)
   },
-  checkBtn: {
-    margin: theme.spacing(1.5, 1, 0, 0)
+  betweenCheck: {
+    margin: theme.spacing(0, 0, 1, 0)
   }
 });
 
@@ -38,9 +35,7 @@ class ViewChecks extends React.Component {
     this.getData();
     this.unlisten = this.props.history.listen((location, action) => {
       this.getData();
-
     });
-
   }
 
   getData() {
@@ -52,13 +47,11 @@ class ViewChecks extends React.Component {
         }
       })
       .catch(() => console.error('server response error'));
-
   }
 
   componentWillUnmount() {
     this.mounted = false;
     this.unlisten();
-
   }
 
   parseTime(time) {
@@ -78,38 +71,34 @@ class ViewChecks extends React.Component {
     const { url } = this.props;
 
     const noChecks = (
-      <Box m={4}>
-        <Typography variant="h4">
-          No Open Checks
-        </Typography>
-      </Box>
+      <Grid item xs={12}>
+        <Box m={4}>
+          <Typography variant="h4" align="center">
+            No Open Checks
+          </Typography>
+        </Box>
+      </Grid>
     );
 
     const checks = this.state.openChecks.map(check => (
       <Grid item xs={12} key={check.checkId}>
-        <Grid container spacing={1}>
-          <Grid item xs={6}>
-            <Typography
-              variant="h4"
-              noWrap
-              color="primary"
-              className={classes.table}
-            >
-              Table {check.tableId}
-            </Typography>
-            <Typography variant="h5" className={classes.time}>
-              {this.parseTime(check.createdAt)}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Box display="flex" justifyContent="flex-end" flexWrap="wrap">
+        <Grid container className={classes.betweenCheck}>
+          <Grid item xs={5}>
+            <Box display="flex" justifyContent="flex-start" alignItems="center" flexWrap="wrap">
               <Box>
-                <Typography
-                  align="right"
-                  variant="h5"
-                  noWrap
-                  className={classes.checkId}
-                >
+                <Typography variant="h5" noWrap color="primary" className={classes.table}>
+                  Table {check.tableId}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="h6">{this.parseTime(check.createdAt)}</Typography>
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item xs={7}>
+            <Box display="flex" justifyContent="flex-end" alignItems="center" flexWrap="wrap">
+              <Box>
+                <Typography align="right" variant="h6" noWrap className={classes.checkId}>
                   Check #{check.checkId}
                 </Typography>
               </Box>
@@ -125,7 +114,7 @@ class ViewChecks extends React.Component {
                       color: 'white'
                     }}
                   >
-                      View Check
+                    View Check
                   </Button>
                 </Link>
               </Box>
@@ -137,7 +126,7 @@ class ViewChecks extends React.Component {
     ));
 
     return (
-      <Box m={2}>
+      <Box mt={3} ml={2} mb={2}>
         <Grid container spacing={1}>
           {checks.length > 0 ? checks : noChecks}
         </Grid>

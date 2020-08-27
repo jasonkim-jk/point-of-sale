@@ -12,7 +12,10 @@ const useStyles = theme => ({
       color: '#00695c'
     },
     cursor: 'pointer',
-    minHeight: 65
+    minHeight: 60,
+    lineHeight: 1.3,
+    paddingLeft: '8px',
+    paddingRight: '8px'
   },
   padding: {
     padding: 0
