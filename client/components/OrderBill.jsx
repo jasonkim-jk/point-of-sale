@@ -11,7 +11,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { withStyles } from '@material-ui/core/styles';
-import ReceiptNumber from './ReceiptNumber';
 import OrderBillTotal from './OrderBillTotal';
 
 const useStyles = theme => ({
@@ -226,7 +225,6 @@ class OrderBill extends React.Component {
               Table {this.props.table}
             </Typography>
           </Grid>
-          <ReceiptNumber {...this.props} />
         </Grid>
         <Divider />
         <TableContainer>
