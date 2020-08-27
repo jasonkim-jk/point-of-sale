@@ -17,7 +17,7 @@ const useStyles = theme => ({
     padding: theme.spacing(0)
   },
   icon: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(0)
   }
 });
 

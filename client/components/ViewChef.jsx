@@ -1,12 +1,13 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import ViewChefItem from './ViewChefItem';
 
 export default class ViewChef extends React.Component {
   constructor(props) {
     super(props);
-    this.state = [];
+    this.state = {};
     this.getOrderData = this.getOrderData.bind(this);
     this.deleteTable = this.deleteTable.bind(this);
   }
@@ -58,15 +59,19 @@ export default class ViewChef extends React.Component {
   }
 
   render() {
-    if (!this.state.orders || this.state.orders.length === 0) {
+    if (!this.state.orders || !this.state.orders.length) {
       return (
-        <Typography variant="h2">No Orders in Queue</Typography>
+        <Box mt={4}>
+          <Typography variant="h4" align="center">
+            There are no orders yet.
+          </Typography>
+        </Box>
       );
     }
 
     const tableOrderItems = this.state.orders.map(table => {
       return (
-        <Grid item xs={4} key={table.orderId}>
+        <Grid item xs={12} md={4} key={table.orderId}>
           <ViewChefItem data={table} deleteCompletedOrder={this.deleteTable} />
         </Grid>
       );

@@ -590,10 +590,17 @@ app.put('/api/checks/:checkId', (req, res, next) => {
 });
 
 app.get('/api/waitlist', (req, res, next) => {
-  const sql =
-  `select * from "waitLists"
-  order by  "isSeated" asc, "time" asc;
-  `;
+  const sql = `
+       select "w"."waitId",
+              "w"."name",
+              "w"."partySize",
+              concat(extract(hour from (CURRENT_TIME  - "w"."time"::time)), ':', extract(minute from (CURRENT_TIME  - "w"."time"::time))) as "time",
+              "w"."comment",
+              "w"."isSeated"
+         from "waitLists" as "w"
+    order by  "isSeated" asc, "time" asc;
+    `;
+
   db.query(sql)
     .then(result => {
       res.status(200).json(result.rows);
