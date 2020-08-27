@@ -17,40 +17,31 @@ export default class WaitListTableItem extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.state = {
-      waitTime: 0
+      waitTime: ''
     };
   }
 
-  getWaitTime(SQLTime, type = 'long') {
-    const SQLMinutes = this.parseSQLTime(SQLTime);
-    const d = new Date();
-    const currentMinutes = (d.getHours() * 60) + parseInt(d.getMinutes(), 10);
-    const waitTotal = currentMinutes - SQLMinutes;
+  getWaitTime(elapsedTime) {
+    const totalElapsedMinutes = this.parseSQLTime(elapsedTime);
+    const waitTotal = totalElapsedMinutes + 1;
     const waitMinutes = waitTotal % 60;
     const waitHours = (waitTotal - waitMinutes) / 60;
-    let waitTime = '';
-    if (type === 'long') {
-      waitTime = `${waitHours} hours ${waitMinutes} minutes`;
-    } else {
-      waitTime = `${waitHours}:${waitMinutes.toString().padStart(2, '0')}`;
-    }
-    return waitTime;
+    return `${waitHours}:${waitMinutes.toString().padStart(2, '0')}`;
   }
 
-  parseSQLTime(SQLTime) {
-    const timeArray = SQLTime.split(':');
-    const [hour, minute] = timeArray;
-    const totalMinutes = (hour * 60) + parseInt(minute, 10);
+  parseSQLTime(elapsedTime) {
+    const [hour, minute] = elapsedTime.split(':');
+    const totalMinutes = parseInt(hour) * 60 + parseInt(minute, 10);
     return totalMinutes;
   }
 
   handleInterval() {
-    const waitTime = this.getWaitTime(this.props.root.time);
+    const waitTime = this.getWaitTime(this.state.waitTime);
     this.setState({ waitTime: waitTime });
   }
 
   componentDidMount() {
-    this.handleInterval();
+    this.setState({ waitTime: this.props.root.time });
     this.interval = setInterval(this.handleInterval, 60000);
   }
 

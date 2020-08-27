@@ -113,7 +113,7 @@ export default class WaitList extends React.Component {
     const waitList = this.state.waitList;
     return (
       <Grid container spacing={2}>
-        <Grid item xs={8}>
+        <Grid item xs={12} md={8}>
           <WaitListTable
             editCustomer={this.editCustomer}
             deleteCustomer={this.deleteCustomer}
@@ -122,7 +122,7 @@ export default class WaitList extends React.Component {
             waitList={waitList}
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <WaitListForm
             updateCustomer={this.updateCustomer}
             stopEdit={this.stopEdit}
