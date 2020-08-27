@@ -18,7 +18,7 @@ const useStyles = theme => ({
     padding: 0
   },
   navbar: {
-    background: '#00C851'
+    background: '#1dbe94'
   },
   align: {
     textAlign: 'center'
