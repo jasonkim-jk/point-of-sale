@@ -43,3 +43,5 @@ A POS (Point of Sale) application for restaurant workers who want to receive ord
 * Utilizing Material UI for responsive web layout
 
 ## Preview
+
+<img src="server/public/images/pos-screenshot.gif">
