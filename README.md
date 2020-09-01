@@ -24,6 +24,7 @@ A POS (Point of Sale) application for restaurant workers who want to receive ord
 * Node.js
 * Express
 * PostgreSQL
+* Multer
 * HTML5
 * CSS3
 * AWS EC2
