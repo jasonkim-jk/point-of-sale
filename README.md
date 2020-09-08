@@ -30,12 +30,29 @@ A POS (Point of Sale) application for restaurant workers who want to receive ord
 * AWS EC2
 
 ## Getting Started
-1. Clone the repository and navigate to the directory
-``` cd point-of-sale ```
-3. Install all dependencies ``` npm install ```
-4. Import existing databse ``` npm run db:import ```
-5. Compile project ``` npm run dev ```
-6. Access application by entering [https://localhost:3000](https://localhost:3000) in the browser.
+#### 1. Clone the repository and navigate to the directory
+```shell
+git clone https://github.com/jasonkim-jk/point-of-sale.git
+cd point-of-sale
+```
+
+#### 2. Install all dependencies 
+```shell
+npm install
+```
+
+#### 3. Import existing database
+```shell
+npm run db:import
+```
+
+#### 4. Compile project
+```shell
+npm run dev
+```
+
+#### 5. Access application by entering [https://localhost:3000](https://localhost:3000) in the browser.
+
 
 ## Lessons Learned
 * Building a full-stack application in a group-environment
