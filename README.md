@@ -41,18 +41,27 @@ cd point-of-sale
 npm install
 ```
 
-#### 3. Start PostgreSQL and Import existing database
+#### 3. Make a .env file and customize its settings 
+```shell
+PORT=3001
+DEV_SERVER_PORT=3000
+DATABASE_URL=postgres://{user}:{password}@localhost/{database-name}
+SESSION_SECRET=secret
+```
+
+#### 4. Start PostgreSQL and Import existing database
 ```shell
 sudo service postgresql start
+createdb {database-name}
 npm run db:import
 ```
 
-#### 4. Compile project
+#### 5. Compile project
 ```shell
 npm run dev
 ```
 
-#### 5. Access application by entering [https://localhost:3000](https://localhost:3000) in the browser.
+#### 6. Access application by entering [https://localhost:3000](https://localhost:3000) in the browser.
 
 
 ## Lessons Learned
