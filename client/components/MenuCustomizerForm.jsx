@@ -61,6 +61,7 @@ class MenuCustomizerForm extends React.Component {
         item: menu.item,
         cost: menu.cost,
         salePrice: menu.salePrice,
+        tag: '',
         image: ''
       };
     }

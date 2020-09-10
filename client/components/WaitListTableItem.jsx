@@ -125,11 +125,11 @@ export default class WaitListTableItem extends React.Component {
         <TableCell style={style} align="center">{props.comment}</TableCell>
         <TableCell style={style} align="center">
           <Box display="flex" justifyContent="center">
-            <IconButton onClick={this.handleDelete} id={props.waitId}>
-              <DeleteOutlinedIcon />
-            </IconButton>
             <IconButton onClick={this.handleEdit} id={props.waitId}>
               <EditOutlinedIcon />
+            </IconButton>
+            <IconButton onClick={this.handleDelete} id={props.waitId}>
+              <DeleteOutlinedIcon />
             </IconButton>
           </Box>
         </TableCell>
