@@ -41,8 +41,9 @@ cd point-of-sale
 npm install
 ```
 
-#### 3. Import existing database
+#### 3. Start PostgreSQL and Import existing database
 ```shell
+sudo service postgresql start
 npm run db:import
 ```
 
